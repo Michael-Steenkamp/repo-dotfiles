@@ -14,7 +14,7 @@ if status is-interactive
     alias update='sudo pacman -Syu --noconfirm'   
 
     # Alias for managing dotfiles with a bare repo
-    alias config '/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+    alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 end
 
 
