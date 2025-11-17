@@ -95,7 +95,7 @@ config push -u origin main
 
 ``` Window Bar ``` | <a href="https://wiki.archlinux.org/title/Waybar">waybar</a>
 
-``` Fonts ``` | <a href="">noto-fonts noto-fonts-emoji noto-fonts-cjk</a>
+``` Fonts ``` | <a href="https://wiki.archlinux.org/title/Fonts">noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-font-awesome ttf-jetbrains-mono-nerd otf-font-awesome</a>
 ### Reload Cache
 ```
 fc-cache
