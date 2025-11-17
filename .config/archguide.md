@@ -11,6 +11,10 @@
 ## Essential:
 ``` Text Editor ``` | <a href="https://neovim.io/">nvim</a> <a href="https://linux.die.net/man/1/nano">nano</a>
 
+``` Base Development ``` | <a href="">base-devel</a>
+
+``` File Pager Utility ``` | <a href="https://archlinux.org/packages/core/x86_64/less/">less</a>
+
 ``` Version Control ``` | <a href="https://wiki.archlinux.org/title/Git">git</a>
 ### Initial Setup:
 ```
@@ -59,7 +63,30 @@ rm -rf $HOME/.todelete
 
 
 ``` SSH Client ``` | <a href="https://wiki.archlinux.org/title/OpenSSH">openssh</a>
- 
+### Setup Client
+```
+mkdir -p $HOME/.ssh
+```
+```
+ssh-keygen -t ed25519 -C "user@device"
+```
+#### File to save
+```
+/home/user/.ssh/github_ed25519
+```
+
+#### Steps for first push
+```
+loadkey github
+config fetch
+config pull --rebase
+config remote set-url origin git@github.com:Michael-Steenkamp/Dotfiles.git
+config push -u origin main
+```
+
+
+
+
 ``` AUR Helper ``` | <a href="https://github.com/Jguer/yay">yay</a>
 
 ``` Browser ``` | <a href="https://wiki.archlinux.org/title/Firefox">firefox</a>
@@ -76,6 +103,14 @@ fc-cache
 
 ## Keyboard Tools:
 ``` Clipboard ``` | <a href="https://github.com/savedra1/clipse?tab=readme-ov-file#installation">clipse</a>
+### Download
+```
+git clone https://aur.archlinux.org/clipse.git
+cd clipse
+makepkg -si
+cd ..
+rm -rf clipse
+```
 
 ``` Keyboard Language ``` | <a href="https://wiki.archlinux.org/title/Fcitx5">fcitx5</a> <a href="https://wiki.archlinux.org/title/Fcitx5">fcitx5-configtool</a>
 
