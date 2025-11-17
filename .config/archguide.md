@@ -10,6 +10,12 @@
 
 ``` Bluetooth ``` | <a href="https://wiki.archlinux.org/title/Blueman">blueman</a>
 
+``` Display Manager ``` | <a href="https://wiki.archlinux.org/title/Ly">ly</a>
+### Setup
+```
+sudo systemctl start ly.service
+```
+
 ## Essential:
 ``` Text Editor ``` | <a href="https://neovim.io/">nvim</a> <a href="https://linux.die.net/man/1/nano">nano</a>
 
