@@ -7,7 +7,19 @@ opt.splitbelow = true
 opt.splitright = true
 opt.wrap = false
 
--- Sync OS and Neovim clipboard
+-- Sync Clipse and Neovim clipboard
+vim.g.clipboard = {
+  name = 'clipse',
+  copy = {
+    ['+'] = 'clipse',
+    ['*'] = 'clipse',
+  },
+  paste = {
+    ['+'] = 'clipse -o',
+    ['*'] = 'clipse -o',
+  },
+  cache_enabled = 0,
+}
 -- See ':help clipboard'
 vim.schedule(function()
     opt.clipboard = "unnamedplus"
