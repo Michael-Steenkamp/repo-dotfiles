@@ -97,8 +97,8 @@ config push -u origin main
 
 ``` Window Bar ``` | <a href="https://wiki.archlinux.org/title/Waybar">waybar</a>
 #### Note:
-<p>If icon showing no internet, ensure the .config/waybar/config.jsonc 'interface' is correct</p><br>
-<p>Use command </p>```nmcli```<p> to find interface name (usually wlpxsy)</p>
+<p>If icon showing no internet, ensure the .config/waybar/config.jsonc 'interface' is correct</p>
+<p>Use command [nmcli] to find interface name (usually wlpxsy)</p>
 
 ``` Fonts ``` | <a href="https://wiki.archlinux.org/title/Fonts">noto-fonts noto-fonts-emoji noto-fonts-cjk ttf-font-awesome ttf-jetbrains-mono-nerd otf-font-awesome</a>
 ### Reload Cache
