@@ -12,6 +12,51 @@
 ``` Text Editor ``` | <a href="https://neovim.io/">nvim</a> <a href="https://linux.die.net/man/1/nano">nano</a>
 
 ``` Version Control ``` | <a href="https://wiki.archlinux.org/title/Git">git</a>
+### Initial Setup:
+```
+git config --global user.name ""
+```
+```
+git config --global user.email ""
+```
+```
+git config --global core.editor neovim
+```
+### Dotfiles Setup:
+#### Clone dotfiles repo
+```
+git clone --bare https://github.com/Michael-Steenkamp/Dotfiles.git $HOME/.dotfiles
+```
+#### Run fish and then terminate
+```
+fish
+exit
+```
+#### Modify config.fish
+```
+nvim $HOME/.config/fish/config.fish
+```
+#### Add line to config.fish
+```
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+```
+#### Reload Terminal
+#### Run Fish and run command
+```
+fish
+config config --local status.showUntrackedFiles no
+```
+#### Make temp directory
+```
+mkdir -p $HOME/.todelete
+```
+```
+config checkout 2>&1 | grep -E "\s+\." | awk {'print $1'} | xargs -I{} sh -c 'mkdir -p $HOME/.todelete/$(dirname{}) && mv {} $HOME/.todelete/{}'
+```
+```
+rm -rf $HOME/.todelete
+```
+
 
 ``` SSH Client ``` | <a href="https://wiki.archlinux.org/title/OpenSSH">openssh</a>
  
@@ -23,9 +68,18 @@
 
 ``` Window Bar ``` | <a href="https://wiki.archlinux.org/title/Waybar">waybar</a>
 
+``` Fonts ``` | <a href="">noto-fonts noto-fonts-emoji noto-fonts-cjk</a>
+### Reload Cache
+```
+fc-cache
+```
+
 ## Keyboard Tools:
 ``` Clipboard ``` | <a href="https://github.com/savedra1/clipse?tab=readme-ov-file#installation">clipse</a>
 
 ``` Keyboard Language ``` | <a href="https://wiki.archlinux.org/title/Fcitx5">fcitx5</a> <a href="https://wiki.archlinux.org/title/Fcitx5">fcitx5-configtool</a>
 
 ``` Chinese Support ``` | <a href="https://wiki.archlinux.org/title/Rime">fcitx5-rime</a>
+
+## Terminal Tools:
+``` File Manager ``` | <a href="https://github.com/sxyazi/yazi">yazi</a>

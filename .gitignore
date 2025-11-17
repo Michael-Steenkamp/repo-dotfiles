@@ -51,8 +51,6 @@
 !/.config/nvim/lua/utils/
 !/.config/nvim/lua/utils/*
 
-
-
 # kitty 
 !/.config/kitty/
 !/.config/kitty/*
@@ -70,4 +68,10 @@
 /.config/fish/functions/*
 !/.config/fish/functions/loadkey.fish
 !/.config/fish/functions/y.fish
+
+# fastfetch
+!/.config/fastfetch/
+!/.config/fastfetch/*
+
+
 
