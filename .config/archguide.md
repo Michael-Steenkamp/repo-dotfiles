@@ -8,6 +8,8 @@
 
 ``` Window Manager ``` | <a href="https://wiki.archlinux.org/title/Hyprland">hyprland</a>
 
+``` Bluetooth ``` | <a href="https://wiki.archlinux.org/title/Blueman">blueman-manager</a>
+
 ## Essential:
 ``` Text Editor ``` | <a href="https://neovim.io/">nvim</a> <a href="https://linux.die.net/man/1/nano">nano</a>
 
