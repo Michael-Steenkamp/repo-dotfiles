@@ -130,3 +130,4 @@ rm -rf clipse
 ## Terminal Tools:
 ``` File Manager ``` | <a href="https://github.com/sxyazi/yazi">yazi</a>
 ``` Monitor Brightness ``` | <a href="https://wiki.archlinux.org/title/Backlight#xbacklight">brightnessctl</a>
+``` Screenshot ``` | <a href="https://github.com/emersion/grim">grim</a> <a href="https://github.com/emersion/slurp">slurp</a>
