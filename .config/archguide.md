@@ -68,7 +68,9 @@ config checkout 2>&1 | grep -E "\s+\." | awk {'print $1'} | xargs -I{} sh -c 'mk
 ```
 rm -rf $HOME/.todelete
 ```
-
+```
+config config --add remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+```
 
 ``` SSH Client ``` | <a href="https://wiki.archlinux.org/title/OpenSSH">openssh</a>
 ### Setup Client
