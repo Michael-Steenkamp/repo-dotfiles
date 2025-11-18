@@ -133,3 +133,10 @@ rm -rf clipse
 ``` File Manager ``` | <a href="https://github.com/sxyazi/yazi">yazi</a>
 ``` Monitor Brightness ``` | <a href="https://wiki.archlinux.org/title/Backlight#xbacklight">brightnessctl</a>
 ``` Screenshot ``` | <a href="https://github.com/emersion/grim">grim</a> <a href="https://github.com/emersion/slurp">slurp</a> <a href="https://github.com/jtheoof/swappy">swappy</a>
+
+## Formatters:
+``` Lua ``` | <a href="https://github.com/JohnnyMorganz/StyLua">stylua</a>
+``` Python ``` | <a href="https://github.com/psf/black">python-black</a> <a href="https://github.com/PyCQA/isort">python-isort</a>
+``` Shell ``` | <a href="https://github.com/mvdan/sh">shfmt</a>
+``` Web/JS ``` | <a href="https://prettier.io/">prettier</a>
+``` C/C++ ``` | <a href="https://wiki.archlinux.org/title/Clang">clang</a>

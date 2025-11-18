@@ -19,9 +19,32 @@ return {
 	opts = {
 		-- Define your formatters
 		formatters_by_ft = {
+			-- Lua
 			lua = { "stylua" },
+
+			-- Python
 			python = { "isort", "black" },
-			javascript = { "prettierd", "prettier", stop_after_first = true },
+
+			-- C / C++
+			c = { "clang-format" },
+			cpp = { "clang-format" },
+
+			-- JavaScript / Web
+			-- Prettier handles all of these
+			javascript = { "prettier" },
+			javascriptreact = { "prettier" }, -- React (JSX)
+			typescript = { "prettier" },
+			typescriptreact = { "prettier" }, -- React (TSX)
+			css = { "prettier" },
+			html = { "prettier" },
+			json = { "prettier" },
+			yaml = { "prettier" },
+			markdown = { "prettier" },
+
+			-- Shell
+			sh = { "shfmt" },
+			bash = { "shfmt" },
+			zsh = { "shfmt" },
 		},
 		-- Set default options
 		default_format_opts = {

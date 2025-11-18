@@ -51,7 +51,7 @@
 !/.config/nvim/lua/utils/
 !/.config/nvim/lua/utils/*
 
-# kitty 
+# kitty
 !/.config/kitty/
 !/.config/kitty/*
 
