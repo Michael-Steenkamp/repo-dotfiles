@@ -3,9 +3,10 @@ return {
 	event = "VimEnter",
 	dependencies = { { "nvim-tree/nvim-web-devicons" } },
 	config = function()
+        local art = require('utils.ascii')
 		require("dashboard").setup({
-			-- These are top-level options
-			theme = "hyper",
+            -- These are top-level options
+			theme = "doom",
 			disable_move = false,
 			shortcut_type = "letter",
 			shuffle_letter = false,
@@ -51,7 +52,7 @@ return {
 					label = "",
 					cwd_only = false,
 				},
-				header = {},
+				header = art.saturn,
 				footer = {},
 			},
 		})

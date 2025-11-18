@@ -9,16 +9,16 @@ opt.wrap = false
 
 -- Sync Clipse and Neovim clipboard
 vim.g.clipboard = {
-  name = 'clipse',
-  copy = {
-    ['+'] = 'clipse',
-    ['*'] = 'clipse',
-  },
-  paste = {
-    ['+'] = 'clipse -o',
-    ['*'] = 'clipse -o',
-  },
-  cache_enabled = 0,
+    name = 'wl-clipboard',
+    copy = {
+        ['+'] = 'wl-copy',
+        ['*'] = 'wl-copy',
+    },
+    paste = {
+        ['+'] = 'wl-paste',
+        ['*'] = 'wl-paste',
+    },
+    cache_enabled = 1,
 }
 -- See ':help clipboard'
 vim.schedule(function()

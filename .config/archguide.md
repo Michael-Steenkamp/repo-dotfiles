@@ -113,7 +113,7 @@ fc-cache
 ```
 
 ## Keyboard Tools:
-``` Clipboard ``` | <a href="https://github.com/savedra1/clipse?tab=readme-ov-file#installation">clipse</a>
+``` Clipboard ``` | <a href="https://github.com/savedra1/clipse?tab=readme-ov-file#installation">clipse</a> <a href="https://wiki.archlinux.org/title/Clipboard">wl-clipboard</a>
 ### Download
 ```
 git clone https://aur.archlinux.org/clipse.git
