@@ -1,4 +1,6 @@
 if status is-interactive
+    # Load pywal colors
+    cat ~/.cache/wal/sequences
     # Commands to run in interactive sessions can go here
     fastfetch
 
@@ -11,7 +13,7 @@ if status is-interactive
     alias clock="timr-tui --style light --mode localtime"
     alias clock-work="timr-tui --style light --mode pomodoro --work '1:00:00' --pause '10:00' --blink on --notification on"
     alias icat='kitten icat'
-    alias update='sudo pacman -Syu --noconfirm'   
+    alias update='sudo pacman -Syu --noconfirm'
 
     # Alias for managing dotfiles with a bare repo
     alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'

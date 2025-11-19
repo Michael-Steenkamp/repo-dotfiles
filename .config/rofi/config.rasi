@@ -1,0 +1,110 @@
+configuration {
+    modi: "drun,run,window";
+    show-icons: true;
+    display-drun: "Apps";
+    display-run: "Run";
+    display-window: "Window";
+    drun-display-format: "{name}";
+
+    /* Remove the old import from here if it was present */
+}
+
+/* IMPORT COLORS (MUST BE OUTSIDE CONFIGURATION BLOCK) */
+@import "~/.cache/wal/colors-rofi-dark.rasi"
+
+/* --- MAIN WINDOW --- */
+window {
+    /* Location: West (Left side) */
+    location: west;
+    anchor: west;
+
+    /* Positioning adjustments */
+    x-offset: 20px;  /* Gap from the left edge */
+    y-offset: 0px;   /* Centered vertically */
+
+    /* Size */
+    width: 300px;    /* Fixed width like a sidebar */
+    height: 60%;     /* Height of the menu */
+
+    /* Appearance */
+    border: 2px;
+    border-color: @selected-active-background; /* Uses your accent color */
+    border-radius: 10px;
+
+    /* Background color with slight transparency */
+    /* pywal's @background is usually opaque, so we hardcode alpha if needed */
+    background-color: @background;
+
+    padding: 20px;
+}
+
+/* --- MAIN BOX (Container) --- */
+mainbox {
+    background-color: transparent;
+    children: [ inputbar, listview ];
+    spacing: 10px;
+}
+
+/* --- INPUT BAR (Search) --- */
+inputbar {
+    background-color: transparent;
+    text-color: @foreground;
+    children: [ prompt, entry ];
+    border: 0px 0px 2px 0px;
+    border-color: @selected-active-background;
+    padding: 10px 0px 10px 0px;
+    margin: 0px 0px 10px 0px;
+}
+
+prompt {
+    background-color: transparent;
+    text-color: @selected-active-background; /* Accent color for prompt */
+    padding: 0px 10px 0px 0px;
+    enabled: true;
+}
+
+entry {
+    background-color: transparent;
+    text-color: @foreground;
+    placeholder: "Search...";
+    placeholder-color: @foreground;
+}
+
+/* --- LIST VIEW (Applications) --- */
+listview {
+    background-color: transparent;
+    columns: 1;       /* Single column */
+    lines: 10;        /* Number of items to show */
+    spacing: 5px;     /* Space between items */
+    scrollbar: false; /* Hide scrollbar */
+    cycle: true;
+}
+
+/* --- ELEMENTS (Rows) --- */
+element {
+    background-color: transparent;
+    text-color: @foreground;
+    orientation: horizontal;
+    border-radius: 5px;
+    padding: 8px;
+}
+
+element-icon {
+    background-color: transparent;
+    size: 24px;
+    margin: 0px 10px 0px 0px;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    vertical-align: 0.5;
+}
+
+/* --- SELECTIONS --- */
+element selected {
+    /* Uses your Pywal accent color for highlight */
+    background-color: @selected-active-background;
+    text-color: @background; /* Invert text color on selection */
+    border: 0px;
+}

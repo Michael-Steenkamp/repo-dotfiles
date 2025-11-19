@@ -18,18 +18,18 @@ vim.opt.rtp:prepend(lazypath)
 -- Global Settings
 -- _G.icons = require("utils.icons").icons
 -- _G.utils = require("utils.util")
-vim.g.mapleader = " " 
+vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 require("config.options") -- Import vim.opt.* settings from lua/config/options.lua
-require("config.autocmd") -- Import custom auto commands from lua/config/autocmd.lua 
+require("config.autocmd") -- Import custom auto commands from lua/config/autocmd.lua
 
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
-		{ import = "plugins" }
+		{ import = "plugins" },
 	},
-	install = { colorscheme = { "retrobox" } }, -- Lazy gui colorscheme
-	checker = { enabled = true, notify = false}, -- Auto check plugin updates
+	install = { colorscheme = { "pywal16" } }, -- Lazy gui colorscheme
+	checker = { enabled = true, notify = false }, -- Auto check plugin updates
 })
 
 require("config.keymaps") -- Import key-mappings from lua/config/keymaps.lua

@@ -1,25 +1,118 @@
-@import "mocha.css";
+/* Import Pywal Colors */
+@import "../../.cache/wal/colors-waybar.css";
 
 * {
-    /* `otf-font-awesome` is required to be installed for icons */
-    font-family: FontAwesome, kodemono; 
-    font-size: 18px;
-
-    /* border: none; */
-    border-radius: 15px;
-    color: @text;
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  min-height: 0;
 }
 
 window#waybar {
-    background-color: alpha(@base, 0.9);
+  background: transparent; /* Essential for the "floating" look */
+  color: @foreground;
 }
 
-.modules-left {
-}
-
-.modules-center {
-}
-
+/* --- GENERAL MODULE STYLING --- */
+.modules-left,
+.modules-center,
 .modules-right {
+  background: transparent;
 }
 
+/* --- THE "ISLANDS" (Backgrounds) --- */
+
+/* 1. Standard Modules */
+#workspaces,
+#window,
+#clock,
+#custom-updates,
+#battery,
+#keyboard-state,
+#custom-fcitx5,
+#custom-power {
+  background-color: alpha(@background, 0.8);
+  color: @foreground;
+  padding: 5px 15px;
+  margin: 5px;
+  border-radius: 15px;
+  border: 2px solid @color11;
+}
+
+/* 2. The GROUPS (Hardware & Connections) */
+/* Note: The "group/" prefix is stripped in CSS IDs */
+#hardware,
+#connections {
+  background-color: alpha(@background, 0.8);
+  color: @foreground;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 15px;
+  border: 2px solid @color11;
+}
+
+/* Hover Effects */
+#workspaces:hover,
+#clock:hover,
+#battery:hover,
+#custom-power:hover {
+  background-color: @color1; /* Use Pywal color on hover */
+  color: @background;
+}
+
+/* --- SPECIFIC MODULE TWEAKS --- */
+
+#workspaces button {
+  padding: 0 5px;
+  color: @foreground;
+}
+
+#workspaces button.active {
+  color: @color11; /* Accent color for active workspace */
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @color2;
+}
+
+#battery.critical:not(.charging) {
+  background-color: @color1;
+  color: @background;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes blink {
+  to {
+    background-color: @foreground;
+    color: @color1;
+  }
+}
+
+/* --- GROUP STYLING (Joining icons together) --- */
+/* Remove margins between items inside a group so they look like one block */
+
+#connections box,
+#group-hardware box {
+  margin: 0;
+  padding: 0;
+}
+
+#network,
+#bluetooth,
+#pulseaudio,
+#cpu,
+#memory,
+#disk {
+  background: transparent;
+  padding: 0 10px;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
