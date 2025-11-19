@@ -73,5 +73,7 @@
 !/.config/fastfetch/
 !/.config/fastfetch/*
 
-
+# yazi
+!/.config/yazi/
+!/.config/yazi/*
 
