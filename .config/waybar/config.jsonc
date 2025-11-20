@@ -69,7 +69,7 @@
         "interval": 3600,                     // Check every hour
         "exec": "checkupdates | wc -l",       // Arch Linux specific
         "exec-if": "exit 0",                  // Always run
-        "on-click": "kitty -e sudo pacman -Syu",
+        "on-click": "kitty --hold fish -c 'sudo pacman -Syu'",
         "signal": 8
     },
 
