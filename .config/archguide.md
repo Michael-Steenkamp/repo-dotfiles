@@ -22,6 +22,8 @@ sudo systemctl start ly.service
 
 ## Essential:
 
+`Menu` | <a href="https://github.com/davatorium/rofi">rofi</a>
+
 `Text Editor` | <a href="https://neovim.io/">nvim</a> <a href="https://linux.die.net/man/1/nano">nano</a>
 
 `Base Development` | <a href="">base-devel</a>
