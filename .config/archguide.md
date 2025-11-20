@@ -6,7 +6,7 @@
 
 `Network` | <a href="https://wiki.archlinux.org/title/NetworkManager#Configuration">networkmanager</a> <a href="https://wiki.archlinux.org/title/NetworkManager#Configuration">nm-connection-editor</a>
 
-`Audio` | <a href="https://wiki.archlinux.org/title/PipeWire">pipewire</a> <a href="https://archlinux.org/packages/extra/x86_64/pavucontrol/">pavucontrol</a>
+`Audio` | <a href="https://wiki.archlinux.org/title/PipeWire">pipewire</a> <a href="https://archlinux.org/packages/extra/x86_64/pavucontrol/">pavucontrol</a> <a href="https://github.com/cdemoulins/pamixer">pamixer</a>
 
 `Window Manager` | <a href="https://wiki.archlinux.org/title/Hyprland">hyprland</a>
 
