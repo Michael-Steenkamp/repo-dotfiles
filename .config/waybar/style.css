@@ -117,13 +117,10 @@ window#waybar {
 }
 
 #custom-audio {
-  /* Match your existing background/pill colors here */
-  background-color: #1e1e2e;
-  color: #cdd6f4;
+  background: transparent;
   padding: 0px 10px;
   border-radius: 15px;
 
-  /* The Animation Magic */
   /* transition: all 0.5s ease-in-out; */
 }
 
