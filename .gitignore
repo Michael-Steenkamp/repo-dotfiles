@@ -25,7 +25,7 @@
 !/.config/hypr/
 /.config/hypr/*
 !/.config/hypr/hyprland.conf
-!/.config/hypr/hyprpaper.conf
+!/.config/hypr/hyprpaper.conf.template
 !/.config/hypr/scripts/
 !/.config/hypr/scripts/*
 !/.config/hypr/wallpapers/
