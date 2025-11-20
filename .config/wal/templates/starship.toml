@@ -3,6 +3,7 @@ format = """
 [](bg:{color5} fg:{color4})\
 $directory\
 [](fg:{color5} bg:{color3})\
+$custom\
 $git_branch\
 $git_status\
 [](fg:{color3} bg:{color2})\
@@ -61,3 +62,10 @@ disabled = false
 time_format = "%R" # Hour:Minute Format
 style = "bg:{color1}"
 format = '[[  $time ](fg:{background} bg:{color1})]($style)'
+
+[custom.dotfiles]
+description = "Dotfiles Branch"
+command = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME branch --show-current 2>/dev/null"
+when = """ test "$PWD" = "$HOME" """
+style = "bg:{color3}"
+format = '[[  $output ](fg:{background} bg:{color3})]($style)'
