@@ -39,7 +39,7 @@
         "modules": [
             "network",
             "bluetooth",
-            "pulseaudio"
+            "custom/audio"
         ]
     },
 
@@ -162,5 +162,14 @@
             "hangul": "KR"
             // Run 'fcitx5-remote -n' in a terminal to see your specific names if these don't match
         }
+    },
+
+    "custom/audio": {
+        "exec": "~/.config/waybar/scripts/audio_module.py",
+        "return-type": "json",
+        "format": "{}",
+        "on-click": "pamixer -t",       // Mute on click
+        "on-scroll-up": "pamixer -i 5", // Volume up
+        "on-scroll-down": "pamixer -d 5" // Volume down
     },
 }
