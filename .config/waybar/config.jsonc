@@ -1,91 +1,166 @@
-// -*- mode: jsonc -*-
+// ~/.config/waybar/config.jsonc
 {
     "layer": "top",
     "position": "top",
-    "height": 35,
-    "spacing": 15,
-    "width": 1250,
-    "margin-top": 5,
+    "margin-top": 10,
+    "margin-left": 10,
+    "margin-right": 10,
+    "height": 40,
+    "spacing": 5, // Spacing between modules WITHIN a group
 
     "modules-left": [
-        "hyprland/workspaces"
-    ],
-    "modules-center": [
+        "hyprland/workspaces",
         "hyprland/window"
     ],
-    "modules-right": [
-	"network",
-        "bluetooth",
-	"pulseaudio",
-        "battery",
+    "modules-center": [
         "clock"
     ],
+    "modules-right": [
+        "custom/updates",
+        "group/hardware",
+        "group/connections",
+        "keyboard-state",
+        "custom/fcitx5",
+        "battery",
+    ],
 
-    "pulseaudio": {
-	"format": "{icon} {volume}%",
-	"format-bluetooth": "{icon} {volume}%",
-	"format-muted": "", 
-    	"on-click": "pavucontrol",
-	"format-icons": {
-		"headphones": "",
-		"headset": "",
-		"default": [" ", "  "]
-	}
+    // --- GROUPS (The "Islands") ---
+    "group/hardware": {
+        "orientation": "horizontal",
+        "modules": [
+            "cpu",
+            "memory",
+            "disk"
+        ]
+    },
+
+    "group/connections": {
+        "orientation": "horizontal",
+        "modules": [
+            "network",
+            "bluetooth",
+            "pulseaudio"
+        ]
+    },
+
+    // --- MODULES ---
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+            "active": "",
+            "default": ""
+        },
+        "persistent-workspaces": {
+            "*": 5
+        }
     },
 
     "hyprland/window": {
-        "max-length": 80
+        "format": "{class}",
+        "max-length": 20,
+        "rewrite": {
+            "": "Hyprland"
+        }
     },
 
-    "battery": {
-	"interval": 60,
-	"states": {
-		"warning": 30,
-		"critical": 15
-	},
-	"events": {
-		"on-discharging-warning": "notify-send -u normal 'Low Battery'",
-		"on-discharging-critical": "notify-send -u critical 'Very Low Battery'",
-		"on-charging-100": "notify-send -u normal 'Battery Full!'"
-	},
-    "format": "{icon}{capacity}%",
-    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-    "format-charging": "󰂄{capacity}%",
-    "format-full": "󰁹{capacity}%",
-	"max-length": 25
+    "custom/updates": {
+        "format": "󰮯 {}",
+        "interval": 3600,                     // Check every hour
+        "exec": "checkupdates | wc -l",       // Arch Linux specific
+        "exec-if": "exit 0",                  // Always run
+        "on-click": "kitty -e sudo pacman -Syu",
+        "signal": 8
     },
 
+    "cpu": {
+        "format": " {usage}%",
+        "tooltip": false
+    },
 
-    "clock": {
-	"interval": 60,
-	"tooltip": true,
-	"format": "{:%H:%M %a %d} ",
-	"tooltip-format": "{:%Y-%m-%d}",
-    "on-click": "clock"
+    "memory": {
+        "format": " {}%"
+    },
+
+    "disk": {
+        "format": " {percentage_used}%",
+        "path": "/"
     },
 
     "network": {
-	"interface": "wlp9s0",
-	"format": "󰖪 ",
-	"format-wifi": " ", 
-	"format-ethernet": " {ifname}",
-	"format-disconnected": "󰖪 ", //An empty format will hide the module.
-	"tooltip-format": "{ifname}",
-	"tooltip-format-wifi": "{essid} ({signalStrength}%) ",
-	"tooltip-format-ethernet": "{ifname} ",
-	"tooltip-format-disconnected": "Disconnected",
-	"max-length": 50,
-    "on-click": "nm-connection-editor"
+        "format-wifi": " ",
+        "format-ethernet": "󰈀 ",
+        "format-disconnected": "󰖪 ",
+        "tooltip-format": "{essid} ({signalStrength}%)",
+        "on-click": "nm-connection-editor"
     },
 
     "bluetooth": {
-	    // "controller": "controller1", // specify the alias of the controller if there are more than 1 on the system
-	    "format": "", 
-	    "format-disabled": "󰂲", // an empty format will hide the module
-	    "format-connected": "",
-	    "tooltip-format": "{controller_alias}\t{controller_address}{num_connections}",
-	    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
-	    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-        "on-click": "blueman-manager"
-    }
+        "format": "",
+        "format-connected": " {num_connections}",
+        "format-disabled": "󰂲",
+        "on-click": "overskride" // Recommended app (see below)
+    },
+
+    "pulseaudio": {
+        "format": "{icon}",
+        "format-muted": "󰖁",
+        "format-icons": {
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+
+    "clock": {
+        "format": " {:%H:%M   %a, %b %d}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode"          : "year",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "right",
+            "on-scroll"     : 1,
+            "format": {
+                "months":     "<span color='#ffead3'><b>{}</b></span>",
+                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },
+
+    "custom/fcitx5": {
+        "format": " {}",
+        "interval": 1,
+        "exec": "fcitx5-remote -n",
+        "on-click": "fcitx5-remote -t", // Toggles input method on click
+        "rewrite": {
+            "keyboard-us": "US",
+            "pinyin": "CN",
+            "mozc": "JP",
+            "hangul": "KR"
+            // Run 'fcitx5-remote -n' in a terminal to see your specific names if these don't match
+        }
+    },
 }
