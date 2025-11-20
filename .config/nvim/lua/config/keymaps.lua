@@ -1,5 +1,5 @@
 -- Basic Keymaps
--- See ':help vim.keymap.set()'
+-- See ':help keymap()'
 local keymap = vim.keymap.set
 local function opts(desc)
 	local options = {
@@ -21,6 +21,7 @@ keymap("i", "<C-s>", "<cmd>w<CR><esc>", opts("Save File"))
 keymap("x", "<C-s>", "<cmd>w<CR><esc>", opts("Save File"))
 keymap("n", "<C-s>", "<cmd>w<CR><esc>", opts("Save File"))
 keymap("s", "<C-s>", "<cmd>w<CR><esc>", opts("Save File"))
+keymap({ "n", "i", "v" }, "<leader>w", "<cmd>noautocmd w<CR>", opts("Save without formatting"))
 
 -- Better Pasting
 keymap("v", "p", '"_dp', opts("Paste Without Yanking"))
@@ -43,7 +44,7 @@ keymap("n", "<leader>sh", builtin.help_tags, opts("[S]Search [H]elp"))
 keymap("n", "<leader><leader>", builtin.buffers, opts("[] Find Existing Buffers"))
 
 -- Move to window using the <ctrl> hjkl keys
-vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
-vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
-vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
-vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
+keymap("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
+keymap("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
+keymap("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
+keymap("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
