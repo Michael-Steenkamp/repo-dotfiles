@@ -192,3 +192,7 @@ makepkg -si</a>
 `cleanup` rm -rf yay/
 `install` | <a href="https://github.com/eylles/pywal16/wiki/Installation">yay -S python-pywal16</a>
 ln -sf ~/.cache/wal/dunstrc ~/.config/dunst/dunstrc
+
+## for loading wallpaper using random-wallpaper.sh (needed by waybar)
+
+sudo pacman -S pacman-contrib

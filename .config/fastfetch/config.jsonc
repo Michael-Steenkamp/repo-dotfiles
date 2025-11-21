@@ -23,24 +23,24 @@
             }
         },
         {
-            "type": "os", 
+            "type": "os",
             "key": " ",
-            "keyColor": "light_black" 
+            "keyColor": "light_black"
         },
         {
             "type": "cpuusage",
             "key": " ",
-            "keyColor": "light_black" 
+            "keyColor": "light_black"
         },
         {
             "type": "memory",
             "key": " ",
-            "keyColor": "light_black" 
+            "keyColor": "light_black"
         },
         {
             "type": "disk",
             "key": " ",
-            "keyColor": "light_black" 
+            "keyColor": "light_black"
         },
         {
             "type": "battery",
@@ -51,7 +51,7 @@
             "type": "colors",
             "symbol": "circle"
         }
- 
+
     ]
 }
 
