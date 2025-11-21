@@ -104,8 +104,6 @@ window#waybar {
   padding: 0;
 }
 
-#network,
-#bluetooth,
 #cpu,
 #memory,
 #disk {
@@ -116,12 +114,20 @@ window#waybar {
   box-shadow: none;
 }
 
-#custom-audio {
+#custom-audio,
+#custom-network,
+#custom-bluetooth {
   background: transparent;
   padding: 0px 10px;
   border-radius: 15px;
+  transition: all 0.2s ease-in-out; /* Adds smooth sliding effect */
+}
 
-  /* transition: all 0.5s ease-in-out; */
+/* Add expansion padding for all of them */
+#custom-audio.expanded,
+#custom-network.expanded,
+#custom-bluetooth.expanded {
+  padding-right: 15px;
 }
 
 /* Optional: Different style when expanded vs minimized if you want */

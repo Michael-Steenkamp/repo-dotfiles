@@ -11,7 +11,6 @@ echo "[LOG] Selected Wallpaper: $WALLPAPER"
 # 3. Generate Colors (pywal16)
 # -n: Skip setting wallpaper (let hyprpaper handle it)
 # -i: Input image
-# -q: Quiet mode (optional)
 wal -n -i "$WALLPAPER"
 
 # 4. Update Hyprpaper
@@ -23,12 +22,10 @@ EOF
 
 # ...and apply it immediately to the running session
 if pgrep -x "hyprpaper" >/dev/null; then
-  # If hyprpaper is running, use IPC to avoid restarting it (smoother)
   hyprctl hyprpaper unload all
   hyprctl hyprpaper preload "$WALLPAPER"
   hyprctl hyprpaper wallpaper ",$WALLPAPER"
 else
-  # If not running (fresh boot), start it
   hyprpaper &
 fi
 
@@ -41,7 +38,15 @@ pkill -SIGUSR2 waybar
 pkill dunst
 dunst &
 
-# Hyprland: Reload to catch border colors (if you use pywal colors in hyprland.conf)
+# Hyprland: Reload to catch border colors
 hyprctl reload
+
+# -----------------------------------------------------
+# 6. SIGNAL FISH TERMINALS
+# Send SIGUSR1 to all fish instances.
+# They will catch this signal and run 'update_wal_colors'
+# defined in your config.fish.
+# -----------------------------------------------------
+pkill -SIGUSR1 fish
 
 echo "[LOG] Theme updated."

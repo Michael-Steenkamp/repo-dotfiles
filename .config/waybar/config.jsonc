@@ -37,8 +37,8 @@
     "group/connections": {
         "orientation": "horizontal",
         "modules": [
-            "network",
-            "bluetooth",
+            "custom/network",
+            "custom/bluetooth",
             "custom/audio"
         ]
     },
@@ -85,21 +85,6 @@
     "disk": {
         "format": " {percentage_used}%",
         "path": "/"
-    },
-
-    "network": {
-        "format-wifi": " ",
-        "format-ethernet": "󰈀 ",
-        "format-disconnected": "󰖪 ",
-        "tooltip-format": "{essid} ({signalStrength}%)",
-        "on-click": "nm-connection-editor"
-    },
-
-    "bluetooth": {
-        "format": "",
-        "format-connected": " {num_connections}",
-        "format-disabled": "󰂲",
-        "on-click": "overskride" // Recommended app (see below)
     },
 
     "pulseaudio": {
@@ -171,5 +156,19 @@
         "on-click": "pamixer -t",       // Mute on click
         "on-scroll-up": "pamixer -i 5", // Volume up
         "on-scroll-down": "pamixer -d 5" // Volume down
+    },
+
+    "custom/network": {
+        "exec": "~/.config/waybar/scripts/network_module.py",
+        "return-type": "json",
+        "format": "{}",
+        "on-click": "nm-connection-editor"
+    },
+
+    "custom/bluetooth": {
+        "exec": "~/.config/waybar/scripts/bluetooth_module.py",
+        "return-type": "json",
+        "format": "{}",
+        "on-click": "overskride"
     },
 }
