@@ -1,174 +1,121 @@
-// ~/.config/waybar/config.jsonc
 {
     "layer": "top",
     "position": "top",
-    "margin-top": 10,
-    "margin-left": 10,
-    "margin-right": 10,
-    "height": 40,
-    "spacing": 5, // Spacing between modules WITHIN a group
+    "spacing": 5,
+    "exclusive": false,
+    "passthrough": false,
+    "height": 54,
 
-    "modules-left": [
-        "hyprland/workspaces",
-        "hyprland/window"
-    ],
-    "modules-center": [
-        "clock"
-    ],
+    "modules-left": [ "hyprland/workspaces", "hyprland/window" ],
+    "modules-center": [ "clock" ],
     "modules-right": [
         "custom/updates",
         "group/hardware",
         "group/connections",
-        "keyboard-state",
-        "custom/fcitx5",
-        "battery",
+        "group/input",
+        "battery"
     ],
 
-    // --- GROUPS (The "Islands") ---
+    // --- GROUPS ---
     "group/hardware": {
         "orientation": "horizontal",
-        "modules": [
-            "cpu",
-            "memory",
-            "disk"
-        ]
+        "modules": [ "cpu", "memory", "disk" ]
     },
-
     "group/connections": {
         "orientation": "horizontal",
-        "modules": [
-            "custom/network",
-            "custom/bluetooth",
-            "custom/audio"
-        ]
+        "modules": [ "custom/network", "custom/bluetooth", "custom/audio" ]
+    },
+    // Input Group: Caps Lock will slide in to the left of Fcitx
+    "group/input": {
+        "orientation": "horizontal",
+        "modules": [ "custom/capslock", "custom/fcitx5" ]
     },
 
     // --- MODULES ---
-    "hyprland/workspaces": {
-        "format": "{icon}",
-        "on-click": "activate",
-        "format-icons": {
-            "active": "",
-            "default": ""
-        },
-        "persistent-workspaces": {
-            "*": 5
-        }
-    },
-
-    "hyprland/window": {
-        "format": "{class}",
-        "max-length": 20,
-        "rewrite": {
-            "": "Hyprland"
-        }
-    },
-
-    "custom/updates": {
-        "format": "󰮯 {}",
-        "interval": 1800,                     // Check every (s)
-        "exec": "checkupdates | wc -l",       // Arch Linux specific
-        "exec-if": "exit 0",                  // Always run
-        "on-click": "kitty --hold fish -c 'sudo pacman -Syu'",
-        "signal": 8
-    },
-
-    "cpu": {
-        "format": " {usage}%",
-        "tooltip": false
-    },
-
-    "memory": {
-        "format": " {}%"
-    },
-
-    "disk": {
-        "format": " {percentage_used}%",
-        "path": "/"
-    },
-
-    "pulseaudio": {
-        "format": "{icon}",
-        "format-muted": "󰖁",
-        "format-icons": {
-            "default": ["", "", ""]
-        },
-        "on-click": "pavucontrol"
-    },
-
-    "keyboard-state": {
-        "numlock": true,
-        "capslock": true,
-        "format": "{name} {icon}",
-        "format-icons": {
-            "locked": "",
-            "unlocked": ""
-        }
-    },
-
-    "clock": {
-        "format": " {:%H:%M   %a, %b %d}",
-        "tooltip-format": "<tt><small>{calendar}</small></tt>",
-        "calendar": {
-            "mode"          : "year",
-            "mode-mon-col"  : 3,
-            "weeks-pos"     : "right",
-            "on-scroll"     : 1,
-            "format": {
-                "months":     "<span color='#ffead3'><b>{}</b></span>",
-                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
-                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
-                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
-            }
-        }
-    },
-
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{icon} {capacity}%",
-        "format-charging": "󰂄 {capacity}%",
-        "format-plugged": " {capacity}%",
-        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    "custom/capslock": {
+        "exec": "~/.config/waybar/scripts/capslock_module.sh",
+        "interval": 1,
+        "return-type": "json",
+        "format": "{}"
     },
 
     "custom/fcitx5": {
         "format": " {}",
         "interval": 1,
         "exec": "fcitx5-remote -n",
-        "on-click": "fcitx5-remote -t", // Toggles input method on click
+        "on-click": "fcitx5-remote -t",
         "rewrite": {
             "keyboard-us": "US",
             "pinyin": "CN",
             "mozc": "JP",
             "hangul": "KR"
-            // Run 'fcitx5-remote -n' in a terminal to see your specific names if these don't match
         }
     },
 
+    // ... (Your existing workspaces, clock, battery, audio, etc. configs go here)
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": { "active": "", "default": "" },
+        "persistent-workspaces": { "*": 5 }
+    },
+    "hyprland/window": {
+        "format": "{class}",
+        "max-length": 20,
+        "rewrite": { "": "Hyprland" }
+    },
+    "clock": {
+        "format": " {:%H:%M   %a, %b %d}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "year",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#ffead3'><b>{}</b></span>",
+                "days": "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+                "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+    "custom/updates": {
+        "format": "󰮯 {}",
+        "interval": 1800,
+        "exec": "checkupdates | wc -l",
+        "exec-if": "exit 0",
+        "on-click": "kitty --hold fish -c 'sudo pacman -Syu; pkill -SIGRTMIN+8 waybar'",
+        "signal": 8
+    },
+    "cpu": { "format": " {usage}%", "tooltip": false },
+    "memory": { "format": " {}%" },
+    "disk": { "format": " {percentage_used}%", "path": "/" },
+    "battery": {
+        "states": { "good": 95, "warning": 30, "critical": 15 },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },
     "custom/audio": {
         "exec": "~/.config/waybar/scripts/audio_module.py",
         "return-type": "json",
         "format": "{}",
-        "on-click": "pamixer -t",       // Mute on click
-        "on-scroll-up": "pamixer -i 5", // Volume up
-        "on-scroll-down": "pamixer -d 5" // Volume down
+        "on-click": "pamixer -t",
+        "on-scroll-up": "pamixer -i 5",
+        "on-scroll-down": "pamixer -d 5"
     },
-
     "custom/network": {
         "exec": "~/.config/waybar/scripts/network_module.py",
         "return-type": "json",
         "format": "{}",
         "on-click": "nm-connection-editor"
     },
-
     "custom/bluetooth": {
         "exec": "~/.config/waybar/scripts/bluetooth_module.py",
         "return-type": "json",
         "format": "{}",
         "on-click": "overskride"
-    },
+    }
 }

@@ -8,19 +8,17 @@ CONFIG_FILE="$HOME/.config/hypr/hyprpaper.conf"
 WALLPAPER=$(find "$WALLPAPER_DIR" -type f | shuf -n 1)
 echo "[LOG] Selected Wallpaper: $WALLPAPER"
 
-# 3. Generate Colors (pywal16)
-# -n: Skip setting wallpaper (let hyprpaper handle it)
-# -i: Input image
-wal -n -i "$WALLPAPER"
+# -----------------------------------------------------
+# 3. Apply Wallpaper VISUALLY First
+# -----------------------------------------------------
 
-# 4. Update Hyprpaper
-# We write the config for the next fresh boot...
+# Write the config for the next fresh boot
 cat >"$CONFIG_FILE" <<EOF
 preload = $WALLPAPER
 wallpaper = ,$WALLPAPER
 EOF
 
-# ...and apply it immediately to the running session
+# Apply it immediately to the running session
 if pgrep -x "hyprpaper" >/dev/null; then
   hyprctl hyprpaper unload all
   hyprctl hyprpaper preload "$WALLPAPER"
@@ -29,7 +27,24 @@ else
   hyprpaper &
 fi
 
-# 5. Reload Applications with New Colors
+# -----------------------------------------------------
+# 4. WAIT
+# Give the wallpaper 0.5 - 1 second to transition
+# before changing the UI colors.
+# -----------------------------------------------------
+sleep 1
+
+# -----------------------------------------------------
+# 5. Generate Colors (pywal16)
+# Now that the wallpaper is visible, generate the palette.
+# -----------------------------------------------------
+# -n: Skip setting wallpaper (we already did it above)
+# -i: Input image
+wal -n -i "$WALLPAPER"
+
+# -----------------------------------------------------
+# 6. Reload Applications with New Colors
+# -----------------------------------------------------
 
 # Waybar: Send signal to reload style.css
 pkill -SIGUSR2 waybar
@@ -38,14 +53,22 @@ pkill -SIGUSR2 waybar
 pkill dunst
 dunst &
 
-# Hyprland: Reload to catch border colors
-hyprctl reload
+# -----------------------------------------------------
+# 6b. Update Hyprland Colors Dynamically (No Reload)
+# -----------------------------------------------------
+# Source the generated colors from pywal so we can use them
+source "$HOME/.cache/wal/colors.sh"
+
+# strip the '#' symbol and add transparency if needed
+ACT_BORDER="0xff${color1:1} 0xff${color10:1} 45deg"
+INACT_BORDER="0xff${background:1}"
+
+# Inject the new values directly into the running Hyprland session
+hyprctl keyword general:col.active_border "$ACT_BORDER"
+hyprctl keyword general:col.inactive_border "$INACT_BORDER"
 
 # -----------------------------------------------------
-# 6. SIGNAL FISH TERMINALS
-# Send SIGUSR1 to all fish instances.
-# They will catch this signal and run 'update_wal_colors'
-# defined in your config.fish.
+# 7. SIGNAL FISH TERMINALS
 # -----------------------------------------------------
 pkill -SIGUSR1 fish
 

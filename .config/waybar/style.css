@@ -11,8 +11,12 @@
 }
 
 window#waybar {
-  background: transparent; /* Essential for the "floating" look */
+  background: transparent;
   color: @foreground;
+  min-height: 44px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 /* --- GENERAL MODULE STYLING --- */
@@ -22,35 +26,40 @@ window#waybar {
   background: transparent;
 }
 
-/* --- THE "ISLANDS" (Backgrounds) --- */
-
-/* 1. Standard Modules */
+/* --- THE "ISLANDS" --- */
+/* Standard Modules */
 #workspaces,
 #window,
 #clock,
 #custom-updates,
 #battery,
-#keyboard-state,
-#custom-fcitx5,
 #custom-power {
   background-color: alpha(@background, 0.8);
   color: @foreground;
   padding: 5px 15px;
   margin: 5px;
   border-radius: 15px;
-  border: 2px solid @color11;
+  border: 3px solid @color10;
+  transition:
+    background-color 0.5s ease,
+    color 0.5s ease,
+    border-color 0.5s ease;
 }
 
-/* 2. The GROUPS (Hardware & Connections) */
-/* Note: The "group/" prefix is stripped in CSS IDs */
+/* Groups (Hardware, Connections, Input) */
 #hardware,
-#connections {
+#connections,
+#input {
   background-color: alpha(@background, 0.8);
   color: @foreground;
   padding: 5px 10px;
   margin: 5px;
   border-radius: 15px;
-  border: 2px solid @color11;
+  border: 3px solid @color10;
+  transition:
+    background-color 0.5s ease,
+    color 0.5s ease,
+    border-color 0.5s ease;
 }
 
 /* Hover Effects */
@@ -58,48 +67,14 @@ window#waybar {
 #clock:hover,
 #battery:hover,
 #custom-power:hover {
-  background-color: @color1; /* Use Pywal color on hover */
-  color: @background;
-}
-
-/* --- SPECIFIC MODULE TWEAKS --- */
-
-#workspaces button {
-  padding: 0 5px;
-  color: @foreground;
-}
-
-#workspaces button.active {
-  color: @color11; /* Accent color for active workspace */
-}
-
-#battery.charging,
-#battery.plugged {
-  color: @color2;
-}
-
-#battery.critical:not(.charging) {
   background-color: @color1;
   color: @background;
-  animation-name: blink;
-  animation-duration: 0.5s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
 }
 
-@keyframes blink {
-  to {
-    background-color: @foreground;
-    color: @color1;
-  }
-}
-
-/* --- GROUP STYLING (Joining icons together) --- */
-/* Remove margins between items inside a group so they look like one block */
-
+/* --- GROUP CONTENTS --- */
 #connections box,
-#group-hardware box {
+#group-hardware box,
+#group-input box {
   margin: 0;
   padding: 0;
 }
@@ -120,17 +95,75 @@ window#waybar {
   background: transparent;
   padding: 0px 10px;
   border-radius: 15px;
-  transition: all 0.2s ease-in-out; /* Adds smooth sliding effect */
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    padding 0.2s;
 }
-
-/* Add expansion padding for all of them */
 #custom-audio.expanded,
 #custom-network.expanded,
 #custom-bluetooth.expanded {
   padding-right: 15px;
 }
 
-/* Optional: Different style when expanded vs minimized if you want */
-#custom-audio.expanded {
-  padding-right: 15px;
+/* --- INPUT GROUP SPECIFICS --- */
+
+/* Language Module (Always Visible) */
+#custom-fcitx5 {
+  background: transparent;
+  padding: 0 10px;
+  color: @foreground;
+}
+
+/* Caps Lock Animation */
+#custom-capslock {
+  background: transparent;
+  color: @foreground; /* Matches normal text color */
+
+  /* Smooth transition for font-size and padding.
+     Using the same duration ensures they finish at the exact same time.
+  */
+  transition:
+    font-size 0.3s ease-in-out,
+    padding 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
+}
+
+/* LOCKED: Visible */
+#custom-capslock.locked {
+  font-size: 14px; /* Normal size */
+  padding-right: 10px; /* Spacing between Lock icon and Language icon */
+  opacity: 1;
+}
+
+/* UNLOCKED: Hidden */
+#custom-capslock.unlocked {
+  font-size: 0px; /* Shrink text to 0 */
+  padding: 0; /* Remove all padding */
+  opacity: 0; /* Fade out */
+}
+
+/* Other Specifics */
+#workspaces button {
+  padding: 0 5px;
+  color: @foreground;
+}
+#workspaces button.active {
+  color: @color11;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @color2;
+}
+#battery.critical:not(.charging) {
+  background-color: @color1;
+  color: @background;
+  animation: blink 0.5s linear infinite alternate;
+}
+@keyframes blink {
+  to {
+    background-color: @foreground;
+    color: @color1;
+  }
 }
