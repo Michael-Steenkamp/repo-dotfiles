@@ -196,3 +196,7 @@ ln -sf ~/.cache/wal/dunstrc ~/.config/dunst/dunstrc
 ## for loading wallpaper using random-wallpaper.sh (needed by waybar)
 
 sudo pacman -S pacman-contrib
+
+### LSP
+
+sudo pacman -S nodejs npm
