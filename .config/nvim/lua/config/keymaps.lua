@@ -21,7 +21,7 @@ keymap("i", "<C-s>", "<cmd>w<CR><esc>", opts("Save File"))
 keymap("x", "<C-s>", "<cmd>w<CR><esc>", opts("Save File"))
 keymap("n", "<C-s>", "<cmd>w<CR><esc>", opts("Save File"))
 keymap("s", "<C-s>", "<cmd>w<CR><esc>", opts("Save File"))
-keymap({ "n", "i", "v" }, "<leader>w", "<cmd>noautocmd w<CR>", opts("Save without formatting"))
+keymap({ "n", "v" }, "<leader>w", "<cmd>noautocmd w<CR>", opts("Save without formatting"))
 
 -- Better Pasting
 keymap("v", "p", '"_dp', opts("Paste Without Yanking"))

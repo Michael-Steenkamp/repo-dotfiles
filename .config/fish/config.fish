@@ -3,7 +3,7 @@ if status is-interactive
     set -gx STARSHIP_CONFIG $HOME/.cache/wal/starship.toml
 
     # Commands to run in interactive sessions
-    fastfetch
+    fastfetch --logo-position top --config ~/.config/fastfetch/config.jsonc
 
     alias calendar='nohup morgen >/dev/null 2>&1 & exit'
     alias mail='nohup thunderbird >/dev/null 2>&1 & exit'
@@ -24,7 +24,7 @@ starship init fish | source
 
 function clear
     command clear
-    fastfetch
+    fastfetch --logo-position top --config ~/.config/fastfetch/config.jsonc
 end
 
 function pdf
