@@ -181,17 +181,18 @@ rm -rf clipse
 `Web/JS` | <a href="https://prettier.io/">prettier</a>
 `C/C++` | <a href="https://wiki.archlinux.org/title/Clang">clang</a>
 
-## Auto Theme
+## Auto Theme (yay -Rns python-pywal16 imagemagick)
 
-`dependences` | <a href="https://wiki.archlinux.org/title/ImageMagick"><imagemagick</a>
+#### yay
+
 `yay` | <a href="https://github.com/Jguer/yay">
 sudo pacman -S --needed git base-devel
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si</a>
 `cleanup` rm -rf yay/
-`install` | <a href="https://github.com/eylles/pywal16/wiki/Installation">yay -S python-pywal16</a>
-ln -sf ~/.cache/wal/dunstrc ~/.config/dunst/dunstrc
+
+yay -S wallust
 
 ## for loading wallpaper using random-wallpaper.sh (needed by waybar)
 

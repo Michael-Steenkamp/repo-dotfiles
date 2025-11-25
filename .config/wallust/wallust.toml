@@ -1,0 +1,32 @@
+# ~/.config/wallust/wallust.toml
+
+
+# 1. CORE SETTINGS
+
+# "kmeans" groups colors by average, creating a much smoother palette than "thumb"
+backend = "kmeans"
+
+# "labmix" blends the colors slightly so they feel like they belong together
+color_space = "labmixed"
+
+# "dark16" gives a standard dark background.
+# "soft-dark" can sometimes be too grey/washed out, creating readability issues.
+palette = "dark16"
+
+# Lower saturation makes colors "soft" and less neon.
+# Default is 100. Try 30-50 for a pastel/matte look.
+saturation = 45
+
+# 2. TEMPLATES (v3 Format)
+# format: name = { template = "filename_in_templates_dir", target = "where_to_save_it" }
+
+[templates]
+sequences = { template = "sequences", target = "~/.cache/wal/sequences" }
+colors_sh = { template = "colors.sh", target = "~/.cache/wal/colors.sh" }
+kitty     = { template = "kitty",     target = "~/.cache/wal/colors-kitty.conf" }
+fish      = { template = "fish",      target = "~/.cache/wal/colors.fish" }
+hyprland  = { template = "hyprland",  target = "~/.cache/wal/colors-hyprland.conf" }
+waybar    = { template = "waybar",    target = "~/.cache/wal/colors-waybar.css" }
+rofi      = { template = "rofi",      target = "~/.cache/wal/colors-rofi-dark.rasi" }
+dunst     = { template = "dunstrc",   target = "~/.cache/wal/dunstrc" }
+starship  = { template = "starship",  target = "~/.cache/wal/starship.toml" }

@@ -6,70 +6,44 @@ CONFIG_FILE="$HOME/.config/hypr/hyprpaper.conf"
 
 # 2. Pick a random wallpaper
 WALLPAPER=$(find "$WALLPAPER_DIR" -type f | shuf -n 1)
-echo "[LOG] Selected Wallpaper: $WALLPAPER"
 
-# -----------------------------------------------------
-# 3. Apply Wallpaper VISUALLY First
-# -----------------------------------------------------
-
-# Write the config for the next fresh boot
+# 3. Write config and reload Hyprpaper (Silent)
 cat >"$CONFIG_FILE" <<EOF
 preload = $WALLPAPER
 wallpaper = ,$WALLPAPER
 EOF
 
-# Apply it immediately to the running session
 if pgrep -x "hyprpaper" >/dev/null; then
-  hyprctl hyprpaper unload all
-  hyprctl hyprpaper preload "$WALLPAPER"
-  hyprctl hyprpaper wallpaper ",$WALLPAPER"
+  hyprctl hyprpaper unload all >/dev/null 2>&1
+  hyprctl hyprpaper preload "$WALLPAPER" >/dev/null 2>&1
+  hyprctl hyprpaper wallpaper ",$WALLPAPER" >/dev/null 2>&1
 else
-  hyprpaper &
+  hyprpaper >/dev/null 2>&1 &
 fi
 
-# -----------------------------------------------------
-# 4. WAIT
-# Give the wallpaper 0.5 - 1 second to transition
-# before changing the UI colors.
-# -----------------------------------------------------
-sleep 1
+# 4. Generate Colors (Silent)
+# -q suppresses output, so you don't see "image: ..." text
+wallust run -q "$WALLPAPER"
 
-# -----------------------------------------------------
-# 5. Generate Colors (pywal16)
-# Now that the wallpaper is visible, generate the palette.
-# -----------------------------------------------------
-# -n: Skip setting wallpaper (we already did it above)
-# -i: Input image
-wal -n -i "$WALLPAPER"
-
-# -----------------------------------------------------
-# 6. Reload Applications with New Colors
-# -----------------------------------------------------
-
-# Waybar: Send signal to reload style.css
+# 5. Reload Applications
 pkill -SIGUSR2 waybar
+pkill dunst && dunst >/dev/null 2>&1 &
 
-# Dunst: Restart to load new config
-pkill dunst
-dunst &
-
-# -----------------------------------------------------
-# 6b. Update Hyprland Colors Dynamically (No Reload)
-# -----------------------------------------------------
-# Source the generated colors from pywal so we can use them
+# 6. Reload Hyprland variables silently
+# We don't need to source the file here if we reload Hyprland config completely,
+# but using hyprctl is faster/smoother.
 source "$HOME/.cache/wal/colors.sh"
-
-# strip the '#' symbol and add transparency if needed
 ACT_BORDER="0xff${color1:1} 0xff${color10:1} 45deg"
 INACT_BORDER="0xff${background:1}"
 
-# Inject the new values directly into the running Hyprland session
-hyprctl keyword general:col.active_border "$ACT_BORDER"
-hyprctl keyword general:col.inactive_border "$INACT_BORDER"
+hyprctl keyword general:col.active_border "$ACT_BORDER" >/dev/null 2>&1
+hyprctl keyword general:col.inactive_border "$INACT_BORDER" >/dev/null 2>&1
 
-# -----------------------------------------------------
-# 7. SIGNAL FISH TERMINALS
-# -----------------------------------------------------
+# 7. Reload Terminals (The Clean Way)
+# SIGUSR1 tells Kitty to reload its config file (colors-kitty.conf)
+# It does NOT require printing 'sequences' to the terminal.
+pkill -SIGUSR1 kitty
+
+# Reload Fish vars (if you use them for syntax highlighting)
+# Ensure your fish trap just sources the file, DOES NOT cat sequences.
 pkill -SIGUSR1 fish
-
-echo "[LOG] Theme updated."

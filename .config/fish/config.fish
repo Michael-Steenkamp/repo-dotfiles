@@ -1,8 +1,6 @@
 if status is-interactive
+    # 1. Point Starship to the cached config (Wallust updates this)
     set -gx STARSHIP_CONFIG $HOME/.cache/wal/starship.toml
-
-    # Load pywal colors on startup
-    cat ~/.cache/wal/sequences
 
     # Commands to run in interactive sessions
     fastfetch
@@ -18,8 +16,6 @@ if status is-interactive
 
     alias icat='kitten icat'
     alias update='sudo pacman -Syu --noconfirm'
-
-    # Alias for managing dotfiles with a bare repo
     alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 end
 
@@ -39,18 +35,14 @@ function pdf
     end
 end
 
-# --- PYWAL RELOAD FUNCTION ---
-# This function runs whenever it receives the "SIGUSR1" signal.
-# It reloads colors and forces the prompt to redraw immediately.
-function update_wal_colors --on-signal SIGUSR1
-    # 1. Inject color sequences (changes background instantly)
-    cat ~/.cache/wal/sequences
-
-    # 2. Source variable definitions (so $color1 etc. are updated for scripts)
+# --- WALLUST RELOAD FUNCTION ---
+# This runs when random-wallpaper.sh sends SIGUSR1
+function update_wallust_colors --on-signal SIGUSR1
+    # 1. Source variable definitions (updates $foreground/$background variables if used in prompt)
     if test -e ~/.cache/wal/colors.fish
         source ~/.cache/wal/colors.fish
     end
 
-    # 3. Repaint the prompt (Fixes the "Press Enter" issue)
+    # 2. Repaint the prompt
     commandline -f repaint
 end

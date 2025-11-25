@@ -1,0 +1,90 @@
+format = """
+$username\
+[](bg:{{color5}} fg:{{color4}})\
+$directory\
+[](bg:{{color3}} fg:{{color5}})\
+${custom.dotfiles}\
+${custom.dotfiles_status}\
+$git_branch\
+$git_status\
+[](fg:{{color3}})\
+$character"""
+
+right_format = """
+$cmd_duration\
+[](fg:{{color2}})\
+${custom.uptime}\
+[](fg:{{color2}} bg:{{color1}})\
+$time\
+[](fg:{{color1}})\
+"""
+
+[custom.uptime]
+description = "System Uptime"
+command = "uptime -p | sed 's/up //;s/ hours/h/;s/ minutes/m/'"
+when = "true"
+style = "bg:{{color2}}"
+format = '[ 󰔛 $output ](bg:{{color2}} fg:{{background}})'
+
+[custom.dotfiles]
+description = "Dotfiles Branch"
+command = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME branch --show-current 2>/dev/null"
+when = """ test "$PWD" = "$HOME" """
+style = "bg:{{color3}}"
+format = '[[  $output ](fg:{{background}} bg:{{color3}})]($style)'
+
+[custom.dotfiles_status]
+description = "Dotfiles Status"
+command = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME status --porcelain 2>/dev/null | grep -q . && echo '[!]'"
+when = """ test "$PWD" = "$HOME" """
+style = "bg:{{color3}}"
+format = '[ $output](fg:{{background}} bg:{{color3}})'
+
+[username]
+show_always = true
+style_user = "bg:{{color4}} fg:{{background}}"
+style_root = "bg:{{color4}} fg:{{background}}"
+format = '[  $user ]($style)'
+
+[directory]
+style = "fg:{{background}} bg:{{color5}}"
+format = "[ $path ]($style)"
+truncation_length = 0
+truncate_to_repo = false
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"Projects" = " "
+
+[git_branch]
+symbol = ""
+style = "bg:{{color3}}"
+format = '[[ $symbol $branch(:$remote_branch) ](fg:{{background}} bg:{{color3}})]($style)'
+
+[git_status]
+style = "bg:{{color3}}"
+format = '[[($all_status$ahead_behind )](fg:{{background}} bg:{{color3}})]($style)'
+untracked = "[?](fg:{{background}} bg:{{color3}})"
+modified  = "[!](fg:{{background}} bg:{{color3}})"
+staged    = "[+](fg:{{background}} bg:{{color3}})"
+deleted   = "[x](fg:{{background}} bg:{{color3}})"
+renamed   = "[»](fg:{{background}} bg:{{color3}})"
+conflicted = "[≠](fg:{{background}} bg:{{color3}})"
+stashed   = "[$](fg:{{background}} bg:{{color3}})"
+
+[time]
+disabled = false
+time_format = "%R"
+format = '[  $time ](bg:{{color1}} fg:{{background}})'
+
+[cmd_duration]
+min_time = 2000
+format = '[  $duration ](fg:{{color3}})'
+
+[character]
+success_symbol = "[ \n❯](bold {{color2}})"
+error_symbol = "[ \n❯](bold {{color1}})"
