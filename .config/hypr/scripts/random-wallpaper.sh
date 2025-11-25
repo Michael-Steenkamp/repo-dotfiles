@@ -3,61 +3,77 @@
 # 1. Set Paths
 WALLPAPER_DIR="$HOME/.config/hypr/wallpapers"
 CONFIG_FILE="$HOME/.config/hypr/hyprpaper.conf"
-CACHE_DIR="$HOME/.cache/wallust_cache"
-
-# Ensure cache directory exists
+CACHE_DIR="$HOME/.cache/wallust-schemes"
 mkdir -p "$CACHE_DIR"
 
 # 2. Pick a random wallpaper
 WALLPAPER=$(find "$WALLPAPER_DIR" -type f | shuf -n 1)
 
-# 3. Write config and reload Hyprpaper (Silent)
+if [ -z "$WALLPAPER" ]; then
+  notify-send "Wallpaper Error" "No wallpapers found in $WALLPAPER_DIR"
+  exit 1
+fi
+
 cat >"$CONFIG_FILE" <<EOF
 preload = $WALLPAPER
 wallpaper = ,$WALLPAPER
 EOF
 
+# --- UPDATED STEP 3: Self-Healing Logic ---
 if pgrep -x "hyprpaper" >/dev/null; then
-  hyprctl hyprpaper unload all >/dev/null 2>&1
-  hyprctl hyprpaper preload "$WALLPAPER" >/dev/null 2>&1
-  hyprctl hyprpaper wallpaper ",$WALLPAPER" >/dev/null 2>&1
+  # Try to preload with a 1-second timeout
+  # If this hangs (exit code 124), the daemon is frozen.
+  if timeout 1s hyprctl hyprpaper preload "$WALLPAPER" >/dev/null 2>&1; then
+    # SUCCESS: Daemon is healthy. Apply wallpaper.
+    hyprctl hyprpaper wallpaper ",$WALLPAPER" >/dev/null 2>&1
+
+    # Clean up old images in the background safely
+    (sleep 1 && hyprctl hyprpaper unload all) >/dev/null 2>&1 &
+  else
+    # FAILURE: Daemon is stuck. Kill it and let it restart.
+    # The new instance will read the config file we just wrote above.
+    pkill -9 hyprpaper
+    hyprpaper >/dev/null 2>&1 &
+  fi
 else
+  # Not running? Just start it.
   hyprpaper >/dev/null 2>&1 &
 fi
 
 # 4. Generate Colors (Smart Caching)
-# Generate a unique filename based on the wallpaper path (flattened)
-CACHE_FILE="$CACHE_DIR/$(echo "$WALLPAPER" | sed 's/\//_/g').json"
+WALLPAPER_NAME=$(basename "$WALLPAPER")
+CACHE_FILE="$CACHE_DIR/${WALLPAPER_NAME%.*}.json"
 
 if [ -f "$CACHE_FILE" ]; then
-  # HIT: Load cached scheme instantly (skips image processing)
-  # This applies all your templates (kitty, waybar, etc.) automatically
+  # HIT: Load cached scheme
   wallust cs "$CACHE_FILE"
 else
-  # MISS: Generate new scheme (slower) and save to cache
-  # -q suppresses output
-  wallust run -q "$WALLPAPER"
-
-  # Save the generated json to our cache folder
-  # Wallust v3 defaults to ~/.cache/wallust/wallust.json for the current state
-  cp "$HOME/.cache/wallust/wallust.json" "$CACHE_FILE"
+  # MISS: Generate new scheme
+  if wallust run -q "$WALLPAPER"; then
+    if [ -f "$HOME/.cache/wal/colors.json" ]; then
+      cp "$HOME/.cache/wal/colors.json" "$CACHE_FILE"
+    else
+      notify-send "Wallust Error" "colors.json was NOT generated. Check wallust.toml template."
+    fi
+  else
+    notify-send "Wallust Failed" "Could not run wallust on $WALLPAPER_NAME"
+  fi
 fi
 
 # 5. Reload Applications
 pkill -SIGUSR2 waybar
 pkill dunst && dunst >/dev/null 2>&1 &
 
-# 6. Reload Hyprland variables silently
-source "$HOME/.cache/wal/colors.sh"
-ACT_BORDER="0xff${color1:1} 0xff${color10:1} 45deg"
-INACT_BORDER="0xff${background:1}"
+# 6. Reload Hyprland variables
+if [ -f "$HOME/.cache/wal/colors.sh" ]; then
+  source "$HOME/.cache/wal/colors.sh"
+  ACT_BORDER="0xff${color1:1} 0xff${color10:1} 45deg"
+  INACT_BORDER="0xff${background:1}"
+  hyprctl keyword general:col.active_border "$ACT_BORDER" >/dev/null 2>&1
+  hyprctl keyword general:col.inactive_border "$INACT_BORDER" >/dev/null 2>&1
+fi
 
-hyprctl keyword general:col.active_border "$ACT_BORDER" >/dev/null 2>&1
-hyprctl keyword general:col.inactive_border "$INACT_BORDER" >/dev/null 2>&1
-
-# 7. Reload Terminals
-# SIGUSR1 tells Kitty to reload config
+# 7. Reload Apps
 pkill -SIGUSR1 kitty
-
-# Reload Fish vars
 pkill -SIGUSR1 fish
+pkill -SIGUSR1 nvim

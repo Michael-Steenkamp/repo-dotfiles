@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/painting-bow.png",
+  "alpha": "100",
+  "special": {
+    "background": "#1B1A1A",
+    "foreground": "#E8E4DC",
+    "cursor": "#8F8982"
+  },
+  "colors": {
+    "color0": "#424041",
+    "color1": "#170C11",
+    "color2": "#291C13",
+    "color3": "#6A4213",
+    "color4": "#5A4A29",
+    "color5": "#806B42",
+    "color6": "#8D774C",
+    "color7": "#D5D0C5",
+    "color8": "#95918A",
+    "color9": "#1F1016",
+    "color10": "#36261A",
+    "color11": "#8E5819",
+    "color12": "#786336",
+    "color13": "#AB8F59",
+    "color14": "#BC9F65",
+    "color15": "#D5D0C5"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/painting-regulus.png",
+  "alpha": "100",
+  "special": {
+    "background": "#101010",
+    "foreground": "#E5E3DE",
+    "cursor": "#8A847F"
+  },
+  "colors": {
+    "color0": "#393838",
+    "color1": "#0E0808",
+    "color2": "#231710",
+    "color3": "#602E19",
+    "color4": "#745B2A",
+    "color5": "#88744E",
+    "color6": "#88744E",
+    "color7": "#D2CEC8",
+    "color8": "#93908C",
+    "color9": "#130A0A",
+    "color10": "#2E1F15",
+    "color11": "#803D21",
+    "color12": "#9B7937",
+    "color13": "#B59A69",
+    "color14": "#B59A69",
+    "color15": "#D2CEC8"
+  }
+}

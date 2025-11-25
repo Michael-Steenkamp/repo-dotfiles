@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/painting-chess.png",
+  "alpha": "100",
+  "special": {
+    "background": "#272626",
+    "foreground": "#DBD5C8",
+    "cursor": "#837D76"
+  },
+  "colors": {
+    "color0": "#4D4C4B",
+    "color1": "#201412",
+    "color2": "#201412",
+    "color3": "#2B1E15",
+    "color4": "#6D582E",
+    "color5": "#715C30",
+    "color6": "#725D30",
+    "color7": "#C3BAA9",
+    "color8": "#898376",
+    "color9": "#2B1A17",
+    "color10": "#2B1A17",
+    "color11": "#39281D",
+    "color12": "#92763E",
+    "color13": "#977A40",
+    "color14": "#997B40",
+    "color15": "#C3BAA9"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/woods.jpg",
+  "alpha": "100",
+  "special": {
+    "background": "#2E302E",
+    "foreground": "#D7D8D4",
+    "cursor": "#81867D"
+  },
+  "colors": {
+    "color0": "#535552",
+    "color1": "#182612",
+    "color2": "#192713",
+    "color3": "#1A2A15",
+    "color4": "#2A3815",
+    "color5": "#5F683D",
+    "color6": "#616D40",
+    "color7": "#BEC0B8",
+    "color8": "#858681",
+    "color9": "#1F3219",
+    "color10": "#203419",
+    "color11": "#23381D",
+    "color12": "#384A1D",
+    "color13": "#7F8B51",
+    "color14": "#849155",
+    "color15": "#BEC0B8"
+  }
+}

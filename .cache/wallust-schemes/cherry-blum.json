@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/cherry-blum.webp",
+  "alpha": "100",
+  "special": {
+    "background": "#111213",
+    "foreground": "#E4E2E4",
+    "cursor": "#787A7E"
+  },
+  "colors": {
+    "color0": "#393A3B",
+    "color1": "#060D11",
+    "color2": "#060D11",
+    "color3": "#060D11",
+    "color4": "#51140D",
+    "color5": "#51140D",
+    "color6": "#865386",
+    "color7": "#D1CDD1",
+    "color8": "#928F92",
+    "color9": "#081117",
+    "color10": "#081117",
+    "color11": "#081117",
+    "color12": "#6C1912",
+    "color13": "#6C1912",
+    "color14": "#B36FB3",
+    "color15": "#D1CDD1"
+  }
+}

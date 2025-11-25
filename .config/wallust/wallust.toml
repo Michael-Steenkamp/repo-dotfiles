@@ -33,3 +33,4 @@ rofi      = { template = "rofi",      target = "~/.cache/wal/colors-rofi-dark.ra
 dunst     = { template = "dunstrc",   target = "~/.cache/wal/dunstrc" }
 starship  = { template = "starship",  target = "~/.cache/wal/starship.toml" }
 nvim      = { template = "wal", target = "~/.cache/wal/colors-wal.vim" }
+colors_json = { template = "json", target = "~/.cache/wal/colors.json" }

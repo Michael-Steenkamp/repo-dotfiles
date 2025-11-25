@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/painting-prosper.png",
+  "alpha": "100",
+  "special": {
+    "background": "#000000",
+    "foreground": "#F4F0EE",
+    "cursor": "#B0A89E"
+  },
+  "colors": {
+    "color0": "#000000",
+    "color1": "#4C3A23",
+    "color2": "#523F27",
+    "color3": "#865151",
+    "color4": "#865151",
+    "color5": "#917154",
+    "color6": "#A88264",
+    "color7": "#E7E2DE",
+    "color8": "#A29E9B",
+    "color9": "#654D2E",
+    "color10": "#6D5434",
+    "color11": "#B36C6C",
+    "color12": "#B36C6C",
+    "color13": "#C19770",
+    "color14": "#E0AD85",
+    "color15": "#E7E2DE"
+  }
+}
