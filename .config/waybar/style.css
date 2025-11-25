@@ -42,7 +42,6 @@ window#waybar {
   margin: 5px;
   border-radius: 15px;
 
-  /* FIX: Use @border instead of var(--border) */
   border: 2px solid @border;
 
   transition:
@@ -61,7 +60,6 @@ window#waybar {
   margin: 5px;
   border-radius: 15px;
 
-  /* FIX: Use @border instead of var(--border) */
   border: 2px solid @border;
 
   transition:
@@ -160,7 +158,7 @@ window#waybar {
 
 #battery.charging,
 #battery.plugged {
-  color: @color2;
+  color: @color7;
 }
 #battery.critical:not(.charging) {
   background-color: @color1;

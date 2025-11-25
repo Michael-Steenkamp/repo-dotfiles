@@ -3,7 +3,7 @@
 # CORE SETTINGS
 # "full" is much faster than kmeans but creates better palettes than "thumb".
 # It sorts colors by frequency, which is great for finding dominant "mood" colors.
-backend = "full"
+backend = "kmeans"
 
 # "labmixed" ensures all colors share a tint (coherence).
 color_space = "labmixed"
@@ -13,7 +13,11 @@ palette = "dark16"
 
 # KEY CHANGE: Low saturation (25-35) mimics the matte look of old paintings.
 # Default is 100 (Digital/Neon).
-saturation = 0
+saturation = 35
+
+# THRESHOLD: Controls how distinct the colors must be.
+# Lowering this (default is often 20) allows more similar colors to exist.
+threshold = 15
 
 # 2. TEMPLATES (v3 Format)
 # format: name = { template = "filename_in_templates_dir", target = "where_to_save_it" }
