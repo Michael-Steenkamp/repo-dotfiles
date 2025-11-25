@@ -1,44 +1,30 @@
-# ~/.config/wal/templates/starship.toml
-
-# PROMPT LAYOUT
 format = """
-[  $user ](bg:{color4} fg:{background})\
+$username\
 [](bg:{color5} fg:{color4})\
 $directory\
 [](bg:{color3} fg:{color5})\
-$custom\
+${{custom.dotfiles}}\
+${{custom.dotfiles_status}}\
 $git_branch\
 $git_status\
-[](bg:{color1} fg:{color3})\
+[](fg:{color3})\
+$character"""
+
+right_format = """
+$cmd_duration\
+[](fg:{color2})\
+${{custom.uptime}}\
+[](fg:{color2} bg:{color1})\
 $time\
 [](fg:{color1})\
-\n$character"""
+"""
+[custom.uptime]
+description = "System Uptime"
+command = "uptime -p | sed 's/up //;s/ hours/h/;s/ minutes/m/'"
+when = "true"
+style = "bg:{color2}"
+format = '[ 󰔛 $output ](bg:{color2} fg:{background})'
 
-# USERNAME
-[username]
-show_always = true
-style_user = "bg:{color4} fg:{background}"
-style_root = "bg:{color4} fg:{background}"
-format = '[ $user ]($style)'
-
-# DIRECTORY
-[directory]
-style = "fg:{background} bg:{color5}"
-format = "[ $path ]($style)"
-truncation_length = 0
-truncate_to_repo = false
-truncation_symbol = "…/"
-
-# DIRECTORY ICONS
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
-"Projects" = " "
-
-# DOTFILES BRANCH
-# This explicitly checks your ~/.dotfiles repo when you are at ~
 [custom.dotfiles]
 description = "Dotfiles Branch"
 command = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME branch --show-current 2>/dev/null"
@@ -46,7 +32,33 @@ when = """ test "$PWD" = "$HOME" """
 style = "bg:{color3}"
 format = '[[  $output ](fg:{background} bg:{color3})]($style)'
 
-# GIT BRANCH
+[custom.dotfiles_status]
+description = "Dotfiles Status"
+command = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME status --porcelain 2>/dev/null | grep -q . && echo '[!]'"
+when = """ test "$PWD" = "$HOME" """
+style = "bg:{color3}"
+format = '[ $output](fg:{background} bg:{color3})'
+
+[username]
+show_always = true
+style_user = "bg:{color4} fg:{background}"
+style_root = "bg:{color4} fg:{background}"
+format = '[  $user ]($style)'
+
+[directory]
+style = "fg:{background} bg:{color5}"
+format = "[ $path ]($style)"
+truncation_length = 0
+truncate_to_repo = false
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"Projects" = " "
+
 [git_branch]
 symbol = ""
 style = "bg:{color3}"
@@ -55,35 +67,23 @@ format = '[[ $symbol $branch(:$remote_branch) ](fg:{background} bg:{color3})]($s
 [git_status]
 style = "bg:{color3}"
 format = '[[($all_status$ahead_behind )](fg:{background} bg:{color3})]($style)'
+untracked = "[?](fg:{background} bg:{color3})"
+modified  = "[!](fg:{background} bg:{color3})"
+staged    = "[+](fg:{background} bg:{color3})"
+deleted   = "[x](fg:{background} bg:{color3})"
+renamed   = "[»](fg:{background} bg:{color3})"
+conflicted = "[≠](fg:{background} bg:{color3})"
+stashed   = "[$](fg:{background} bg:{color3})"
 
-# TIME
 [time]
 disabled = false
 time_format = "%R"
-style = "bg:{color1}"
-format = '[[  $time ](fg:{background} bg:{color1})]($style)'
-
-# EXTRAS
-[nodejs]
-symbol = ""
-format = '[$symbol($version) ](fg:{color2})'
-
-[rust]
-symbol = ""
-format = '[$symbol($version) ](fg:{color2})'
-
-[golang]
-symbol = ""
-format = '[$symbol($version) ](fg:{color2})'
-
-[php]
-symbol = ""
-format = '[$symbol($version) ](fg:{color2})'
+format = '[  $time ](bg:{color1} fg:{background})'
 
 [cmd_duration]
 min_time = 2000
 format = '[  $duration ](fg:{color3})'
 
 [character]
-success_symbol = "[❯](bold {color2})"
-error_symbol = "[❯](bold {color1})"
+success_symbol = "[ \n❯](bold {color2})"
+error_symbol = "[ \n❯](bold {color1})"

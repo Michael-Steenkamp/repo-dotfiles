@@ -1,4 +1,6 @@
 if status is-interactive
+    set -gx STARSHIP_CONFIG $HOME/.cache/wal/starship.toml
+
     # Load pywal colors on startup
     cat ~/.cache/wal/sequences
 
