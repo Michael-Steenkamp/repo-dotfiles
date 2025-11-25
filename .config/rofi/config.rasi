@@ -7,6 +7,8 @@ configuration {
     drun-display-format: "{name}";
 }
 
+@import "~/.cache/wal/colors-rofi-dark.rasi"
+
 /* --- MAIN WINDOW --- */
 window {
     /* Location: West (Left side) */
@@ -18,17 +20,17 @@ window {
     y-offset: 0px;   /* Centered vertically */
 
     /* Size */
-    width: 150px;    /* Fixed width like a sidebar */
+    width: 300px;    /* Fixed width like a sidebar */
     height: 60%;     /* Height of the menu */
 
     /* Appearance */
     border: 2px;
-    border-color: @selected-active-background; /* Uses your accent color */
+    border-color: @accent;
     border-radius: 10px;
 
     /* Background color with slight transparency */
     /* pywal's @background is usually opaque, so we hardcode alpha if needed */
-    background-color: @background;
+    background-color: @back;
 
     padding: 20px;
 }
@@ -43,7 +45,7 @@ mainbox {
 /* --- INPUT BAR (Search) --- */
 inputbar {
     background-color: transparent;
-    text-color: @foreground;
+    text-color: @text;
     children: [ prompt, entry ];
     border: 0px 0px 2px 0px;
     border-color: @selected-active-background;
@@ -62,7 +64,7 @@ entry {
     background-color: transparent;
     text-color: @foreground;
     placeholder: "Search...";
-    placeholder-color: @foreground;
+    placeholder-color: @text;
 }
 
 /* --- LIST VIEW (Applications) --- */
@@ -104,4 +106,3 @@ element selected {
     border: 0px;
 }
 
-@import "~/.cache/wal/colors-rofi-dark.rasi"
