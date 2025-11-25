@@ -1,8 +1,7 @@
 /* Import Pywal Colors */
 @import "../../.cache/wal/colors-waybar.css";
 
-/* FIX: Use GTK syntax to define the border color variable */
-@define-color border @foreground;
+@define-color border @background;
 
 * {
   border: none;
