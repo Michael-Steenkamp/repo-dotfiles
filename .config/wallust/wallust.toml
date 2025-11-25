@@ -13,7 +13,7 @@ palette = "dark16"
 
 # KEY CHANGE: Low saturation (25-35) mimics the matte look of old paintings.
 # Default is 100 (Digital/Neon).
-saturation = 1
+saturation = 0
 
 # 2. TEMPLATES (v3 Format)
 # format: name = { template = "filename_in_templates_dir", target = "where_to_save_it" }

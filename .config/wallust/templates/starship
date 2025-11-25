@@ -13,9 +13,8 @@ $git_status\
 [](fg:{{color3}})\
 $character"""
 
-# Right: Cmd Duration -> Uptime -> Time
+# Right: Uptime -> Time
 right_format = """
-$cmd_duration\
 [](fg:{{color2}})\
 ${custom.uptime}\
 [](fg:{{color2}} bg:{{color1}})\
@@ -31,7 +30,7 @@ description = "System Uptime"
 command = "uptime -p | sed 's/up //;s/ hours/h/;s/ hour/h/;s/ minutes/m/;s/ minute/m/;s/,//g'"
 when = "true"
 style = "bg:{{color2}}"
-format = '[ 󰔛 $output ](bg:{{color2}} fg:{{background}})'
+format = '[ 󰔛 $output ](bg:{{color2}} fg:{{color7}})'
 
 [custom.dotfiles]
 description = "Dotfiles Branch"
@@ -39,7 +38,7 @@ description = "Dotfiles Branch"
 command = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME branch --show-current 2>/dev/null"
 when = """ test "$PWD" = "$HOME" """
 style = "bg:{{color3}}"
-format = '[[  $output ](fg:{{background}} bg:{{color3}})]($style)'
+format = '[[  $output ](fg:{{color7}} bg:{{color3}})]($style)'
 
 [custom.dotfiles_status]
 description = "Dotfiles Status"
@@ -47,18 +46,18 @@ description = "Dotfiles Status"
 command = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME status --porcelain 2>/dev/null | grep -q . && echo '[!]'"
 when = """ test "$PWD" = "$HOME" """
 style = "bg:{{color3}}"
-format = '[ $output](fg:{{background}} bg:{{color3}})'
+format = '[ $output](fg:{{color7}} bg:{{color3}})'
 
 # --- CORE MODULES ---
 
 [username]
 show_always = true
-style_user = "bg:{{color4}} fg:{{background}}"
-style_root = "bg:{{color4}} fg:{{background}}"
+style_user = "bg:{{color4}} fg:{{color7}}"
+style_root = "bg:{{color4}} fg:{{color7}}"
 format = '[  $user ]($style)'
 
 [directory]
-style = "fg:{{background}} bg:{{color5}}"
+style = "fg:{{color7}} bg:{{color5}}"
 format = "[ $path ]($style)"
 truncation_length = 0
 truncate_to_repo = false
@@ -74,23 +73,23 @@ truncation_symbol = "…/"
 [git_branch]
 symbol = ""
 style = "bg:{{color3}}"
-format = '[[ $symbol $branch(:$remote_branch) ](fg:{{background}} bg:{{color3}})]($style)'
+format = '[[ $symbol $branch(:$remote_branch) ](fg:{{color7}} bg:{{color3}})]($style)'
 
 [git_status]
 style = "bg:{{color3}}"
-format = '[[($all_status$ahead_behind )](fg:{{background}} bg:{{color3}})]($style)'
-untracked = "[?](fg:{{background}} bg:{{color3}})"
-modified  = "[!](fg:{{background}} bg:{{color3}})"
-staged    = "[+](fg:{{background}} bg:{{color3}})"
-deleted   = "[x](fg:{{background}} bg:{{color3}})"
-renamed   = "[»](fg:{{background}} bg:{{color3}})"
-conflicted = "[≠](fg:{{background}} bg:{{color3}})"
-stashed   = "[$](fg:{{background}} bg:{{color3}})"
+format = '[[($all_status$ahead_behind )](fg:{{color7}} bg:{{color3}})]($style)'
+untracked = "[?](fg:{{color7}} bg:{{color3}})"
+modified  = "[!](fg:{{color7}} bg:{{color3}})"
+staged    = "[+](fg:{{color7}} bg:{{color3}})"
+deleted   = "[x](fg:{{color7}} bg:{{color3}})"
+renamed   = "[»](fg:{{color7}} bg:{{color3}})"
+conflicted = "[≠](fg:{{color7}} bg:{{color3}})"
+stashed   = "[$](fg:{{color7}} bg:{{color3}})"
 
 [time]
 disabled = false
 time_format = "%R"
-format = '[  $time ](bg:{{color1}} fg:{{background}})'
+format = '[  $time ](bg:{{color1}} fg:{{color7}})'
 
 [cmd_duration]
 min_time = 2000
