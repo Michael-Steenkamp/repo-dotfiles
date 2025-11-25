@@ -1,71 +1,89 @@
+# ~/.config/wal/templates/starship.toml
+
+# PROMPT LAYOUT
 format = """
-[   ](bg:{color4} fg:{background})\
+[  $user ](bg:{color4} fg:{background})\
 [](bg:{color5} fg:{color4})\
 $directory\
-[](fg:{color5} bg:{color3})\
+[](bg:{color3} fg:{color5})\
 $custom\
 $git_branch\
 $git_status\
-[](fg:{color3} bg:{color2})\
-$nodejs\
-$rust\
-$golang\
-$php\
-[](fg:{color2} bg:{color1})\
+[](bg:{color1} fg:{color3})\
 $time\
-[ ](fg:{color1})\
+[](fg:{color1})\
 \n$character"""
 
+# USERNAME
+[username]
+show_always = true
+style_user = "bg:{color4} fg:{background}"
+style_root = "bg:{color4} fg:{background}"
+format = '[ $user ]($style)'
+
+# DIRECTORY
 [directory]
 style = "fg:{background} bg:{color5}"
 format = "[ $path ]($style)"
-truncation_length = 3
+truncation_length = 0
+truncate_to_repo = false
 truncation_symbol = "…/"
 
+# DIRECTORY ICONS
 [directory.substitutions]
 "Documents" = "󰈙 "
 "Downloads" = " "
 "Music" = " "
 "Pictures" = " "
+"Projects" = " "
 
-[git_branch]
-symbol = ""
-style = "bg:{color3}"
-format = '[[ $symbol $branch ](fg:{background} bg:{color3})]($style)'
-
-[git_status]
-style = "bg:{color3}"
-format = '[[($all_status$ahead_behind )](fg:{background} bg:{color3})]($style)'
-
-[nodejs]
-symbol = ""
-style = "bg:{color2}"
-format = '[[ $symbol ($version) ](fg:{background} bg:{color2})]($style)'
-
-[rust]
-symbol = ""
-style = "bg:{color2}"
-format = '[[ $symbol ($version) ](fg:{background} bg:{color2})]($style)'
-
-[golang]
-symbol = ""
-style = "bg:{color2}"
-format = '[[ $symbol ($version) ](fg:{background} bg:{color2})]($style)'
-
-[php]
-symbol = ""
-style = "bg:{color2}"
-format = '[[ $symbol ($version) ](fg:{background} bg:{color2})]($style)'
-
-[time]
-disabled = false
-time_format = "%R" # Hour:Minute Format
-style = "bg:{color1}"
-format = '[[  $time ](fg:{background} bg:{color1})]($style)'
-
+# DOTFILES BRANCH
+# This explicitly checks your ~/.dotfiles repo when you are at ~
 [custom.dotfiles]
 description = "Dotfiles Branch"
 command = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME branch --show-current 2>/dev/null"
 when = """ test "$PWD" = "$HOME" """
 style = "bg:{color3}"
 format = '[[  $output ](fg:{background} bg:{color3})]($style)'
+
+# GIT BRANCH
+[git_branch]
+symbol = ""
+style = "bg:{color3}"
+format = '[[ $symbol $branch(:$remote_branch) ](fg:{background} bg:{color3})]($style)'
+
+[git_status]
+style = "bg:{color3}"
+format = '[[($all_status$ahead_behind )](fg:{background} bg:{color3})]($style)'
+
+# TIME
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:{color1}"
+format = '[[  $time ](fg:{background} bg:{color1})]($style)'
+
+# EXTRAS
+[nodejs]
+symbol = ""
+format = '[$symbol($version) ](fg:{color2})'
+
+[rust]
+symbol = ""
+format = '[$symbol($version) ](fg:{color2})'
+
+[golang]
+symbol = ""
+format = '[$symbol($version) ](fg:{color2})'
+
+[php]
+symbol = ""
+format = '[$symbol($version) ](fg:{color2})'
+
+[cmd_duration]
+min_time = 2000
+format = '[  $duration ](fg:{color3})'
+
+[character]
+success_symbol = "[❯](bold {color2})"
+error_symbol = "[❯](bold {color1})"
