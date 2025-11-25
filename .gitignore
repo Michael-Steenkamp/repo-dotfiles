@@ -80,8 +80,6 @@
 !/.config/rofi/
 !/.config/rofi/*
 
-# pywal16 - template
-!/.config/wal/
-/.config/wal/colorschemes/
-!/.config/wal/templates/
-!/.config/wal/templates/*
+# wallust
+!/.config/wallust/
+!/.config/wallust/**
