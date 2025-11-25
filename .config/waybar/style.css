@@ -1,9 +1,8 @@
 /* Import Pywal Colors */
 @import "../../.cache/wal/colors-waybar.css";
 
-:root {
-  --border: @foreground;
-}
+/* FIX: Use GTK syntax to define the border color variable */
+@define-color border @foreground;
 
 * {
   border: none;
@@ -43,7 +42,10 @@ window#waybar {
   padding: 5px 15px;
   margin: 5px;
   border-radius: 15px;
-  border: 2px solid var(--border);
+
+  /* FIX: Use @border instead of var(--border) */
+  border: 2px solid @border;
+
   transition:
     background-color 0.5s ease,
     color 0.5s ease,
@@ -59,7 +61,10 @@ window#waybar {
   padding: 5px 10px;
   margin: 5px;
   border-radius: 15px;
-  border: 2px solid var(--border);
+
+  /* FIX: Use @border instead of var(--border) */
+  border: 2px solid @border;
+
   transition:
     background-color 0.5s ease,
     color 0.5s ease,
@@ -124,9 +129,7 @@ window#waybar {
   background: transparent;
   color: @foreground; /* Matches normal text color */
 
-  /* Smooth transition for font-size and padding.
-     Using the same duration ensures they finish at the exact same time.
-  */
+  /* Smooth transition for font-size and padding. */
   transition:
     font-size 0.3s ease-in-out,
     padding 0.3s ease-in-out,
