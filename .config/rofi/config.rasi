@@ -5,12 +5,7 @@ configuration {
     display-run: "Run";
     display-window: "Window";
     drun-display-format: "{name}";
-
-    /* Remove the old import from here if it was present */
 }
-
-/* IMPORT COLORS (MUST BE OUTSIDE CONFIGURATION BLOCK) */
-@import "~/.cache/wal/colors-rofi-dark.rasi"
 
 /* --- MAIN WINDOW --- */
 window {
@@ -23,7 +18,7 @@ window {
     y-offset: 0px;   /* Centered vertically */
 
     /* Size */
-    width: 300px;    /* Fixed width like a sidebar */
+    width: 150px;    /* Fixed width like a sidebar */
     height: 60%;     /* Height of the menu */
 
     /* Appearance */
@@ -108,3 +103,5 @@ element selected {
     text-color: @background; /* Invert text color on selection */
     border: 0px;
 }
+
+@import "~/.cache/wal/colors-rofi-dark.rasi"

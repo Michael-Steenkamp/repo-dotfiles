@@ -1,6 +1,10 @@
 /* Import Pywal Colors */
 @import "../../.cache/wal/colors-waybar.css";
 
+:root {
+  --border: @foreground;
+}
+
 * {
   border: none;
   border-radius: 0;
@@ -39,7 +43,7 @@ window#waybar {
   padding: 5px 15px;
   margin: 5px;
   border-radius: 15px;
-  border: 2px solid @color10;
+  border: 2px solid var(--border);
   transition:
     background-color 0.5s ease,
     color 0.5s ease,
@@ -55,7 +59,7 @@ window#waybar {
   padding: 5px 10px;
   margin: 5px;
   border-radius: 15px;
-  border: 2px solid @color10;
+  border: 2px solid var(--border);
   transition:
     background-color 0.5s ease,
     color 0.5s ease,

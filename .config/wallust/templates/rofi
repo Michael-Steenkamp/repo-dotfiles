@@ -1,13 +1,15 @@
-/* Wallust Rofi Template - Classical Dark Mode */
+/* Wallust Rofi Template - Classical Dark Mode (Final Fix) */
 
 * {
-    /* 1. Define Variables */
-    back: {{background}};
-    text: {{foreground}};
-    accent: {{color2}};
-    urgent: {{color1}};
+    /* 1. KEY CHANGE: Use color0 (Darkest) instead of background (Cream) */
+    back: {{color0}};
 
-    /* 2. Map to Rofi System */
+    text: {{color7}};   /* Soft White */
+    accent: {{color2}}; /* Gold/Green Highlight */
+    urgent: {{color1}}; /* Red Alert */
+    border: {{color2}}; /* Border matches accent */
+
+    /* 2. Global Defaults */
     background-color: @back;
     text-color: @text;
 
@@ -19,7 +21,7 @@
 window {
     background-color: @back;
     border: 2px;
-    border-color: @accent;
+    border-color: @border;
     border-radius: 10px;
     padding: 10px;
     width: 30%;
@@ -42,6 +44,7 @@ entry {
     background-color: @back;
     text-color: @text;
     placeholder: "Search...";
+    placeholder-color: {{color8}};
 }
 
 listview {
@@ -49,29 +52,31 @@ listview {
     scrollbar: false;
     spacing: 5px;
     margin: 10px 0px 0px 0px;
-    background-color: @back;
+    background-color: transparent;
 }
 
-/* FIX: Explicitly target the elements to prevent "Alternating Beige" */
 element {
     padding: 8px;
     border-radius: 5px;
-    background-color: @back;
+    background-color: transparent;
     text-color: @text;
 }
 
+/* Normal Rows */
 element normal.normal, element alternate.normal {
-    background-color: @back;
+    background-color: transparent;
     text-color: @text;
 }
 
+/* Selected Row */
 element selected.normal {
     background-color: @accent;
-    text-color: @back; /* Invert text color on selection */
+    /* Invert text: putting Dark text on the Gold bar */
+    text-color: @back;
 }
 
 element-text {
-    background-color: inherit;
+    background-color: transparent;
     text-color: inherit;
     vertical-align: 0.5;
 }
