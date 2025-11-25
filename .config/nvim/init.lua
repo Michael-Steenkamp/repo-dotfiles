@@ -28,7 +28,7 @@ require("lazy").setup({
 	spec = {
 		{ import = "plugins" },
 	},
-	install = { colorscheme = { "pywal16" } }, -- Lazy gui colorscheme
+	install = { colorscheme = { "wal" } }, -- Lazy gui colorscheme
 	checker = { enabled = true, notify = false }, -- Auto check plugin updates
 })
 

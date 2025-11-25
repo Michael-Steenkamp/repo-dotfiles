@@ -1,3 +1,6 @@
+
+# User Custom Layout
+# Left: User -> Directory -> Dotfiles/Git -> Character
 format = """
 $username\
 [](bg:{{color5}} fg:{{color4}})\
@@ -10,6 +13,7 @@ $git_status\
 [](fg:{{color3}})\
 $character"""
 
+# Right: Cmd Duration -> Uptime -> Time
 right_format = """
 $cmd_duration\
 [](fg:{{color2}})\
@@ -19,15 +23,19 @@ $time\
 [](fg:{{color1}})\
 """
 
+# --- CUSTOM MODULES ---
+
 [custom.uptime]
 description = "System Uptime"
-command = "uptime -p | sed 's/up //;s/ hours/h/;s/ minutes/m/'"
+# Standardizes 'up 2 hours, 4 minutes' to '2h 4m'
+command = "uptime -p | sed 's/up //;s/ hours/h/;s/ hour/h/;s/ minutes/m/;s/ minute/m/;s/,//g'"
 when = "true"
 style = "bg:{{color2}}"
 format = '[ 󰔛 $output ](bg:{{color2}} fg:{{background}})'
 
 [custom.dotfiles]
 description = "Dotfiles Branch"
+# Only shows if you are exactly in $HOME
 command = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME branch --show-current 2>/dev/null"
 when = """ test "$PWD" = "$HOME" """
 style = "bg:{{color3}}"
@@ -35,10 +43,13 @@ format = '[[  $output ](fg:{{background}} bg:{{color3}})]($style)'
 
 [custom.dotfiles_status]
 description = "Dotfiles Status"
+# Checks for changes and prints [!] if any exist
 command = "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME status --porcelain 2>/dev/null | grep -q . && echo '[!]'"
 when = """ test "$PWD" = "$HOME" """
 style = "bg:{{color3}}"
 format = '[ $output](fg:{{background}} bg:{{color3}})'
+
+# --- CORE MODULES ---
 
 [username]
 show_always = true

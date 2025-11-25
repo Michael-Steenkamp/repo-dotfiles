@@ -1,5 +1,13 @@
+# Soft "Oil Painting" Borders
 $background = 0xff{{background | strip}}
 $foreground = 0xff{{foreground | strip}}
+
+# Uses the "cursor" color (usually high contrast) mixed with background
+# to create a subtle, elegant border.
+$active_border = 0xff{{cursor | strip}} 0xff{{color0 | strip}} 45deg
+$inactive_border = 0xff{{background | strip}}
+
+# Standard colors for other rules
 $color0 = 0xff{{color0 | strip}}
 $color1 = 0xff{{color1 | strip}}
 $color2 = 0xff{{color2 | strip}}

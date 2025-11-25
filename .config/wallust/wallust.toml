@@ -1,21 +1,19 @@
 # ~/.config/wallust/wallust.toml
 
+# CORE SETTINGS
+# "full" is much faster than kmeans but creates better palettes than "thumb".
+# It sorts colors by frequency, which is great for finding dominant "mood" colors.
+backend = "full"
 
-# 1. CORE SETTINGS
-
-# "kmeans" groups colors by average, creating a much smoother palette than "thumb"
-backend = "kmeans"
-
-# "labmix" blends the colors slightly so they feel like they belong together
+# "labmixed" ensures all colors share a tint (coherence).
 color_space = "labmixed"
 
-# "dark16" gives a standard dark background.
-# "soft-dark" can sometimes be too grey/washed out, creating readability issues.
+# "dark16" ensures high contrast for text.
 palette = "dark16"
 
-# Lower saturation makes colors "soft" and less neon.
-# Default is 100. Try 30-50 for a pastel/matte look.
-saturation = 45
+# KEY CHANGE: Low saturation (25-35) mimics the matte look of old paintings.
+# Default is 100 (Digital/Neon).
+saturation = 1
 
 # 2. TEMPLATES (v3 Format)
 # format: name = { template = "filename_in_templates_dir", target = "where_to_save_it" }
@@ -30,3 +28,4 @@ waybar    = { template = "waybar",    target = "~/.cache/wal/colors-waybar.css" 
 rofi      = { template = "rofi",      target = "~/.cache/wal/colors-rofi-dark.rasi" }
 dunst     = { template = "dunstrc",   target = "~/.cache/wal/dunstrc" }
 starship  = { template = "starship",  target = "~/.cache/wal/starship.toml" }
+nvim      = { template = "wal", target = "~/.cache/wal/colors-wal.vim" }
