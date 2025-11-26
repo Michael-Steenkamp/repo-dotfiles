@@ -13,46 +13,103 @@
 
 ---
 
-## System
+## System Via ArchInstall
 
-<details>
-<summary>`Bootloader` | <a href="https://www.reddit.com/r/archlinux/comments/13d7rec/setting_up_secure_boot_while_dual_booting_windows/">REFIND</a></summary>
-This is a dropdown with text!
-</details>
-
-`Netowkr` | <a href="https://wiki.archlinux.org/title/NetworkManager#Configuration">NETWORK MANAGER</a> | <a href="https://wiki.archlinux.org/title/NetworkManager#Configuration">NM-CONNECTION-EDITOR</a>
-
-<details>
-<summary>Example</summary>
-This is a dropdown with text!
-</details>
-
-`Audio` | <a href="https://wiki.archlinux.org/title/PipeWire">PIPEWIRE</a> | <a href="https://archlinux.org/packages/extra/x86_64/pavucontrol/">PAVUCONTROL</a> | <a href="https://github.com/cdemoulins/pamixer">PAMIXER</a>
-
-<details>
-<summary>Example</summary>
-This is a dropdown with text!
-</details>
-
+`Bootloader` | <a href="https://www.reddit.com/r/archlinux/comments/13d7rec/setting_up_secure_boot_while_dual_booting_windows/">REFIND</a>
+`Netowkrk` | <a href="https://wiki.archlinux.org/title/NetworkManager#Configuration">NETWORK MANAGER</a>
+`Audio` | <a href="https://wiki.archlinux.org/title/PipeWire">PIPEWIRE</a>
 `Window Manager` | <a href="https://wiki.archlinux.org/title/Hyprland">HYPRLAND</a>
-
-<details>
-<summary>Example</summary>
-This is a dropdown with text!
-</details>
-
 `Bluetooth` | <a href="https://wiki.archlinux.org/title/Blueman">BLUEMAN</a>
 
+## Packages Via Pacman
+
+### `Network`
+
 <details>
-<summary>Example</summary>
-This is a dropdown with text!
+<summary><a href="https://wiki.archlinux.org/title/NetworkManager#Configuration">NM-CONNECTION-EDITOR</a></summary>
+
+```
+sudo pacman nm-connection-editor
+```
+
 </details>
 
-`Display Manager` | <a href="https://wiki.archlinux.org/title/Ly">LY</a>
+### `Audio`
 
 <details>
-<summary>Example</summary>
-This is a dropdown with text!
+<summary><a href="https://archlinux.org/packages/extra/x86_64/pavucontrol/">PAVUCONTROL</a> | <a href="https://github.com/cdemoulins/pamixer">PAMIXER</a></summary>
+
+```
+sudo pacman pavucontrol pamixer
+```
+
+</details>
+
+### `Display Manager`
+
+<details>
+<summary><a href="https://wiki.archlinux.org/title/Ly">LY</a><summary>
+
+```
+sudo pacman ly && sudo systemctl start ly.service
+
+```
+
+</details>
+
+### `Menu`
+
+<details>
+<summary><a href="https://github.com/davatorium/rofi">ROFI</a></summary>
+
+```
+sudo pacman rofi
+```
+
+</details>
+
+### `Text Editor`
+
+<details>
+<summary><a href="https://neovim.io/">NVIM</a></summary>
+
+```
+sudo pacman nvim
+```
+
+</details>
+
+### `Base Developement`
+
+<details>
+<summary><a href="">BASE-DEVEL</a></summary>
+
+```
+sudo pacman
+```
+
+</details>
+
+### `File Pager Utility`
+
+<details>
+<summary><a href="https://archlinux.org/packages/core/x86_64/less/">LESS</a></summary>
+
+```
+sudo pacman less
+```
+
+</details>
+
+### `Version Control`
+
+<details>
+<summary><a href="https://wiki.archlinux.org/title/Git">GIT</a></summary>
+
+```
+sudo pacman git
+```
+
 </details>
 
 <!-- Reference Style Links -->
