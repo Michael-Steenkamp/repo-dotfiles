@@ -15,11 +15,15 @@
 
 ## System Via ArchInstall
 
-`Bootloader` | <a href="https://www.reddit.com/r/archlinux/comments/13d7rec/setting_up_secure_boot_while_dual_booting_windows/">REFIND</a>
-`Netowkrk` | <a href="https://wiki.archlinux.org/title/NetworkManager#Configuration">NETWORK MANAGER</a>
-`Audio` | <a href="https://wiki.archlinux.org/title/PipeWire">PIPEWIRE</a>
-`Window Manager` | <a href="https://wiki.archlinux.org/title/Hyprland">HYPRLAND</a>
-`Bluetooth` | <a href="https://wiki.archlinux.org/title/Blueman">BLUEMAN</a>
+### `Bootloader` | <a href="https://www.reddit.com/r/archlinux/comments/13d7rec/setting_up_secure_boot_while_dual_booting_windows/">REFIND</a>
+
+### `Netowkrk` | <a href="https://wiki.archlinux.org/title/NetworkManager#Configuration">NETWORK MANAGER</a>
+
+### `Audio` | <a href="https://wiki.archlinux.org/title/PipeWire">PIPEWIRE</a>
+
+### `Window Manager` | <a href="https://wiki.archlinux.org/title/Hyprland">HYPRLAND</a>
+
+### `Bluetooth` | <a href="https://wiki.archlinux.org/title/Blueman">BLUEMAN</a>
 
 ## Packages Via Pacman
 
@@ -48,7 +52,7 @@ sudo pacman pavucontrol pamixer
 ### `Display Manager`
 
 <details>
-<summary><a href="https://wiki.archlinux.org/title/Ly">LY</a><summary>
+<summary><a href="https://wiki.archlinux.org/title/Ly">LY</a></summary>
 
 ```
 sudo pacman ly && sudo systemctl start ly.service
