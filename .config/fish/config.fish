@@ -10,7 +10,7 @@ if status is-interactive
     set -g fish_color_param         $color8
     set -g fish_color_quote         $color8
     set -g fish_color_redirection   $color8
-    set -g fish_color_error         $color6
+    set -g fish_color_error         $color8
     set -g fish_color_comment       $color8
 
     # --- Section B: Completion Menu ---
