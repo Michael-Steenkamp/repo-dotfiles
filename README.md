@@ -2,8 +2,8 @@
 
 # Dotfiles
 
-> [!ERROR]
-> Incomplete!
+> [!WARNING]
+> Incomplete
 
 <!-- Badges -->
 
