@@ -25,7 +25,7 @@ if status is-interactive
     # --- Section C: File & Folder Colors (LS_COLORS) ---
     # Changed 'di' from 1;34 (Blue) to 1;36 (Bold Cyan) for visibility
     # di=Directory, ln=Symlink, ex=Executable
-    set -gx LS_COLORS "di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43:fi=0"
+    set -gx LS_COLORS "di=1;36:ln=35:so=32:pi=33:ex=35:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43:fi=0"
 
     # --- Aliases ---
     alias calendar='nohup morgen >/dev/null 2>&1 & exit'

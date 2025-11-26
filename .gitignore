@@ -83,7 +83,3 @@
 # wallust
 !/.config/wallust/
 !/.config/wallust/**
-!/.cache/
-/.cache/*
-!/.cache/wallust-schemes/
-!/.cache/wallust-schemes/*
