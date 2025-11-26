@@ -1,6 +1,9 @@
 <a id="readme-top"></a>
 
+# Dotfiles
+
 <!-- Badges -->
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Commit][commit-shield]][commit-url]
@@ -8,11 +11,52 @@
 [![Issues][issues-shield]][issues-url]
 [![License][license-shield]][license-url]
 
+---
 
+## System
 
+<details>
+<summary>`Bootloader` | <a href="https://www.reddit.com/r/archlinux/comments/13d7rec/setting_up_secure_boot_while_dual_booting_windows/">REFIND</a></summary>
+This is a dropdown with text!
+</details>
 
+`Netowkr` | <a href="https://wiki.archlinux.org/title/NetworkManager#Configuration">NETWORK MANAGER</a> | <a href="https://wiki.archlinux.org/title/NetworkManager#Configuration">NM-CONNECTION-EDITOR</a>
+
+<details>
+<summary>Example</summary>
+This is a dropdown with text!
+</details>
+
+`Audio` | <a href="https://wiki.archlinux.org/title/PipeWire">PIPEWIRE</a> | <a href="https://archlinux.org/packages/extra/x86_64/pavucontrol/">PAVUCONTROL</a> | <a href="https://github.com/cdemoulins/pamixer">PAMIXER</a>
+
+<details>
+<summary>Example</summary>
+This is a dropdown with text!
+</details>
+
+`Window Manager` | <a href="https://wiki.archlinux.org/title/Hyprland">HYPRLAND</a>
+
+<details>
+<summary>Example</summary>
+This is a dropdown with text!
+</details>
+
+`Bluetooth` | <a href="https://wiki.archlinux.org/title/Blueman">BLUEMAN</a>
+
+<details>
+<summary>Example</summary>
+This is a dropdown with text!
+</details>
+
+`Display Manager` | <a href="https://wiki.archlinux.org/title/Ly">LY</a>
+
+<details>
+<summary>Example</summary>
+This is a dropdown with text!
+</details>
 
 <!-- Reference Style Links -->
+
 [contributors-shield]: https://custom-icon-badges.demolab.com/github/contributors/Michael-Steenkamp/Dotfiles?style=plastic&logoColor=white&logo=person&color=F2D7EE
 [contributors-url]: https://github.com/Michael-Steenkamp/Dotfiles/graphs/contributors
 [forks-shield]: https://custom-icon-badges.demolab.com/github/forks/Michael-Steenkamp/Dotfiles?style=plastic&logoColor=white&logo=repo-forked&color=D3BCC0
