@@ -1,57 +1,33 @@
+
 {
-    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-    "logo": {
-        "type": "small",
-        "height": 7,
-        "width": 7,
-        "padding": {
-            "top": 0,
-            "left": 2
-        },
-        "color": {
-            "1": "light_black",
-            "2": "light_black"
-        }
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "small",
+    "padding": {
+      "top": 1,
+      "bottom": 0,
+      "left": 2,
+      "right": 1
     },
-    "modules": [
-        {
-            "type": "title",
-            "color": {
-            "user": "white",
-            "at": "light_black",
-            "host": "white"
-            }
-        },
-        {
-            "type": "os",
-            "key": " ",
-            "keyColor": "light_black"
-        },
-        {
-            "type": "cpuusage",
-            "key": " ",
-            "keyColor": "light_black"
-        },
-        {
-            "type": "memory",
-            "key": " ",
-            "keyColor": "light_black"
-        },
-        {
-            "type": "disk",
-            "key": " ",
-            "keyColor": "light_black"
-        },
-        {
-            "type": "battery",
-            "key": "󰄌 ",
-            "keyColor":"light_black"
-        },
-        {
-            "type": "colors",
-            "symbol": "circle"
-        }
-
-    ]
+    "color": {"1": "magenta"}
+  },
+  "display": {
+    "separator": ""
+  },
+  "modules": [
+    {
+      "type": "title",
+      "format": "     {1}@{2}",
+      "color": {
+        "user": "cyan",
+        "at": "light_black",
+        "host": "blue"
+      }
+    },
+    {
+      "type": "colors",
+      "paddingLeft": 4,
+      "symbol": "square",
+    }
+  ]
 }
-

@@ -1,0 +1,88 @@
+/* Wallust Rofi Template - Classical Dark Mode (Final Fix) */
+
+* {
+    /* 1. KEY CHANGE: Use color0 (Darkest) instead of background (Cream) */
+    back: {{color0}};
+
+    text: {{color7}};   /* Soft White */
+    accent: {{color2}}; /* Gold/Green Highlight */
+    urgent: {{color1}}; /* Red Alert */
+    border: {{color2}}; /* Border matches accent */
+
+    /* 2. Global Defaults */
+    background-color: @back;
+    text-color: @text;
+
+    margin: 0px;
+    padding: 0px;
+    spacing: 0px;
+}
+
+window {
+    background-color: @back;
+    border: 2px;
+    border-color: @border;
+    border-radius: 10px;
+    padding: 10px;
+    width: 30%;
+}
+
+inputbar {
+    padding: 10px;
+    children: [ prompt, entry ];
+    background-color: @back;
+}
+
+prompt {
+    background-color: @back;
+    text-color: @accent;
+    font: "JetBrainsMono Nerd Font Bold 12";
+    padding: 0px 10px 0px 0px;
+}
+
+entry {
+    background-color: @back;
+    text-color: @text;
+    placeholder: "Search...";
+    placeholder-color: {{color8}};
+}
+
+listview {
+    lines: 10;
+    scrollbar: false;
+    spacing: 5px;
+    margin: 10px 0px 0px 0px;
+    background-color: transparent;
+}
+
+element {
+    padding: 8px;
+    border-radius: 5px;
+    background-color: transparent;
+    text-color: @text;
+}
+
+/* Normal Rows */
+element normal.normal, element alternate.normal {
+    background-color: transparent;
+    text-color: @text;
+}
+
+/* Selected Row */
+element selected.normal {
+    background-color: @accent;
+    /* Invert text: putting Dark text on the Gold bar */
+    text-color: @back;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    vertical-align: 0.5;
+}
+
+element-icon {
+    size: 24px;
+    margin: 0px 10px 0px 0px;
+    background-color: transparent;
+}

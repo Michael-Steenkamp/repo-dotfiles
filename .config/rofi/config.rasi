@@ -5,11 +5,8 @@ configuration {
     display-run: "Run";
     display-window: "Window";
     drun-display-format: "{name}";
-
-    /* Remove the old import from here if it was present */
 }
 
-/* IMPORT COLORS (MUST BE OUTSIDE CONFIGURATION BLOCK) */
 @import "~/.cache/wal/colors-rofi-dark.rasi"
 
 /* --- MAIN WINDOW --- */
@@ -28,12 +25,12 @@ window {
 
     /* Appearance */
     border: 2px;
-    border-color: @selected-active-background; /* Uses your accent color */
+    border-color: @accent;
     border-radius: 10px;
 
     /* Background color with slight transparency */
     /* pywal's @background is usually opaque, so we hardcode alpha if needed */
-    background-color: @background;
+    background-color: @back;
 
     padding: 20px;
 }
@@ -48,7 +45,7 @@ mainbox {
 /* --- INPUT BAR (Search) --- */
 inputbar {
     background-color: transparent;
-    text-color: @foreground;
+    text-color: @text;
     children: [ prompt, entry ];
     border: 0px 0px 2px 0px;
     border-color: @selected-active-background;
@@ -67,7 +64,7 @@ entry {
     background-color: transparent;
     text-color: @foreground;
     placeholder: "Search...";
-    placeholder-color: @foreground;
+    placeholder-color: @text;
 }
 
 /* --- LIST VIEW (Applications) --- */
@@ -108,3 +105,4 @@ element selected {
     text-color: @background; /* Invert text color on selection */
     border: 0px;
 }
+

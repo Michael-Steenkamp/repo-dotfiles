@@ -14,6 +14,8 @@ opt.wrap = false
 -- Keep the cursor always in the vertical center of the screen
 opt.scrolloff = 999
 
+opt.termguicolors = true
+
 -- Highlight the line number of the current line
 opt.cursorline = true
 opt.cursorlineopt = "number" -- Highlights ONLY the number, not the whole text line

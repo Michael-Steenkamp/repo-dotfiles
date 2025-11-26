@@ -1,0 +1,36 @@
+# ~/.config/wallust/wallust.toml
+
+# CORE SETTINGS
+# "full" is much faster than kmeans but creates better palettes than "thumb".
+# It sorts colors by frequency, which is great for finding dominant "mood" colors.
+backend = "kmeans"
+
+# "labmixed" ensures all colors share a tint (coherence).
+color_space = "labmixed"
+
+# "dark16" ensures high contrast for text.
+palette = "dark16"
+
+# KEY CHANGE: Low saturation (25-35) mimics the matte look of old paintings.
+# Default is 100 (Digital/Neon).
+saturation = 35
+
+# THRESHOLD: Controls how distinct the colors must be.
+# Lowering this (default is often 20) allows more similar colors to exist.
+threshold = 15
+
+# 2. TEMPLATES (v3 Format)
+# format: name = { template = "filename_in_templates_dir", target = "where_to_save_it" }
+
+[templates]
+sequences = { template = "sequences", target = "~/.cache/wal/sequences" }
+colors_sh = { template = "colors.sh", target = "~/.cache/wal/colors.sh" }
+kitty     = { template = "kitty",     target = "~/.cache/wal/colors-kitty.conf" }
+fish      = { template = "fish",      target = "~/.cache/wal/colors.fish" }
+hyprland  = { template = "hyprland",  target = "~/.cache/wal/colors-hyprland.conf" }
+waybar    = { template = "waybar",    target = "~/.cache/wal/colors-waybar.css" }
+rofi      = { template = "rofi",      target = "~/.cache/wal/colors-rofi-dark.rasi" }
+dunst     = { template = "dunstrc",   target = "~/.cache/wal/dunstrc" }
+starship  = { template = "starship",  target = "~/.cache/wal/starship.toml" }
+nvim      = { template = "wal", target = "~/.cache/wal/colors-wal.vim" }
+colors_json = { template = "json", target = "~/.cache/wal/colors.json" }

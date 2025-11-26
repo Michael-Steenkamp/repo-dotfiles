@@ -1,0 +1,19 @@
+[global]
+    # Standard settings...
+
+[urgency_low]
+    background = "{{background}}"
+    foreground = "{{foreground}}"
+    frame_color = "{{color8}}"
+
+[urgency_normal]
+    background = "{{background}}"
+    foreground = "{{foreground}}"
+    frame_color = "{{cursor}}"
+
+[urgency_critical]
+    # Uses color1 (Red) but because of "labmixed" + "sat=30",
+    # it will be a deep Brick Red, not Neon Red.
+    background = "{{background}}"
+    foreground = "{{color1}}"
+    frame_color = "{{color1}}"
