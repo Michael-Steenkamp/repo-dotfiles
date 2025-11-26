@@ -1,7 +1,8 @@
 /* Import Pywal Colors */
 @import "../../.cache/wal/colors-waybar.css";
 
-@define-color border @background;
+@define-color border @color6;
+@define-color bg alpha(@color5, 1);
 
 * {
   border: none;
@@ -36,7 +37,7 @@ window#waybar {
 #custom-updates,
 #battery,
 #custom-power {
-  background-color: alpha(@background, 0.8);
+  background-color: @bg;
   color: @foreground;
   padding: 5px 15px;
   margin: 5px;
@@ -54,7 +55,7 @@ window#waybar {
 #hardware,
 #connections,
 #input {
-  background-color: alpha(@background, 0.8);
+  background-color: @bg;
   color: @foreground;
   padding: 5px 10px;
   margin: 5px;
@@ -153,7 +154,7 @@ window#waybar {
   color: @foreground;
 }
 #workspaces button.active {
-  color: @color11;
+  color: @foreground;
 }
 
 #battery.charging,
