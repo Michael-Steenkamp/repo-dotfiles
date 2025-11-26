@@ -56,7 +56,6 @@ sudo pacman pavucontrol pamixer
 
 ```
 sudo pacman ly && sudo systemctl start ly.service
-
 ```
 
 </details>
