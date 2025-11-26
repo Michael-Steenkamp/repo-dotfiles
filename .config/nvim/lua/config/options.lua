@@ -1,5 +1,9 @@
 local opt = vim.opt
 
+-- SUPPRESS DEPRECATION WARNINGS
+-- This hides the "get_active_clients" warning until plugins update
+vim.deprecate = function() end
+
 -- General
 opt.number = true
 opt.relativenumber = true
@@ -64,3 +68,13 @@ opt.listchars = {
 	precedes = "«",
 	lead = "·",
 }
+
+vim.filetype.add({
+	pattern = {
+		["config.jsonc"] = "jsonc",
+		[".*/waybar/config"] = "jsonc",
+		[".*/mako/config"] = "dosini",
+		[".*/kitty/*.conf"] = "bash",
+		[".*/hypr/.*%.conf"] = "hyprlang",
+	},
+})

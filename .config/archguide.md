@@ -197,3 +197,7 @@ yay -S wallust
 ## for loading wallpaper using random-wallpaper.sh (needed by waybar)
 
 sudo pacman -S pacman-contrib
+
+### LSP
+
+sudo pacman -S nodejs npm
