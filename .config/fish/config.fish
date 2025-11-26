@@ -19,8 +19,8 @@ if status is-interactive
     set -g fish_pager_color_prefix      $color5
     set -g fish_pager_color_completion  $color5
     set -g fish_pager_color_selected_background $color5
-    set -g fish_pager_color_selected_prefix     $background
-    set -g fish_pager_color_selected_completion $background
+    set -g fish_pager_color_selected_prefix     $color8
+    set -g fish_pager_color_selected_completion $color7
 
     # --- Section C: File & Folder Colors (LS_COLORS) ---
     # Changed 'di' from 1;34 (Blue) to 1;36 (Bold Cyan) for visibility

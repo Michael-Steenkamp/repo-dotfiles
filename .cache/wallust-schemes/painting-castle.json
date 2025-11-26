@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/painting-castle.png",
+  "alpha": "100",
+  "special": {
+    "background": "#1F2020",
+    "foreground": "#DBDADD",
+    "cursor": "#818183"
+  },
+  "colors": {
+    "color0": "#464646",
+    "color1": "#0F1919",
+    "color2": "#13191F",
+    "color3": "#182232",
+    "color4": "#4D3E64",
+    "color5": "#484875",
+    "color6": "#584976",
+    "color7": "#C3C2C6",
+    "color8": "#88878A",
+    "color9": "#142121",
+    "color10": "#192129",
+    "color11": "#202E43",
+    "color12": "#615386",
+    "color13": "#655F9D",
+    "color14": "#77619D",
+    "color15": "#C3C2C6"
+  }
+}
