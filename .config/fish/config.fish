@@ -6,19 +6,19 @@ if status is-interactive
 
     # --- Section A: Syntax Highlighting (High Visibility) ---
     # Using 'Bright' variants ($color15, $color14) instead of 'Normal' ($foreground, $color4)
-    set -g fish_color_command       $color15    # Bright White (Main command)
-    set -g fish_color_param         $color14    # Bright Cyan (Arguments/Files)
-    set -g fish_color_quote         $color10    # Bright Green (Strings)
-    set -g fish_color_redirection   $color13    # Bright Magenta (Pipes/Redirection)
-    set -g fish_color_error         $color9     # Bright Red (Typos)
-    set -g fish_color_comment       $color8     # Grey (Comments)
+    set -g fish_color_command       $color7
+    set -g fish_color_param         $color8
+    set -g fish_color_quote         $color8
+    set -g fish_color_redirection   $color8
+    set -g fish_color_error         $color6
+    set -g fish_color_comment       $color8
 
     # --- Section B: Completion Menu ---
     set -g fish_pager_color_progress    $color8
     set -g fish_pager_color_background  $background
-    set -g fish_pager_color_prefix      $color14
-    set -g fish_pager_color_completion  $color15
-    set -g fish_pager_color_selected_background $color14
+    set -g fish_pager_color_prefix      $color5
+    set -g fish_pager_color_completion  $color5
+    set -g fish_pager_color_selected_background $color5
     set -g fish_pager_color_selected_prefix     $background
     set -g fish_pager_color_selected_completion $background
 
@@ -26,10 +26,6 @@ if status is-interactive
     # Changed 'di' from 1;34 (Blue) to 1;36 (Bold Cyan) for visibility
     # di=Directory, ln=Symlink, ex=Executable
     set -gx LS_COLORS "di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43:fi=0"
-
-    # --- Starship & Fastfetch ---
-    set -gx STARSHIP_CONFIG $HOME/.cache/wal/starship.toml
-    fastfetch --logo-position top --config ~/.config/fastfetch/config.jsonc
 
     # --- Aliases ---
     alias calendar='nohup morgen >/dev/null 2>&1 & exit'
@@ -43,6 +39,12 @@ if status is-interactive
     alias icat='kitten icat'
     alias update='sudo pacman -Syu --noconfirm'
     alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+    alias ff='fastfetch --logo-position top --config ~/.config/fastfetch/config.jsonc --file ~/.config/fastfetch/ascii/cross2.txt'
+
+
+    # --- Starship & Fastfetch ---
+    set -gx STARSHIP_CONFIG $HOME/.cache/wal/starship.toml
+    ff
 end
 
 set fish_greeting ""
@@ -50,7 +52,7 @@ starship init fish | source
 
 function clear
     command clear
-    fastfetch --logo-position top --config ~/.config/fastfetch/config.jsonc
+    ff
 end
 
 function pdf
@@ -72,4 +74,41 @@ function update_wallust_colors --on-signal SIGUSR1
     set -g fish_color_param $color14
 
     commandline -f repaint
+end
+
+function show-palette
+    # Ensure we have the latest colors
+    if test -f ~/.cache/wal/colors.fish
+        source ~/.cache/wal/colors.fish
+    end
+
+    echo "   Index  Variable     Hex        Preview"
+    echo "   -----  --------     -------    -------"
+
+    # Special Background/Foreground
+    printf "   %-6s %-12s %-10s " "BG" "\$background" "$background"
+    set_color -b $background; echo -n "          "; set_color normal; echo ""
+
+    printf "   %-6s %-12s %-10s " "FG" "\$foreground" "$foreground"
+    set_color -b $foreground; echo -n "          "; set_color normal; echo ""
+    echo ""
+
+    # Loop through 0-15
+    for i in (seq 0 15)
+        set var_name "color$i"
+        set hex_val $$var_name
+
+        # Print Index, Var Name, Hex
+        printf "   %-6s %-12s %-10s " "$i" "\$$var_name" "$hex_val"
+
+        # Print Color Block
+        set_color -b $hex_val
+        echo -n "          "
+        set_color normal
+
+        # Print Text Sample (to see readability)
+        set_color $hex_val
+        echo "  This is text"
+        set_color normal
+    end
 end

@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/painting-wilderness.png",
+  "alpha": "100",
+  "special": {
+    "background": "#010000",
+    "foreground": "#F1EFEC",
+    "cursor": "#B3B1AA"
+  },
+  "colors": {
+    "color0": "#0F0E0A",
+    "color1": "#3D3D20",
+    "color2": "#585133",
+    "color3": "#5B5335",
+    "color4": "#78544B",
+    "color5": "#8C7156",
+    "color6": "#A28B62",
+    "color7": "#E3E0DC",
+    "color8": "#9F9D9A",
+    "color9": "#52502A",
+    "color10": "#756D44",
+    "color11": "#797146",
+    "color12": "#A07563",
+    "color13": "#BA9672",
+    "color14": "#D8B683",
+    "color15": "#E3E0DC"
+  }
+}

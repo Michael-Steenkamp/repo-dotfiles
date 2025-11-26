@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/mnt-desert.jpg",
+  "alpha": "100",
+  "special": {
+    "background": "#312C2A",
+    "foreground": "#D4DDD7",
+    "cursor": "#9E9084"
+  },
+  "colors": {
+    "color0": "#56514F",
+    "color1": "#2E180F",
+    "color2": "#4E2918",
+    "color3": "#826137",
+    "color4": "#826137",
+    "color5": "#826137",
+    "color6": "#407751",
+    "color7": "#B9C7BD",
+    "color8": "#828B84",
+    "color9": "#3D2014",
+    "color10": "#683620",
+    "color11": "#AD8249",
+    "color12": "#AD8249",
+    "color13": "#AD8249",
+    "color14": "#569F6B",
+    "color15": "#B9C7BD"
+  }
+}

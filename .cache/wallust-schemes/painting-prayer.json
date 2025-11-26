@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/painting-prayer.png",
+  "alpha": "100",
+  "special": {
+    "background": "#030000",
+    "foreground": "#F1E6D7",
+    "cursor": "#A69B91"
+  },
+  "colors": {
+    "color0": "#12100E",
+    "color1": "#433124",
+    "color2": "#433124",
+    "color3": "#433124",
+    "color4": "#493526",
+    "color5": "#8A683C",
+    "color6": "#A17945",
+    "color7": "#E3D2BD",
+    "color8": "#9F9385",
+    "color9": "#5A4030",
+    "color10": "#5A4030",
+    "color11": "#5A4030",
+    "color12": "#624633",
+    "color13": "#B88951",
+    "color14": "#D7A05C",
+    "color15": "#E3D2BD"
+  }
+}

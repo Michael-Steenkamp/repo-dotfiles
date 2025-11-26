@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/mnt-grass.jpg",
+  "alpha": "100",
+  "special": {
+    "background": "#1A1A18",
+    "foreground": "#EAEDEF",
+    "cursor": "#929589"
+  },
+  "colors": {
+    "color0": "#40413E",
+    "color1": "#131407",
+    "color2": "#2B2F11",
+    "color3": "#2B2F11",
+    "color4": "#2B2F11",
+    "color5": "#3A5D69",
+    "color6": "#5F869D",
+    "color7": "#D8DDE0",
+    "color8": "#979A9D",
+    "color9": "#181B09",
+    "color10": "#383E17",
+    "color11": "#383E17",
+    "color12": "#383E17",
+    "color13": "#4D7D8C",
+    "color14": "#7FAED1",
+    "color15": "#D8DDE0"
+  }
+}

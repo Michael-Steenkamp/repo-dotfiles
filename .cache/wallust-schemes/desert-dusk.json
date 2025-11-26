@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/desert-dusk.jpg",
+  "alpha": "100",
+  "special": {
+    "background": "#312E2D",
+    "foreground": "#E4DDD7",
+    "cursor": "#8F847E"
+  },
+  "colors": {
+    "color0": "#565352",
+    "color1": "#2C1A13",
+    "color2": "#2C1A13",
+    "color3": "#5D381C",
+    "color4": "#613A1D",
+    "color5": "#633C1F",
+    "color6": "#866144",
+    "color7": "#D0C5BD",
+    "color8": "#928A84",
+    "color9": "#3A2319",
+    "color10": "#3A2319",
+    "color11": "#7D4B25",
+    "color12": "#814D26",
+    "color13": "#84502A",
+    "color14": "#B2815B",
+    "color15": "#D0C5BD"
+  }
+}

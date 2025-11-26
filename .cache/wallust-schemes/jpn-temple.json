@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/jpn-temple.jpg",
+  "alpha": "100",
+  "special": {
+    "background": "#292A2A",
+    "foreground": "#D7DCDE",
+    "cursor": "#81898B"
+  },
+  "colors": {
+    "color0": "#4E4F50",
+    "color1": "#121D22",
+    "color2": "#15252A",
+    "color3": "#182A2F",
+    "color4": "#3C5F6E",
+    "color5": "#426877",
+    "color6": "#446C79",
+    "color7": "#BDC5C8",
+    "color8": "#848A8C",
+    "color9": "#17282D",
+    "color10": "#1D3138",
+    "color11": "#20363F",
+    "color12": "#518092",
+    "color13": "#588A9F",
+    "color14": "#5B90A1",
+    "color15": "#BDC5C8"
+  }
+}

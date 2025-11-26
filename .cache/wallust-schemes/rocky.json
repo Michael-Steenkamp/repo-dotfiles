@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/rocky.jpg",
+  "alpha": "100",
+  "special": {
+    "background": "#191719",
+    "foreground": "#D0ECF0",
+    "cursor": "#768086"
+  },
+  "colors": {
+    "color0": "#403E40",
+    "color1": "#160A16",
+    "color2": "#160A16",
+    "color3": "#180B16",
+    "color4": "#401723",
+    "color5": "#994637",
+    "color6": "#3B929F",
+    "color7": "#B3DBE1",
+    "color8": "#7D999E",
+    "color9": "#1D0E1D",
+    "color10": "#1D0E1D",
+    "color11": "#210F1E",
+    "color12": "#561F2F",
+    "color13": "#CC5D49",
+    "color14": "#4EC3D4",
+    "color15": "#B3DBE1"
+  }
+}

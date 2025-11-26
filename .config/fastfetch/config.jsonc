@@ -4,9 +4,9 @@
   "logo": {
     "type": "small",
     "padding": {
-      "top": 0,
+      "top": 1,
       "bottom": 0,
-      "left": 0,
+      "left": 2,
       "right": 1
     }
   },
@@ -16,7 +16,7 @@
   "modules": [
     {
       "type": "title",
-      "format": " {1}@{2}",
+      "format": "     {1}@{2}",
       "color": {
         "user": "cyan",
         "at": "light_black",
@@ -25,10 +25,8 @@
     },
     {
       "type": "colors",
-      "symbol": "circle",
-      "padding": {
-        "top": 1,
-      }
+      "paddingLeft": 4,
+      "symbol": "square",
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "wallpaper": "/home/user/.config/hypr/wallpapers/painting-sacked.png",
+  "alpha": "100",
+  "special": {
+    "background": "#2C2D2C",
+    "foreground": "#E5E3E0",
+    "cursor": "#B5A187"
+  },
+  "colors": {
+    "color0": "#515250",
+    "color1": "#182413",
+    "color2": "#644217",
+    "color3": "#675328",
+    "color4": "#856E44",
+    "color5": "#877351",
+    "color6": "#877351",
+    "color7": "#D1CFCA",
+    "color8": "#92918D",
+    "color9": "#203019",
+    "color10": "#85571F",
+    "color11": "#896F35",
+    "color12": "#B2935A",
+    "color13": "#B49A6C",
+    "color14": "#B49A6C",
+    "color15": "#D1CFCA"
+  }
+}
