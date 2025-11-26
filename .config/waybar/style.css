@@ -2,7 +2,7 @@
 @import "../../.cache/wal/colors-waybar.css";
 
 @define-color border @color6;
-@define-color bg alpha(@color5, 1);
+@define-color bg alpha(@color2, 1);
 
 * {
   border: none;

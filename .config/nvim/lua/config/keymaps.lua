@@ -91,7 +91,7 @@ keymap("n", "<leader>D", vim.lsp.buf.type_definition, opts("Type [D]efinition"))
 -- =============================================================================
 
 -- Show the error message for the current line in a floating window
-keymap("n", "gl", vim.diagnostic.open_float, opts("Show line diagnostics"))
+keymap("n", "<leader>sd", vim.diagnostic.open_float, opts("[S]how [D]iagnostics"))
 
 -- Jump to previous/next error
 keymap("n", "[d", vim.diagnostic.goto_prev, opts("Previous Diagnostic"))
