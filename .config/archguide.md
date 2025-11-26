@@ -200,4 +200,5 @@ sudo pacman -S pacman-contrib
 
 ### LSP
 
+sudo pacman -S unzip
 sudo pacman -S nodejs npm
