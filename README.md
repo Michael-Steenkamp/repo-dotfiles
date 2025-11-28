@@ -60,11 +60,19 @@ _Install these first to ensure the environment is ready for the dotfiles._
 sudo pacman -S --needed git base-devel openssh less brightnessctl
 ```
 
-```AUR Helper (yay)
+AUR Helpers
+
+```
+# yay
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 cd .. && rm -rf yay
+
+# cargo
+sudo pacman -S cargo
+# Run this once in Fish
+fish_add_path ~/.cargo/bin
 ```
 
 ---
@@ -257,6 +265,9 @@ sudo pacman -S okular
 
 # Media Player
 sudo pacman -S vlc
+
+# Timer
+cargo install timr-tui
 ```
 
 [top](#dotfiles)
