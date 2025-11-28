@@ -1,6 +1,6 @@
 <div align="center">
   
-:black_circle::file_folder:
+<h1> :black_circle::file_folder: </h1>
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -294,7 +294,7 @@ Consider giving the repo a star! 🌟
 [![License][license-shield]][license-url]
 <br>
 
-[**:arrow_up: Back to Top**](#dotfiles)
+[**:arrow_up: Back to Top**](#-black_circlefile_folder-)
 
 </div>
 
