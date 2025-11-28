@@ -14,6 +14,20 @@
 
 ---
 
+<details>
+<summary>Table of Contents</summary>
+
+- [Base System Overview](#1-base-system-overview)
+- [Core Dependencies & AUR](#2-core-dependencies--aur)
+- [Dotfiles Setup](#3-dotfiles-setup-bare-repo-method)
+- [Software Stack](#4-software-stack)
+- [Development Environment](#5-development-environment)
+- [CLI & Shell Enhancements](#6-cli--shell-enhancements)
+- [Post-Installation Services](#7-post-installation-services)
+- [Daily Drivers & Social](#8-daily-drivers--social)
+
+<details>
+
 ## 1. Base System Overview
 
 _Reference links for core components used via ArchInstall._
@@ -71,7 +85,7 @@ git config --global core.editor neovim
 2. Prepare Shell & Alias
 
 > [!NOTE]
-> Ensure [fish](#aur-helper-yay) is installed, then clone the bare repo:
+> Ensure fish is installed, then clone the bare repo:
 
 ```
 # Install Fish
@@ -226,7 +240,7 @@ sudo systemctl enable bluetooth
 
 ---
 
-## 6. Daily Drivers & Social
+## 8. Daily Drivers & Social
 
 ```
 # Browser
@@ -244,6 +258,8 @@ sudo pacman -S okular
 # Media Player
 sudo pacman -S vlc
 ```
+
+[top](#dotfiles)
 
 <!-- Reference Style Links -->
 
