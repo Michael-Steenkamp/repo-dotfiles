@@ -47,7 +47,7 @@ sudo pacman -S --needed git base-devel openssh less brightnessctl
 ```
 
 ```AUR Helper (yay)
-git clone [https://aur.archlinux.org/yay.git](https://aur.archlinux.org/yay.git)
+git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 cd .. && rm -rf yay
@@ -57,7 +57,8 @@ cd .. && rm -rf yay
 
 ## 3. Dotfiles Setup (Bare Repo Method)
 
-**This sets up the tracking of configuration files. Perform this before installing extensive software to ensure configs are in place.**
+> [!WARNING]
+> This sets up the tracking of configuration files. Perform this before installing extensive software to ensure configs are in place.
 
 1. Setup Git Identity
 
@@ -68,8 +69,9 @@ git config --global core.editor neovim
 ```
 
 2. Prepare Shell & Alias
-   > [!NOTE]
-   > Ensure [fish](#aur-helper-yay) is installed, then clone the bare repo:
+
+> [!NOTE]
+> Ensure [fish](#aur-helper-yay) is installed, then clone the bare repo:
 
 ```
 # Install Fish
@@ -80,8 +82,9 @@ git clone --bare <YOUR_REPO_URL> $HOME/.dotfiles
 ```
 
 3. Handle Existing Config Conflicts
-   > [!INFO]
-   > This script backs up existing config files to a .todelete folder to prevent Git checkout errors.
+
+> [!INFO]
+> This script backs up existing config files to a .todelete folder to prevent Git checkout errors.
 
 ```
 # Enter Fish Shell
@@ -147,8 +150,9 @@ sudo pacman -S mpv
 ```
 
 - Appearance & Fonts
-  > [!INFO]
-  > Required for Icons in Waybar and Neovim.
+
+> [!INFO]
+> Required for Icons in Waybar and Neovim.
 
 ```
 # Auto-theming
@@ -175,13 +179,14 @@ sudo pacman -S neovim unzip nodejs npm
 ```
 
 - Language Servers & Formatters
-  | Language | Tools | Documentation |
-  | :------------------ | :---------------------------- | :-------------------------------------------------------------------------------- |
-  | **Lua** | stylua | [GitHub](https://github.com/JohnnyMorganz/StyLua) |
+
+  | Language   | Tools                       | Documentation                                                                     |
+  | :--------- | :-------------------------- | :-------------------------------------------------------------------------------- |
+  | **Lua**    | stylua                      | [GitHub](https://github.com/JohnnyMorganz/StyLua)                                 |
   | **Python** | python-black & python-isort | [GitHub](https://github.com/psf/black) & [GitHub](https://github.com/PyCQA/isort) |
-  | **Shell** | shfmt | [GitHub](https://github.com/mvdan/sh) |
-  | **Wb/JS** | prettier | [Web](https://prettier.io/) |
-  | **C/C++** | clang | [Wiki](https://wiki.archlinux.org/title/Clang) |
+  | **Shell**  | shfmt                       | [GitHub](https://github.com/mvdan/sh)                                             |
+  | **Wb/JS**  | prettier                    | [Web](https://prettier.io/)                                                       |
+  | **C/C++**  | clang                       | [Wiki](https://wiki.archlinux.org/title/Clang)                                    |
 
 ```
 sudo pacman -S stylua python-black python-isort shfmt prettier clang
