@@ -85,16 +85,13 @@ sudo pacman nvim
 
 ### `LSP`
 
-Dependencies
+### Dependencies
 
 ```
 sudo pacman -S unzip nodejs npm
 ```
 
-### `Formatters`
-
-<details>
-<summary></summary>
+### Formatters
 
 ### `Lua`
 
@@ -151,7 +148,6 @@ sudo pacman -S clang
 
 </details>
 </details>
-</details>
 
 ### `Base Developement`
 
@@ -200,31 +196,31 @@ git config --global core.editor neovim
 
 ### Dotfiles Setup (After fish installation)
 
-Check config.fish | Ensure alias is present inside 'is-interactive'
+### Check config.fish | Ensure alias is present inside 'is-interactive'
 
 ```
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 ```
 
-Clone Repo
+### Clone Repo
 
 ```
 git clone --bare <url> $HOME/.dotfiles
 ```
 
-Run fish
+### Run fish
 
 ```
 fish
 ```
 
-Run Command | Only show tracked files (files excluded from .gitignore)
+### Run Command | Only show tracked files (files excluded from .gitignore)
 
 ```
 config config --local status.showUntrackedFiles no
 ```
 
-Finish Setup
+### Finish Setup
 
 ```
 mkdir -p $HOME/.todelete
@@ -263,13 +259,13 @@ mkdir -p $HOME/.ssh
 ssh-keygen -t ed25519 -C "user@device"
 ```
 
-Save File
+### Save File
 
 ```
 /home/user/.ssh/github_ed25519
 ```
 
-First Push
+### First Push
 
 ```
 loadkey github
@@ -286,13 +282,13 @@ config push -u origin <main/master>
 <details>
 <summary><a href="https://github.com/Jguer/yay">YAY</a></summary>
 
-Dependencies
+### Dependencies
 
 ```
 sudo pacman -S --needed git base-devel
 ```
 
-Installation
+### Installation
 
 ```
 git clone https://aur.archlinux.org/yay.git
@@ -310,7 +306,7 @@ makepkg -si
 yay -S wallust
 ```
 
-Cleanup
+### Cleanup
 
 ```
 rm -rf yay/
@@ -359,7 +355,7 @@ yay -S wallust
 sudo pacman -S hyprpaper
 ```
 
-Dependency | for using random-wallpaper.sh script found in ~/.config/hypr/scripts/
+### Dependency | for using random-wallpaper.sh script found in ~/.config/hypr/scripts/
 
 ```
 sudo pacman -S pacman-contrib
