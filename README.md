@@ -28,7 +28,7 @@
 
 ### `Bluetooth` | <a href="https://wiki.archlinux.org/title/Blueman">BLUEMAN</a>
 
-## Packages Via Pacman
+## Packages
 
 ### `Network`
 
@@ -83,6 +83,74 @@ sudo pacman rofi
 sudo pacman nvim
 ```
 
+### `LSP`
+
+Dependencies
+
+```
+sudo pacman -S unzip nodejs npm
+```
+
+### `Formatters`
+
+<details>
+<summary></summary>
+
+### `Lua`
+
+<details>
+<summary><a href="https://github.com/JohnnyMorganz/StyLua">STYLUA</a></summary>
+
+```
+sudo pacman -S stylua
+```
+
+</details>
+
+### `Python`
+
+<details>
+<summary><a href="https://github.com/psf/black">PYTHON-BLACK</a> | <a href="https://github.com/PyCQA/isort">PYTHON-ISORT</a></summary>
+
+```
+sudo pacman -S python-black python-isort
+```
+
+</details>
+
+### `Shell`
+
+<details>
+<summary><a href="https://github.com/mvdan/sh">SHFMT</a></summary>
+
+```
+sudo pacman shfmt
+```
+
+</details>
+
+### `Web/JS`
+
+<details>
+<summary><a href="https://prettier.io/">PRETTIER</a></summary>
+
+```
+sudo pacman -S prettier
+```
+
+</details>
+
+### `C/C++`
+
+<details>
+<summary><a href="https://wiki.archlinux.org/title/Clang">CLANG</a></summary>
+
+```
+sudo pacman -S clang
+```
+
+</details>
+</details>
 </details>
 
 ### `Base Developement`
@@ -114,6 +182,220 @@ sudo pacman less
 
 ```
 sudo pacman git
+```
+
+### Initial Setup
+
+```
+git config --global user.name ""
+```
+
+```
+git config --global user.email ""
+```
+
+```
+git config --global core.editor neovim
+```
+
+### Dotfiles Setup (After fish installation)
+
+Check config.fish | Ensure alias is present inside 'is-interactive'
+
+```
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+```
+
+Clone Repo
+
+```
+git clone --bare <url> $HOME/.dotfiles
+```
+
+Run fish
+
+```
+fish
+```
+
+Run Command | Only show tracked files (files excluded from .gitignore)
+
+```
+config config --local status.showUntrackedFiles no
+```
+
+Finish Setup
+
+```
+mkdir -p $HOME/.todelete
+```
+
+```
+config checkout 2>&1 | grep -E "\s+\." | awk {'print $1'} | xargs -I{} sh -c 'mkdir -p $HOME/.todelete/$(dirname{}) && mv {} $HOME/.todelete/{}'
+```
+
+```
+rm -rf $HOME/.todelete
+```
+
+```
+config config --add remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+```
+
+</details>
+
+### `SSH Client`
+
+<details>
+<summary><a href="https://wiki.archlinux.org/title/OpenSSH">OPENSSH</a></summary>
+
+```
+sudo pacman -S openssh
+```
+
+### Setup
+
+```
+mkdir -p $HOME/.ssh
+```
+
+```
+ssh-keygen -t ed25519 -C "user@device"
+```
+
+Save File
+
+```
+/home/user/.ssh/github_ed25519
+```
+
+First Push
+
+```
+loadkey github
+config fetch
+config pull --rebase
+config remote set-url origin <url>
+config push -u origin <main/master>
+```
+
+</details>
+
+### `AUR Helper`
+
+<details>
+<summary><a href="https://github.com/Jguer/yay">YAY</a></summary>
+
+Dependencies
+
+```
+sudo pacman -S --needed git base-devel
+```
+
+Installation
+
+```
+git clone https://aur.archlinux.org/yay.git
+```
+
+```
+cd yay
+```
+
+```
+makepkg -si
+```
+
+```
+yay -S wallust
+```
+
+Cleanup
+
+```
+rm -rf yay/
+```
+
+</details>
+
+### `Keyboard Language`
+
+<details>
+<summary><a href="https://wiki.archlinux.org/title/Fcitx5">FCITX5</a></summary>
+
+```
+sudo pacman -S fcitx5 fcitx5-configtool
+```
+
+### `Chinese Support`
+
+<details>
+<summary><a href="https://wiki.archlinux.org/title/Rime">FCITX5-RIME</a></summary>
+
+```
+sudo pacman -S fcitx5-rime
+```
+
+</details>
+</details>
+
+### `Auto-Theme`
+
+<details>
+<summary><a href="https://codeberg.org/explosion-mental/wallust">WALLUST</a></summary>
+
+```
+yay -S wallust
+```
+
+</details>
+
+### `Wallpaper`
+
+<details>
+<summary><a href="https://github.com/hyprwm/hyprpaper">HYPRPAPER</a></summary>
+
+```
+sudo pacman -S hyprpaper
+```
+
+Dependency | for using random-wallpaper.sh script found in ~/.config/hypr/scripts/
+
+```
+sudo pacman -S pacman-contrib
+```
+
+</details>
+
+### `File Manager`
+
+<details>
+<summary><a href="https://github.com/sxyazi/yazi">YAZI</a></summary>
+
+```
+sudo pacman -S yazi
+```
+
+</details>
+
+### `Monitor Brightness`
+
+<details>
+<summary><a href="https://wiki.archlinux.org/title/Backlight#xbacklight">BRIGHTNESSCTL</a></summary>
+
+```
+sudo pacman -S brightnessctl
+```
+
+</details>
+
+### `Screenshot`
+
+<details>
+<summary><a href="https://github.com/emersion/grim">GRIM</a> | <a href="https://github.com/emersion/slurp">SLURP</a> | <a href="https://github.com/jtheoof/swappy">SWAPPY</a></summary>
+
+```
+sudo pacman -S grim slurp swappy
 ```
 
 </details>
