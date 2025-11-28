@@ -1,6 +1,6 @@
 # Dotfiles
 
-> [!NOTE]
+> [!IMPORTANT]
 > **Status:** Work in Progress
 >
 > A management guide for my Arch Linux configuration, featuring **Hyprland**, **Neovim**, and **Fish Shell**.
@@ -52,7 +52,8 @@ _Reference links for core components used via ArchInstall._
 
 ## 2. Core Dependencies & AUR
 
-_Install these first to ensure the environment is ready for the dotfiles._
+> [!TIP]
+> Install these first to ensure the environment is ready for the dotfiles.
 
 ### System Basics
 
@@ -79,7 +80,7 @@ fish_add_path ~/.cargo/bin
 
 ## 3. Dotfiles Setup (Bare Repo Method)
 
-> [!WARNING]
+> [!IMPORTANT]
 > This sets up the tracking of configuration files. Perform this before installing extensive software to ensure configs are in place.
 
 1. Setup Git Identity
@@ -92,7 +93,7 @@ git config --global core.editor neovim
 
 2. Prepare Shell & Alias
 
-> [!NOTE]
+> [!IMPORTANT]
 > Ensure fish is installed, then clone the bare repo:
 
 ```
@@ -105,7 +106,7 @@ git clone --bare <YOUR_REPO_URL> $HOME/.dotfiles
 
 3. Handle Existing Config Conflicts
 
-> [!INFO]
+> [!NOTE]
 > This script backs up existing config files to a .todelete folder to prevent Git checkout errors.
 
 ```
@@ -173,7 +174,7 @@ sudo pacman -S mpv
 
 - Appearance & Fonts
 
-> [!INFO]
+> [!NOTE]
 > Required for Icons in Waybar and Neovim.
 
 ```
@@ -232,7 +233,7 @@ sudo pacman -S ripgrep fd jq fastfetch
 
 ## 7. Post-Installation Services
 
-> [!NOTE]
+> [!IMPORTANT]
 > Enable these services to ensure the system boots correctly.
 
 ```
