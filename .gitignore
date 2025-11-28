@@ -16,8 +16,6 @@
 # --- Whitelisted Configs ---
 #
 
-# archguide (package list)
-!/.config/archguide.md
 # starship.toml
 !/.config/starship.toml
 
