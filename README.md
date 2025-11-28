@@ -1,9 +1,6 @@
-# Dotfiles
-
-> [!WARNING]
-> **Status:** Work in Progress
->
-> A management guide for my Arch Linux configuration, featuring **Hyprland**, **Neovim**, and **Fish Shell**.
+<div align="center">
+  
+:black_circle::file_folder:
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -11,6 +8,13 @@
 [![Stars][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![License][license-shield]][license-url]
+  
+</div>
+
+> [!WARNING]
+> **Status:** Work in Progress
+>
+> A management guide for my Arch Linux configuration, featuring **Hyprland**, **Neovim**, and **Fish Shell**.
 
 ---
 
@@ -30,8 +34,8 @@
 
 ---
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b19ccd7e-e143-4af9-bc8c-adb5b65a278e" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f5dc6a5e-7a33-4b17-85ce-9b508b5779a3" />
+<img width="960" height="540" alt="image desktop" src="https://github.com/user-attachments/assets/b19ccd7e-e143-4af9-bc8c-adb5b65a278e" />
+<img width="960" height="540" alt="image terminal" src="https://github.com/user-attachments/assets/f5dc6a5e-7a33-4b17-85ce-9b508b5779a3" />
 
 
 ## 1. Base System Overview
@@ -277,7 +281,22 @@ sudo pacman -S vlc
 cargo install timr-tui
 ```
 
-[top](#dotfiles)
+---
+
+<div align="center">
+
+**Loved the setup?**
+<br>
+Consider giving the repo a star! 🌟
+
+[![Stars][stars-shield]][stars-url]
+[![Forks][forks-shield]][forks-url]
+[![License][license-shield]][license-url]
+<br>
+
+[**:arrow_up: Back to Top**](#dotfiles)
+
+</div>
 
 <!-- Reference Style Links -->
 
