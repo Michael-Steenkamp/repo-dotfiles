@@ -26,7 +26,7 @@
 - [Post-Installation Services](#7-post-installation-services)
 - [Daily Drivers & Social](#8-daily-drivers--social)
 
-<details>
+</details>
 
 ## 1. Base System Overview
 
