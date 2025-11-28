@@ -1,11 +1,9 @@
-<a id="readme-top"></a>
-
 # Dotfiles
 
-> [!WARNING]
-> Incomplete
-
-<!-- Badges -->
+> [!NOTE]
+> **Status:** Work in Progress
+>
+> A management guide for my Arch Linux configuration, featuring **Hyprland**, **Neovim**, and **Fish Shell**.
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -16,385 +14,231 @@
 
 ---
 
-## System Via ArchInstall
+## 1. Base System Overview
 
-### `Bootloader` | <a href="https://www.reddit.com/r/archlinux/comments/13d7rec/setting_up_secure_boot_while_dual_booting_windows/">REFIND</a>
+_Reference links for core components used via ArchInstall._
 
-### `Netowkrk` | <a href="https://wiki.archlinux.org/title/NetworkManager#Configuration">NETWORK MANAGER</a>
+| Component           | Choice         | Documentation                                                                                                   |
+| :------------------ | :------------- | :-------------------------------------------------------------------------------------------------------------- |
+| **Bootloader**      | rEFInd         | [Guide](https://www.reddit.com/r/archlinux/comments/13d7rec/setting_up_secure_boot_while_dual_booting_windows/) |
+| **Window Manager**  | Hyprland       | [Wiki](https://wiki.archlinux.org/title/Hyprland)                                                               |
+| **Display Manager** | Ly             | [Wiki](https://wiki.archlinux.org/title/Ly)                                                                     |
+| **Audio**           | Pipewire       | [Wiki](https://wiki.archlinux.org/title/PipeWire)                                                               |
+| **Network**         | NetworkManager | [Wiki](https://wiki.archlinux.org/title/NetworkManager)                                                         |
 
-### `Audio` | <a href="https://wiki.archlinux.org/title/PipeWire">PIPEWIRE</a>
+### System & Drivers
 
-### `Window Manager` | <a href="https://wiki.archlinux.org/title/Hyprland">HYPRLAND</a>
+| Component        | Package                       | Description                                        |
+| :--------------- | :---------------------------- | :------------------------------------------------- |
+| **GPU Drivers**  | `nvidia-open-dkms`            | Open source Nvidia drivers (Required for Hyprland) |
+| **Portal**       | `xdg-desktop-portal-hyprland` | Required for Screen Sharing & File Dialogs         |
+| **Bluetooth UI** | `blueman`                     | GUI for managing Bluetooth devices                 |
 
-### `Bluetooth` | <a href="https://wiki.archlinux.org/title/Blueman">BLUEMAN</a>
+---
 
-## Packages
+## 2. Core Dependencies & AUR
 
-### `Network`
+_Install these first to ensure the environment is ready for the dotfiles._
 
-<details>
-<summary><a href="https://wiki.archlinux.org/title/NetworkManager#Configuration">NM-CONNECTION-EDITOR</a></summary>
+### System Basics
 
-```
-sudo pacman nm-connection-editor
-```
-
-</details>
-
-### `Audio`
-
-<details>
-<summary><a href="https://archlinux.org/packages/extra/x86_64/pavucontrol/">PAVUCONTROL</a> | <a href="https://github.com/cdemoulins/pamixer">PAMIXER</a></summary>
-
-```
-sudo pacman pavucontrol pamixer
+```bash
+sudo pacman -S --needed git base-devel openssh less brightnessctl
 ```
 
-</details>
-
-### `Display Manager`
-
-<details>
-<summary><a href="https://wiki.archlinux.org/title/Ly">LY</a></summary>
-
-```
-sudo pacman ly && sudo systemctl start ly.service
+```AUR Helper (yay)
+git clone [https://aur.archlinux.org/yay.git](https://aur.archlinux.org/yay.git)
+cd yay
+makepkg -si
+cd .. && rm -rf yay
 ```
 
-</details>
+---
 
-### `Menu`
+## 3. Dotfiles Setup (Bare Repo Method)
 
-<details>
-<summary><a href="https://github.com/davatorium/rofi">ROFI</a></summary>
+**This sets up the tracking of configuration files. Perform this before installing extensive software to ensure configs are in place.**
 
-```
-sudo pacman rofi
-```
-
-</details>
-
-### `Text Editor`
-
-<details>
-<summary><a href="https://neovim.io/">NVIM</a></summary>
+1. Setup Git Identity
 
 ```
-sudo pacman nvim
-```
-
-### `LSP`
-
-### Dependencies
-
-```
-sudo pacman -S unzip nodejs npm
-```
-
-### Formatters
-
-### `Lua`
-
-<details>
-<summary><a href="https://github.com/JohnnyMorganz/StyLua">STYLUA</a></summary>
-
-```
-sudo pacman -S stylua
-```
-
-</details>
-
-### `Python`
-
-<details>
-<summary><a href="https://github.com/psf/black">PYTHON-BLACK</a> | <a href="https://github.com/PyCQA/isort">PYTHON-ISORT</a></summary>
-
-```
-sudo pacman -S python-black python-isort
-```
-
-</details>
-
-### `Shell`
-
-<details>
-<summary><a href="https://github.com/mvdan/sh">SHFMT</a></summary>
-
-```
-sudo pacman shfmt
-```
-
-</details>
-
-### `Web/JS`
-
-<details>
-<summary><a href="https://prettier.io/">PRETTIER</a></summary>
-
-```
-sudo pacman -S prettier
-```
-
-</details>
-
-### `C/C++`
-
-<details>
-<summary><a href="https://wiki.archlinux.org/title/Clang">CLANG</a></summary>
-
-```
-sudo pacman -S clang
-```
-
-</details>
-</details>
-
-### `Base Developement`
-
-<details>
-<summary><a href="">BASE-DEVEL</a></summary>
-
-```
-sudo pacman
-```
-
-</details>
-
-### `File Pager Utility`
-
-<details>
-<summary><a href="https://archlinux.org/packages/core/x86_64/less/">LESS</a></summary>
-
-```
-sudo pacman less
-```
-
-</details>
-
-### `Version Control`
-
-<details>
-<summary><a href="https://wiki.archlinux.org/title/Git">GIT</a></summary>
-
-```
-sudo pacman git
-```
-
-### Initial Setup
-
-```
-git config --global user.name ""
-```
-
-```
-git config --global user.email ""
-```
-
-```
+git config --global user.name "Your Name"
+git config --global user.email "email@example.com"
 git config --global core.editor neovim
 ```
 
-### Dotfiles Setup (After fish installation)
-
-### Check config.fish | Ensure alias is present inside 'is-interactive'
-
-```
-alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-```
-
-### Clone Repo
+2. Prepare Shell & Alias
+   > [!NOTE]
+   > Ensure [fish](#aur-helper-yay) is installed, then clone the bare repo:
 
 ```
-git clone --bare <url> $HOME/.dotfiles
+# Install Fish
+sudo pacman -S fish
+
+# Clone Bare Repo
+git clone --bare <YOUR_REPO_URL> $HOME/.dotfiles
 ```
 
-### Run fish
+3. Handle Existing Config Conflicts
+   > [!INFO]
+   > This script backs up existing config files to a .todelete folder to prevent Git checkout errors.
 
 ```
+# Enter Fish Shell
 fish
-```
 
-### Run Command | Only show tracked files (files excluded from .gitignore)
+# Define the alias for the current session
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
-```
+# Create backup directory
+mkdir -p $HOME/.todelete
+
+# Move conflicting files
+config checkout 2>&1 | grep -E "\s+\." | awk {'print $1'} | xargs -I{} sh -c 'mkdir -p $HOME/.todelete/$(dirname {}) && mv {} $HOME/.todelete/{}'
+
+# Checkout Dotfiles
+config checkout
 config config --local status.showUntrackedFiles no
 ```
 
-### Finish Setup
-
-```
-mkdir -p $HOME/.todelete
-```
-
-```
-config checkout 2>&1 | grep -E "\s+\." | awk {'print $1'} | xargs -I{} sh -c 'mkdir -p $HOME/.todelete/$(dirname{}) && mv {} $HOME/.todelete/{}'
-```
-
-```
-rm -rf $HOME/.todelete
-```
-
-```
-config config --add remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-```
-
-</details>
-
-### `SSH Client`
-
-<details>
-<summary><a href="https://wiki.archlinux.org/title/OpenSSH">OPENSSH</a></summary>
-
-```
-sudo pacman -S openssh
-```
-
-### Setup
+4. SSH Setup (Optional)
 
 ```
 mkdir -p $HOME/.ssh
-```
-
-```
 ssh-keygen -t ed25519 -C "user@device"
-```
+# Save to: /home/user/.ssh/github_ed25519
 
-### Save File
-
-```
-/home/user/.ssh/github_ed25519
-```
-
-### First Push
-
-```
+# Register Key & Set Remote
 loadkey github
+config remote set-url origin <SSH_URL>
 config fetch
 config pull --rebase
-config remote set-url origin <url>
-config push -u origin <main/master>
+config push -u origin main
 ```
 
-</details>
+---
 
-### `AUR Helper`
+## 4. Software Stack
 
-<details>
-<summary><a href="https://github.com/Jguer/yay">YAY</a></summary>
-
-### Dependencies
+- Desktop environment
 
 ```
-sudo pacman -S --needed git base-devel
-```
+# Core DE components (DE, Wallpaper, SearchBar, TaskBar, Notifications)
+sudo pacman -S hyprland hyprpaper rofi waybar dunst
 
-### Installation
+# Utilities (Screenshot, Clipboard, Brightness)
+sudo pacman -S grim slurp swappy wl-clipboard brightnessctl
 
-```
-git clone https://aur.archlinux.org/yay.git
-```
-
-```
-cd yay
-```
-
-```
-makepkg -si
-```
-
-```
-yay -S wallust
-```
-
-### Cleanup
-
-```
-rm -rf yay/
-```
-
-</details>
-
-### `Keyboard Language`
-
-<details>
-<summary><a href="https://wiki.archlinux.org/title/Fcitx5">FCITX5</a></summary>
-
-```
-sudo pacman -S fcitx5 fcitx5-configtool
-```
-
-### `Chinese Support`
-
-<details>
-<summary><a href="https://wiki.archlinux.org/title/Rime">FCITX5-RIME</a></summary>
-
-```
-sudo pacman -S fcitx5-rime
-```
-
-</details>
-</details>
-
-### `Auto-Theme`
-
-<details>
-<summary><a href="https://codeberg.org/explosion-mental/wallust">WALLUST</a></summary>
-
-```
-yay -S wallust
-```
-
-</details>
-
-### `Wallpaper`
-
-<details>
-<summary><a href="https://github.com/hyprwm/hyprpaper">HYPRPAPER</a></summary>
-
-```
-sudo pacman -S hyprpaper
-```
-
-### Dependency | for using random-wallpaper.sh script found in ~/.config/hypr/scripts/
-
-```
+# Random Wallpaper Script Dependency
 sudo pacman -S pacman-contrib
 ```
 
-</details>
-
-### `File Manager`
-
-<details>
-<summary><a href="https://github.com/sxyazi/yazi">YAZI</a></summary>
+- Audio & Multimedia
 
 ```
+# Audio control
+sudo pacman -S pavucontrol pamixer
+
+# File Manager
 sudo pacman -S yazi
+
+# Video
+sudo pacman -S mpv
 ```
 
-</details>
-
-### `Monitor Brightness`
-
-<details>
-<summary><a href="https://wiki.archlinux.org/title/Backlight#xbacklight">BRIGHTNESSCTL</a></summary>
+- Appearance & Fonts
+  > [!INFO]
+  > Required for Icons in Waybar and Neovim.
 
 ```
-sudo pacman -S brightnessctl
+# Auto-theming
+yay -S wallust
+
+# Fonts (Recommended)
+sudo pacman -S ttf-jetbrains-mono-nerd noto-fonts-cjk otf-font-awesome
 ```
 
-</details>
-
-### `Screenshot`
-
-<details>
-<summary><a href="https://github.com/emersion/grim">GRIM</a> | <a href="https://github.com/emersion/slurp">SLURP</a> | <a href="https://github.com/jtheoof/swappy">SWAPPY</a></summary>
+- Input Method (Chinese Support)
 
 ```
-sudo pacman -S grim slurp swappy
+sudo pacman -S fcitx5 fcitx5-configtool fcitx5-rime
 ```
 
-</details>
+---
+
+## 5. Development Environment
+
+- Neovim & Dependencies
+
+```
+sudo pacman -S neovim unzip nodejs npm
+```
+
+- Language Servers & Formatters
+  | Language | Tools | Documentation |
+  | :------------------ | :---------------------------- | :-------------------------------------------------------------------------------- |
+  | **Lua** | stylua | [GitHub](https://github.com/JohnnyMorganz/StyLua) |
+  | **Python** | python-black & python-isort | [GitHub](https://github.com/psf/black) & [GitHub](https://github.com/PyCQA/isort) |
+  | **Shell** | shfmt | [GitHub](https://github.com/mvdan/sh) |
+  | **Wb/JS** | prettier | [Web](https://prettier.io/) |
+  | **C/C++** | clang | [Wiki](https://wiki.archlinux.org/title/Clang) |
+
+```
+sudo pacman -S stylua python-black python-isort shfmt prettier clang
+```
+
+---
+
+## 6. CLI & Shell Enhancements
+
+**Modern replacements for standard GNU tools.**
+
+```bash
+# Prompt & Navigation
+sudo pacman -S starship zoxide fzf
+
+# Search & Utilities
+sudo pacman -S ripgrep fd jq fastfetch
+```
+
+---
+
+## 7. Post-Installation Services
+
+> [!NOTE]
+> Enable these services to ensure the system boots correctly.
+
+```
+# Enable Display Manager
+sudo systemctl enable ly.service
+
+# Enable Network Manager (if not already)
+sudo systemctl enable NetworkManager
+
+# Enable Bluetooth
+sudo systemctl enable bluetooth
+```
+
+---
+
+## 6. Daily Drivers & Social
+
+```
+# Browser
+sudo pacman -S firefox
+
+# Social
+sudo pacman -S discord
+
+# Office Suite
+sudo pacman -S libreoffice-fresh
+
+# PDF Reader
+sudo pacman -S okular
+
+# Media Player
+sudo pacman -S vlc
+```
 
 <!-- Reference Style Links -->
 
