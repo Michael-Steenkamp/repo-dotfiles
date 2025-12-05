@@ -1,5 +1,5 @@
 <div align="center">
-  
+
 <h1> :black_circle::file_folder: </h1>
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -8,7 +8,7 @@
 [![Stars][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![License][license-shield]][license-url]
-  
+
 </div>
 
 > [!WARNING]
@@ -22,12 +22,19 @@
 <summary><h2>:bookmark_tabs: Table of Contents</h2></summary>
 
 ### :desktop_computer: [Base System Overview](#1-base-system-overview)
+
 ### :package: [Core Dependencies & AUR](#2-core-dependencies--aur)
+
 ### :gear: [Dotfiles Setup](#3-dotfiles-setup-bare-repo-method)
+
 ### :art: [Software Stack](#4-software-stack)
+
 ### :hammer: [Development Environment](#5-development-environment)
+
 ### :rocket: [CLI & Shell Enhancements](#6-cli--shell-enhancements)
+
 ### :electric_plug: [Post-Installation Services](#7-post-installation-services)
+
 ### :coffee: [Daily Drivers & Social](#8-daily-drivers--social)
 
 </details>
@@ -36,7 +43,6 @@
 
 <img width="960" height="540" alt="image desktop" src="https://github.com/user-attachments/assets/b19ccd7e-e143-4af9-bc8c-adb5b65a278e" />
 <img width="960" height="540" alt="image terminal" src="https://github.com/user-attachments/assets/f5dc6a5e-7a33-4b17-85ce-9b508b5779a3" />
-
 
 ## 1. Base System Overview
 
@@ -279,6 +285,9 @@ sudo pacman -S vlc
 
 # Timer
 cargo install timr-tui
+
+# Music Player
+yay -S spotify-player
 ```
 
 ---

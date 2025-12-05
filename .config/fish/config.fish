@@ -4,29 +4,6 @@ if status is-interactive
         source ~/.cache/wal/colors.fish
     end
 
-    # --- Section A: Syntax Highlighting (High Visibility) ---
-    # Using 'Bright' variants ($color15, $color14) instead of 'Normal' ($foreground, $color4)
-    set -g fish_color_command       $color7
-    set -g fish_color_param         $color8
-    set -g fish_color_quote         $color8
-    set -g fish_color_redirection   $color8
-    set -g fish_color_error         $color8
-    set -g fish_color_comment       $color8
-
-    # --- Section B: Completion Menu ---
-    set -g fish_pager_color_progress    $color8
-    set -g fish_pager_color_background  $background
-    set -g fish_pager_color_prefix      $color5
-    set -g fish_pager_color_completion  $color5
-    set -g fish_pager_color_selected_background $color5
-    set -g fish_pager_color_selected_prefix     $color8
-    set -g fish_pager_color_selected_completion $color7
-
-    # --- Section C: File & Folder Colors (LS_COLORS) ---
-    # Changed 'di' from 1;34 (Blue) to 1;36 (Bold Cyan) for visibility
-    # di=Directory, ln=Symlink, ex=Executable
-    set -gx LS_COLORS "di=1;36:ln=35:so=32:pi=33:ex=35:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43:fi=0"
-
     # --- Aliases ---
     alias calendar='nohup morgen >/dev/null 2>&1 & exit'
     alias mail='nohup thunderbird >/dev/null 2>&1 & exit'
@@ -40,7 +17,6 @@ if status is-interactive
     alias update='sudo pacman -Syu --noconfirm'
     alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
     alias ff='fastfetch --logo-position top --config ~/.config/fastfetch/config.jsonc --file ~/.config/fastfetch/ascii/cross2.txt'
-
 
     # --- Starship & Fastfetch ---
     set -gx STARSHIP_CONFIG $HOME/.cache/wal/starship.toml

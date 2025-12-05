@@ -81,3 +81,7 @@
 # wallust
 !/.config/wallust/
 !/.config/wallust/**
+
+# spotify-player
+!/.config/spotify-player/
+!/.config/spotify-player/*

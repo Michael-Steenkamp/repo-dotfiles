@@ -1,36 +1,43 @@
-/* Import Pywal Colors */
+/* =============================================================================
+ * WAYBAR CONFIGURATION & VARIABLES
+ * ========================================================================== */
 @import "../../.cache/wal/colors-waybar.css";
 
-@define-color border @color6;
-@define-color bg alpha(@color2, 1);
+/* Text Colors */
+@define-color text-main      alpha(@color15, 1.0);
+@define-color text-muted     alpha(@color16, 0.7);
 
+@define-color bg             alpha(@color2, 0);
+@define-color border         alpha(@color6, 0);
+
+@define-color hover-bg       alpha(@background, 0.5);
+
+@define-color alert-bg       @text-main;
+@define-color alert-text     @background;
+
+/* =============================================================================
+ * GLOBAL STYLES
+ * ========================================================================== */
 * {
   border: none;
   border-radius: 0;
   font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", sans-serif;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 17px;
   min-height: 0;
 }
 
 window#waybar {
   background: transparent;
-  color: @foreground;
+  color: @text-main;
   min-height: 44px;
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 10px;
 }
 
-/* --- GENERAL MODULE STYLING --- */
-.modules-left,
-.modules-center,
-.modules-right {
-  background: transparent;
-}
-
-/* --- THE "ISLANDS" --- */
-/* Standard Modules */
+/* =============================================================================
+ * MODULE & GROUP CONTAINERS
+ * ========================================================================== */
+/* --- Standard Modules (Islands) --- */
 #workspaces,
 #window,
 #clock,
@@ -38,12 +45,12 @@ window#waybar {
 #battery,
 #custom-power {
   background-color: @bg;
-  color: @foreground;
-  padding: 5px 15px;
-  margin: 5px;
+  color: @text-main;
+  border: 2px solid @border;
   border-radius: 15px;
 
-  border: 2px solid @border;
+  padding: 5px 15px;
+  margin: 5px;
 
   transition:
     background-color 0.5s ease,
@@ -51,17 +58,17 @@ window#waybar {
     border-color 0.5s ease;
 }
 
-/* Groups (Hardware, Connections, Input) */
+/* --- Groups (Hardware, Input, Connections) --- */
 #hardware,
 #connections,
 #input {
   background-color: @bg;
-  color: @foreground;
-  padding: 5px 10px;
-  margin: 5px;
+  color: @text-main;
+  border: 2px solid @border;
   border-radius: 15px;
 
-  border: 2px solid @border;
+  padding: 5px 10px;
+  margin: 5px;
 
   transition:
     background-color 0.5s ease,
@@ -69,16 +76,24 @@ window#waybar {
     border-color 0.5s ease;
 }
 
-/* Hover Effects */
-#workspaces:hover,
-#clock:hover,
-#battery:hover,
-#custom-power:hover {
-  background-color: @color1;
-  color: @background;
+/* --- Inner Group Items (Transparent) --- */
+#cpu,
+#memory,
+#disk,
+#custom-audio,
+#custom-network,
+#custom-bluetooth,
+#custom-fcitx5,
+#custom-capslock {
+  background: transparent;
+  color: @text-main;
+  padding: 0 10px;
+  margin: 0;
+  border: none;
+  box-shadow: none;
 }
 
-/* --- GROUP CONTENTS --- */
+/* Remove default margins for boxes inside groups */
 #connections box,
 #group-hardware box,
 #group-input box {
@@ -86,26 +101,22 @@ window#waybar {
   padding: 0;
 }
 
-#cpu,
-#memory,
-#disk {
-  background: transparent;
-  padding: 0 10px;
-  margin: 0;
-  border: none;
-  box-shadow: none;
+/* =============================================================================
+ * INTERACTION & ANIMATION
+ * ========================================================================== */
+/* Hover Effects */
+#clock:hover,
+#battery:hover,
+#custom-power:hover {
+  background-color: @hover-bg;
+  color: @text-main;
 }
 
+/* Expandable Modules Padding */
 #custom-audio,
 #custom-network,
 #custom-bluetooth {
-  background: transparent;
-  padding: 0px 10px;
-  border-radius: 15px;
-  transition:
-    background-color 0.2s,
-    color 0.2s,
-    padding 0.2s;
+  transition: padding 0.2s;
 }
 #custom-audio.expanded,
 #custom-network.expanded,
@@ -113,62 +124,71 @@ window#waybar {
   padding-right: 15px;
 }
 
-/* --- INPUT GROUP SPECIFICS --- */
-
-/* Language Module (Always Visible) */
-#custom-fcitx5 {
-  background: transparent;
-  padding: 0 10px;
-  color: @foreground;
-}
-
 /* Caps Lock Animation */
 #custom-capslock {
-  background: transparent;
-  color: @foreground; /* Matches normal text color */
-
-  /* Smooth transition for font-size and padding. */
   transition:
     font-size 0.3s ease-in-out,
     padding 0.3s ease-in-out,
     opacity 0.3s ease-in-out;
 }
 
-/* LOCKED: Visible */
 #custom-capslock.locked {
-  font-size: 14px; /* Normal size */
-  padding-right: 10px; /* Spacing between Lock icon and Language icon */
+  font-size: 14px;
+  padding-right: 10px;
   opacity: 1;
 }
 
-/* UNLOCKED: Hidden */
 #custom-capslock.unlocked {
-  font-size: 0px; /* Shrink text to 0 */
-  padding: 0; /* Remove all padding */
-  opacity: 0; /* Fade out */
+  font-size: 0px;
+  padding: 0;
+  opacity: 0;
 }
 
-/* Other Specifics */
+/* =============================================================================
+ * SPECIFIC MODULE OVERRIDES
+ * ========================================================================== */
+/* Workspaces Buttons */
 #workspaces button {
-  padding: 0 5px;
-  color: @foreground;
-}
-#workspaces button.active {
-  color: @foreground;
+  padding: 0;
+  margin: 5px;
+  color: @text-main;
+  background-color: @bg;
+  box-shadow: none;
+  text-shadow: none;
+  border-radius: 15px;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
+/* Only the button hovers now, not the whole container */
+#workspaces button:hover {
+  background-color: @background;
+  background: transparent;
+  color: @hover-bg;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+#workspaces button.active {
+  color: @text-main;
+}
+
+/* Battery States */
 #battery.charging,
 #battery.plugged {
-  color: @color7;
+  color: @text-main;
 }
+
 #battery.critical:not(.charging) {
-  background-color: @color1;
-  color: @background;
+  background-color: @alert-bg;
+  color: @alert-text;
   animation: blink 0.5s linear infinite alternate;
 }
+
 @keyframes blink {
   to {
-    background-color: @foreground;
-    color: @color1;
+    background-color: @text-main;
+    color: @module-bg;
   }
 }
