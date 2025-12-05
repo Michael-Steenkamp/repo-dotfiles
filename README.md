@@ -173,6 +173,9 @@ sudo pacman -S grim slurp swappy wl-clipboard brightnessctl
 
 # Random Wallpaper Script Dependency
 sudo pacman -S pacman-contrib
+
+# Window Detection Dependency (JSON processor)
+sudo pacman -S jq
 ```
 
 - Audio & Multimedia

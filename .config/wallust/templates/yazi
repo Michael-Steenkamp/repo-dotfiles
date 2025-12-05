@@ -1,0 +1,51 @@
+# Manager: File list and highlighting
+[manager]
+cwd = { fg = "{color6}" }
+
+# Hovered/Selected item
+hovered = { fg = "{background}", bg = "{color4}", bold = true }
+preview_hovered = { underline = true }
+
+# Markers
+marker_copied   = { fg = "{color2}", bg = "{color2}" }
+marker_cut      = { fg = "{color1}", bg = "{color1}" }
+marker_selected = { fg = "{color3}", bg = "{color3}" }
+
+# Tabs
+tab_active   = { fg = "{background}", bg = "{color4}" }
+tab_inactive = { fg = "{foreground}", bg = "{color0}" }
+
+# Status Bar
+[status]
+separator_open  = ""
+separator_close = ""
+separator_style = { fg = "{color0}", bg = "{color0}" }
+
+mode_normal = { fg = "{background}", bg = "{color4}", bold = true }
+mode_select = { fg = "{background}", bg = "{color2}", bold = true }
+mode_unset  = { fg = "{background}", bg = "{color1}", bold = true }
+
+progress_label  = { fg = "{foreground}", bold = true }
+progress_normal = { fg = "{color4}", bg = "{color0}" }
+progress_error  = { fg = "{color1}", bg = "{color0}" }
+
+# Input prompts
+[input]
+border   = { fg = "{color4}" }
+title    = {}
+value    = {}
+selected = { fg = "{color4}" }
+
+# Completion menu
+[completion]
+item = { fg = "{foreground}", bg = "{color0}" }
+item_selected = { fg = "{background}", bg = "{color4}" }
+
+# File specific coloring
+[filetype]
+rules = [
+	{ mime = "image/*", fg = "{color4}" },
+	{ mime = "video/*", fg = "{color5}" },
+	{ mime = "audio/*", fg = "{color5}" },
+	{ mime = "application/x-bzip", fg = "{color2}" },
+]
