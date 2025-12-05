@@ -196,6 +196,8 @@ sudo pacman -S mpv
 ```
 # Auto-theming
 yay -S wallust
+sudo pacman -S imagemagick
+
 
 # Fonts (Recommended)
 sudo pacman -S ttf-jetbrains-mono-nerd noto-fonts-cjk otf-font-awesome
