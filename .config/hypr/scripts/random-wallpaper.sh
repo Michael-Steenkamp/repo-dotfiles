@@ -63,17 +63,7 @@ fi
 # 5. Reload Applications
 pkill -SIGUSR2 waybar
 pkill dunst && dunst >/dev/null 2>&1 &
-
-# 6. Reload Hyprland variables
-if [ -f "$HOME/.cache/wal/colors.sh" ]; then
-  source "$HOME/.cache/wal/colors.sh"
-  ACT_BORDER="0xff${color1:1} 0xff${color10:1} 45deg"
-  INACT_BORDER="0xff${background:1}"
-  hyprctl keyword general:col.active_border "$ACT_BORDER" >/dev/null 2>&1
-  hyprctl keyword general:col.inactive_border "$INACT_BORDER" >/dev/null 2>&1
-fi
-
-# 7. Reload Apps
+hyprctl reload >/dev/null 2>&1
 pkill -SIGUSR1 kitty
 pkill -SIGUSR1 fish
 pkill -SIGUSR1 nvim
