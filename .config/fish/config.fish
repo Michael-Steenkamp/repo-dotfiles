@@ -5,21 +5,23 @@ if status is-interactive
     end
 
     # --- Section A: Syntax Highlighting (High Visibility) ---
-    #set -g fish_color_command       $color7
+    set -g fish_color_command       $color7
     #set -g fish_color_param         $color8
     #set -g fish_color_quote         $color8
     #set -g fish_color_redirection   $color8
-    set -g fish_color_error         $color3
-    #set -g fish_color_comment       $color8
+    set -g fish_color_error         $color7
+    #set -g fish_color_comment       $color7
 
     # --- Section B: Completion Menu ---
     #set -g fish_pager_color_progress    $color8
     #set -g fish_pager_color_background  $background
     #set -g fish_pager_color_prefix      $color5
-    #set -g fish_pager_color_completion  $color5
+    #set -g fish_pager_color_completion  $color7
     #set -g fish_pager_color_selected_background $color5
     #set -g fish_pager_color_selected_prefix     $color8
     #set -g fish_pager_color_selected_completion $color7
+    set -g fish_color_autosuggestion $color5
+
 
     # --- Section C: File & Folder Colors (LS_COLORS) ---
     # di=Directory, ln=Symlink, ex=Executable
