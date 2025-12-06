@@ -185,7 +185,7 @@ sudo pacman -S jq
 sudo pacman -S pavucontrol pamixer
 
 # File Manager
-sudo pacman -S yazi
+sudo pacman -S yazi dolphin
 
 # Video
 sudo pacman -S mpv

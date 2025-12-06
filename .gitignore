@@ -1,22 +1,38 @@
-#
-# Ignore EVERYTHING by default.
+##########################
+#       .gitignore
+#       README
+#       starship
+#       hypr
+#       waybar
+#       nvim
+#       kitty
+#       dunst
+#       fish
+#       fastfetch
+#       yazi
+#       rofi
+#       wallust
+#       spotify-player
+##########################
+
+#################################
+# Ignore EVERYTHING by default. #
+#################################
 *
 
 # .gitignore and README.
 !/.gitignore
 !/README.md
 
-# .config directory (but not its contents).
+# .config
 !/.config/
-
-# all contents of .config.
 /.config/*
 
-#
-# --- Whitelisted Configs ---
-#
+###############################
+# --- Whitelisted Configs --- #
+###############################
 
-# starship.toml
+# starship
 !/.config/starship.toml
 
 # hypr
@@ -32,8 +48,6 @@
 # waybar
 !/.config/waybar/
 !/.config/waybar/**
-!/.config/scripts/
-!/.config/scripts/*
 
 # nvim
 !/.config/nvim/
@@ -54,8 +68,7 @@
 
 # dunst
 !/.config/dunst/
-/.config/dunst/*
-!/.config/dunst/dunstrc
+!/.config/dunst/*
 
 # fish
 !/.config/fish/
