@@ -25,8 +25,6 @@
 
 ### :package: [Core Dependencies & AUR](#2-core-dependencies--aur)
 
-### :gear: [Dotfiles Setup](#3-dotfiles-setup-bare-repo-method)
-
 ### :art: [Software Stack](#4-software-stack)
 
 ### :hammer: [Development Environment](#5-development-environment)
@@ -36,6 +34,8 @@
 ### :electric_plug: [Post-Installation Services](#7-post-installation-services)
 
 ### :coffee: [Daily Drivers & Social](#8-daily-drivers--social)
+
+### :gear: [Dotfiles Setup](#3-dotfiles-setup-bare-repo-method)
 
 </details>
 
@@ -77,6 +77,20 @@ _Reference links for core components used via ArchInstall._
 sudo pacman -S --needed git base-devel openssh less brightnessctl
 ```
 
+```bash
+# Random Wallpaper Script Dependency
+sudo pacman -S pacman-contrib
+
+# Window Detection Dependency (JSON processor)
+sudo pacman -S jq
+```
+
+Terminal
+
+```
+sudo pacman -S kitty fish
+```
+
 AUR Helpers
 
 ```
@@ -94,7 +108,137 @@ fish_add_path ~/.cargo/bin
 
 ---
 
-## 3. Dotfiles Setup (Bare Repo Method)
+## 3. Software Stack
+
+- Desktop environment
+
+```
+# Core DE components (DE, Wallpaper, SearchBar, TaskBar, Notifications)
+sudo pacman -S hyprland hyprpaper rofi waybar dunst
+
+# Utilities (Screenshot, Clipboard, Brightness)
+sudo pacman -S grim slurp swappy wl-clipboard brightnessctl
+```
+
+- Audio & Multimedia
+
+```
+# Audio control
+sudo pacman -S pavucontrol pamixer
+
+# File Manager
+sudo pacman -S yazi dolphin
+
+# Video
+sudo pacman -S mpv
+```
+
+- Appearance & Fonts
+
+> [!NOTE]
+> Required for Icons in Waybar and Neovim.
+
+```
+# Auto-theming
+yay -S wallust
+sudo pacman -S imagemagick
+
+# Fonts (Recommended)
+sudo pacman -S ttf-jetbrains-mono-nerd noto-fonts-cjk otf-font-awesome
+```
+
+- Input Method (Chinese Support)
+
+```
+sudo pacman -S fcitx5 fcitx5-configtool fcitx5-rime
+```
+
+---
+
+## 4. Development Environment
+
+- Neovim & Dependencies
+
+```
+sudo pacman -S neovim unzip nodejs npm
+```
+
+- Language Servers & Formatters
+
+  | Language   | Tools                       | Documentation                                                                     |
+  | :--------- | :-------------------------- | :-------------------------------------------------------------------------------- |
+  | **Lua**    | stylua                      | [GitHub](https://github.com/JohnnyMorganz/StyLua)                                 |
+  | **Python** | python-black & python-isort | [GitHub](https://github.com/psf/black) & [GitHub](https://github.com/PyCQA/isort) |
+  | **Shell**  | shfmt                       | [GitHub](https://github.com/mvdan/sh)                                             |
+  | **Wb/JS**  | prettier                    | [Web](https://prettier.io/)                                                       |
+  | **C/C++**  | clang                       | [Wiki](https://wiki.archlinux.org/title/Clang)                                    |
+
+```
+sudo pacman -S stylua python-black python-isort shfmt prettier clang
+```
+
+---
+
+## 5. CLI & Shell Enhancements
+
+**Modern replacements for standard GNU tools.**
+
+```bash
+# Prompt & Navigation
+sudo pacman -S starship zoxide fzf
+
+# Search & Utilities
+sudo pacman -S ripgrep fd jq fastfetch
+```
+
+---
+
+## 6. Post-Installation Services
+
+> [!IMPORTANT]
+> Enable these services to ensure the system boots correctly.
+
+```
+# Enable Display Manager
+sudo systemctl enable ly.service
+
+# Enable Network Manager (if not already)
+sudo systemctl enable NetworkManager
+
+# Enable Bluetooth
+sudo systemctl enable bluetooth
+```
+
+---
+
+## 7. Daily Drivers & Social
+
+```
+# Browser
+sudo pacman -S firefox
+
+# Social
+sudo pacman -S discord
+
+# Office Suite
+sudo pacman -S libreoffice-fresh
+
+# PDF Reader
+sudo pacman -S okular
+
+# Media Player
+sudo pacman -S vlc
+
+# Timer
+cargo install timr-tui
+
+# Music Player
+yay -S spotify-player
+```
+
+---
+
+## 8. Dotfiles Setup (Bare Repo Method)
 
 > [!IMPORTANT]
 > This sets up the tracking of configuration files. Perform this before installing extensive software to ensure configs are in place.
@@ -156,143 +300,6 @@ config remote set-url origin <SSH_URL>
 config fetch
 config pull --rebase
 config push -u origin main
-```
-
----
-
-## 4. Software Stack
-
-- Desktop environment
-
-```
-# Core DE components (DE, Wallpaper, SearchBar, TaskBar, Notifications)
-sudo pacman -S hyprland hyprpaper rofi waybar dunst
-
-# Utilities (Screenshot, Clipboard, Brightness)
-sudo pacman -S grim slurp swappy wl-clipboard brightnessctl
-
-# Random Wallpaper Script Dependency
-sudo pacman -S pacman-contrib
-
-# Window Detection Dependency (JSON processor)
-sudo pacman -S jq
-```
-
-- Audio & Multimedia
-
-```
-# Audio control
-sudo pacman -S pavucontrol pamixer
-
-# File Manager
-sudo pacman -S yazi dolphin
-
-# Video
-sudo pacman -S mpv
-```
-
-- Appearance & Fonts
-
-> [!NOTE]
-> Required for Icons in Waybar and Neovim.
-
-```
-# Auto-theming
-yay -S wallust
-sudo pacman -S imagemagick
-
-
-# Fonts (Recommended)
-sudo pacman -S ttf-jetbrains-mono-nerd noto-fonts-cjk otf-font-awesome
-```
-
-- Input Method (Chinese Support)
-
-```
-sudo pacman -S fcitx5 fcitx5-configtool fcitx5-rime
-```
-
----
-
-## 5. Development Environment
-
-- Neovim & Dependencies
-
-```
-sudo pacman -S neovim unzip nodejs npm
-```
-
-- Language Servers & Formatters
-
-  | Language   | Tools                       | Documentation                                                                     |
-  | :--------- | :-------------------------- | :-------------------------------------------------------------------------------- |
-  | **Lua**    | stylua                      | [GitHub](https://github.com/JohnnyMorganz/StyLua)                                 |
-  | **Python** | python-black & python-isort | [GitHub](https://github.com/psf/black) & [GitHub](https://github.com/PyCQA/isort) |
-  | **Shell**  | shfmt                       | [GitHub](https://github.com/mvdan/sh)                                             |
-  | **Wb/JS**  | prettier                    | [Web](https://prettier.io/)                                                       |
-  | **C/C++**  | clang                       | [Wiki](https://wiki.archlinux.org/title/Clang)                                    |
-
-```
-sudo pacman -S stylua python-black python-isort shfmt prettier clang
-```
-
----
-
-## 6. CLI & Shell Enhancements
-
-**Modern replacements for standard GNU tools.**
-
-```bash
-# Prompt & Navigation
-sudo pacman -S starship zoxide fzf
-
-# Search & Utilities
-sudo pacman -S ripgrep fd jq fastfetch
-```
-
----
-
-## 7. Post-Installation Services
-
-> [!IMPORTANT]
-> Enable these services to ensure the system boots correctly.
-
-```
-# Enable Display Manager
-sudo systemctl enable ly.service
-
-# Enable Network Manager (if not already)
-sudo systemctl enable NetworkManager
-
-# Enable Bluetooth
-sudo systemctl enable bluetooth
-```
-
----
-
-## 8. Daily Drivers & Social
-
-```
-# Browser
-sudo pacman -S firefox
-
-# Social
-sudo pacman -S discord
-
-# Office Suite
-sudo pacman -S libreoffice-fresh
-
-# PDF Reader
-sudo pacman -S okular
-
-# Media Player
-sudo pacman -S vlc
-
-# Timer
-cargo install timr-tui
-
-# Music Player
-yay -S spotify-player
 ```
 
 ---

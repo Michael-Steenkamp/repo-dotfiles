@@ -40,6 +40,7 @@ return {
 			json = { "prettier" },
 			yaml = { "prettier" },
 			markdown = { "prettier" },
+			scss = { "prettier" },
 
 			-- Shell
 			sh = { "shfmt" },
