@@ -64,26 +64,27 @@
 /* --- Circular Buttons (Bottom Row) --- */
 .circle-btn {
   background-color: #45475a;
-  min-width: 34px; /* Ensures it's wide enough */
-  min-height: 34px; /* Ensures it's tall enough */
-  border-radius: 50%; /* This turns the square into a circle */
-  color: #cdd6f4; /* Default icon color */
-  transition: all 0.3s;
+  min-width: 34px;
+  min-height: 34px;
+  border-radius: 50%;
+  color: #cdd6f4;
 
-  padding: 0; /* Removes default button padding that offsets the icon */
-  margin: 7px; /* Ensures no extra spacing interferes */
-  font-size: 18px; /* Makes the icon large enough to look centered */
+  /* Standard GTK transition (Colors only) */
+  transition: all 0.2s;
+
+  padding: 0;
+  margin: 7px;
+  font-size: 18px;
 }
 
 .circle-btn:hover {
-  background-color: #313244; /* Subtle background when hovering */
-  color: #89b4fa; /* Icon turns blue on hover */
+  background-color: #313244;
+  color: #89b4fa;
 }
 
-/* Active State for Circle Buttons */
-.circle-btn.active {
-  background-color: #89b4fa;
-  color: #1e1e2e;
+.circle-btn:active {
+  color: #89b4fa;
+  background-color: #1e1e2e; /* Darker on click instead of shrinking */
 }
 
 /* Volume Button (Blue) */
@@ -162,11 +163,33 @@ scale handle {
   color: #bac2de;
   margin-bottom: 10px;
 }
+
+/* --- Media Buttons Animation --- */
 .media-controls button {
-  font-size: 24px;
+  transition: all 0.1s ease-in-out;
   color: #cdd6f4;
+  border-radius: 50%; /* Makes the hover background circular */
+
+  /* 1. Set a fixed size so the layout doesn't jump */
+  min-width: 40px;
+  min-height: 40px;
+
+  /* 2. Set the Base Icon Size */
+  font-size: 20px;
 }
 
+.media-controls button:hover {
+  color: #89b4fa;
+  background-color: transparent;
+
+  /* 3. The "Scale" Trick: Increase font size on hover */
+  font-size: 24px;
+}
+
+.media-controls button:active {
+  color: #74c7ec;
+  font-size: 20px; /* Shrink slightly on click */
+}
 /* --- Calendar Section --- */
 .calendar-section {
   background-color: #313244;

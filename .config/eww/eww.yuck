@@ -1,35 +1,36 @@
 ;; --- Variables ---
+(defvar sidebar_visible false) ;; <--- NEW: Tracks main sidebar state
+(defvar popup_visible false)   ;; <--- Tracks center popup state
 
-;; Network
-(defpoll net_ssid  :interval "2s" "~/.config/eww/scripts/net.py ssid")
-(defpoll net_icon  :interval "2s" "~/.config/eww/scripts/net.py icon")
-(defpoll wifi_list :interval "10s" :initial "[]" "~/.config/eww/scripts/net.py list")
-(defpoll net_status :interval "2s" "nmcli networking")
+;; --- Sidebar Polls (Lightweight) ---
+;; These only run when the main sidebar is open
+(defpoll net_ssid  :interval "2s" :run-while sidebar_visible "~/.config/eww/scripts/net.py ssid")
+(defpoll net_icon  :interval "2s" :run-while sidebar_visible "~/.config/eww/scripts/net.py icon")
+(defpoll bt_device :interval "5s" :run-while sidebar_visible "~/.config/eww/scripts/bt.py status")
 
-;; Bluetooth
-(defpoll bt_list   :interval "5s" :initial "[]" "~/.config/eww/scripts/bt.py list")
-(defpoll bt_device :interval "5s" "~/.config/eww/scripts/bt.py status")
-;; Checks if bluetooth is soft-blocked (off) or unblocked (on)
-(defpoll bt_status :interval "2s" "rfkill list bluetooth | grep -q 'Soft blocked: yes' && echo 'off' || echo 'on'")
+(defpoll current_vol :interval "1s" :initial "0" :run-while sidebar_visible "pamixer --get-volume")
+(defpoll current_bri :interval "1s" :initial "0" :run-while sidebar_visible "brightnessctl -m | awk -F, '{print substr($4, 0, length($4)-1)}'")
 
-;; Volume & Brightness
-(defvar vol_reveal false)
-(defvar bri_reveal false)
-(defpoll current_vol :interval "1s" "pamixer --get-volume")
-(defpoll current_bri :interval "1s" "brightnessctl g -P")
+;; Music Listener (Instant Updates)
+(deflisten music :initial '{"title": "No Music", "artist": "", "status": "Stopped", "icon": "󰐊"}'
+                 "~/.config/eww/scripts/music.py")
 
-;; System Status
+;; --- Popup Polls (Heavyweight) ---
+;; These only run when the center popup is actually open
+(defpoll wifi_list :interval "10s" :initial "[]" :run-while popup_visible "~/.config/eww/scripts/net.py list")
+(defpoll bt_list   :interval "5s"  :initial "[]" :run-while popup_visible "~/.config/eww/scripts/bt.py list")
+
+;; Status checks for the Toggle Buttons inside the popup
+(defpoll net_status :interval "2s" :run-while popup_visible "nmcli networking")
+(defpoll bt_status  :interval "2s" :run-while popup_visible "rfkill list bluetooth | grep -q 'Soft blocked: yes' && echo 'off' || echo 'on'")
+
+;; --- Other Variables ---
 (defvar dnd_status "Off")
 (defvar pwr_profile "Performance")
-
-;; Music Variables
-(defpoll music_title :interval "1s" "playerctl metadata --format '{{ title }}' || echo 'No Music'")
-(defpoll music_artist :interval "1s" "playerctl metadata --format '{{ artist }}' || echo ''")
-(defpoll music_status :interval "1s" "playerctl status || echo 'Paused'")
-
-;; Window Control
+(defvar vol_reveal false)
+(defvar bri_reveal false)
+(defvar music_opt_icon "")
 (defvar active_view 0)
-
 
 ;; --- Windows ---
 
@@ -130,23 +131,24 @@
 
       ;; Song Title
       (label :class "media-song"
-             :text music_title
+             :text {music.title}
              :limit-width 25)
 
       ;; Artist Name
       (label :class "media-artist"
-             :text music_artist
+             :text {music.artist}
              :limit-width 25)
 
       ;; Controls
       (box :class "media-controls" :orientation "h" :halign "center" :spacing 20
-         (button :onclick "playerctl previous" "󰒮")
+         (button :onclick "playerctl -p spotify_player previous" "󰒮")
 
          ;; Dynamic Play/Pause Button
-         (button :onclick "playerctl play-pause"
-                 "${music_status == 'Playing' ? '󰏤' : '󰐊'}")
+         (button :onclick "~/.config/eww/scripts/music-toggle.sh &"
+                 ;; Show override if set, otherwise show real icon
+                 {music_opt_icon != "" ? music_opt_icon : music.icon})
 
-         (button :onclick "playerctl next" "󰒭")))
+         (button :onclick "playerctl -p spotify_player next" "󰒭")))
 
     ;; 4. Calendar
     (box :class "calendar-section"
@@ -244,3 +246,6 @@
   (button :class "circle-btn ${active == true ? 'active' : ''} ${classname}"
           :onclick action
     (label :text icon)))
+
+(defvar icon-hover-state false)
+
