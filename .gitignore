@@ -62,9 +62,7 @@
 /.config/fish/*
 !/.config/fish/config.fish
 !/.config/fish/functions/
-/.config/fish/functions/*
-!/.config/fish/functions/loadkey.fish
-!/.config/fish/functions/y.fish
+!/.config/fish/functions/*
 
 # fastfetch
 !/.config/fastfetch/
