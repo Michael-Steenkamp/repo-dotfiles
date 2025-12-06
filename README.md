@@ -116,6 +116,9 @@ fish_add_path ~/.cargo/bin
 # Core DE components (DE, Wallpaper, SearchBar, TaskBar, Notifications)
 sudo pacman -S hyprland hyprpaper rofi waybar dunst
 
+# Widget System
+yay -S eww-git
+
 # Utilities (Screenshot, Clipboard, Brightness)
 sudo pacman -S grim slurp swappy wl-clipboard brightnessctl
 ```
