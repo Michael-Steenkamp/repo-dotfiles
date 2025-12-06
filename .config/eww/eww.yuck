@@ -1,30 +1,38 @@
-;; --- Variables (Placeholders for now) ---
+;; --- Variables ---
+
 ;; Network
-(defpoll net_ssid  :interval "2s"
-                   "~/.config/eww/scripts/net.py ssid")
-(defpoll net_icon  :interval "2s"
-                   "~/.config/eww/scripts/net.py icon")
-(defpoll wifi_list :interval "10s"
-                   :initial "[]"
-                   "~/.config/eww/scripts/net.py list")
+(defpoll net_ssid  :interval "2s" "~/.config/eww/scripts/net.py ssid")
+(defpoll net_icon  :interval "2s" "~/.config/eww/scripts/net.py icon")
+(defpoll wifi_list :interval "10s" :initial "[]" "~/.config/eww/scripts/net.py list")
 (defpoll net_status :interval "2s" "nmcli networking")
 
 ;; Bluetooth
-(defpoll bt_list :interval "5s"
-                        :initial "[]"
-                        "~/.config/eww/scripts/bt.py list")
-(defpoll bt_device :interval "5s"
-                   "~/.config/eww/scripts/bt.py status")
-(defpoll bt_status  :interval "2s" "rfkill list bluetooth | grep -q 'Soft blocked: yes' && echo 'off' || echo 'on'")
+(defpoll bt_list   :interval "5s" :initial "[]" "~/.config/eww/scripts/bt.py list")
+(defpoll bt_device :interval "5s" "~/.config/eww/scripts/bt.py status")
+;; Checks if bluetooth is soft-blocked (off) or unblocked (on)
+(defpoll bt_status :interval "2s" "rfkill list bluetooth | grep -q 'Soft blocked: yes' && echo 'off' || echo 'on'")
 
+;; Volume & Brightness
+(defvar vol_reveal false)
+(defvar bri_reveal false)
+(defpoll current_vol :interval "1s" "pamixer --get-volume")
+(defpoll current_bri :interval "1s" "brightnessctl g -P")
 
+;; System Status
 (defvar dnd_status "Off")
 (defvar pwr_profile "Performance")
 
-;; Variable to control which popup view is shown
+;; Music Variables
+(defpoll music_title :interval "1s" "playerctl metadata --format '{{ title }}' || echo 'No Music'")
+(defpoll music_artist :interval "1s" "playerctl metadata --format '{{ artist }}' || echo ''")
+(defpoll music_status :interval "1s" "playerctl status || echo 'Paused'")
+
+;; Window Control
 (defvar active_view 0)
 
-;; --- Main Sidebar Window ---
+
+;; --- Windows ---
+
 (defwindow sidebar
   :monitor 0
   :geometry (geometry :x "10px"
@@ -37,7 +45,6 @@
   :focusable false
   (sidebar_layout))
 
-;; --- Central Popup Window ---
 (defwindow center_popup
   :monitor 0
   :geometry (geometry :x "0%"
@@ -48,7 +55,9 @@
   :stacking "overlay"
   (popup_layout))
 
-;; --- Widget Definitions ---
+
+;; --- Layout Definitions ---
+
 (defwidget sidebar_layout []
   (box :class "main-container"
        :orientation "v"
@@ -58,41 +67,86 @@
     ;; 1. Top Grid (2x2)
     (box :class "grid-section" :orientation "v" :spacing 10
       (box :orientation "h" :spacing 10
-        (grid_btn :label ""
-                  :value net_ssid
-                  :icon net_icon
-                  :target 1)
-        (grid_btn :label ""
-                  :value bt_device
-                  :icon "󰂯"
-                  :target 2))
+        (grid_btn :label "" :value net_ssid :icon net_icon :target 1)
+        (grid_btn :label "" :value bt_device :icon "󰂯" :target 2))
       (box :orientation "h" :spacing 10
-        (grid_btn :label "DND"
-                  :value dnd_status
-                  :icon "󰂛"
-                  :target 3)
-        (grid_btn :label "PWR"
-                  :value pwr_profile
-                  :icon "󰐥"
-                  :target 4)))
+        (grid_btn :label "DND" :value dnd_status :icon "󰂛" :target 3)
+        (grid_btn :label "PWR" :value pwr_profile :icon "󰐥" :target 4)))
 
-    ;; 2. Circular Controls
-    (box :class "circles-section"
-         :orientation "h"
-         :halign "center"
-         :spacing 20
-      (circle_btn :icon "󰕾" :name "vol")
-      (circle_btn :icon "󰃠" :name "bri")
-      (circle_btn :icon "󰄄" :name "shot")
-      (circle_btn :icon "󰚨" :name "empty")) ;; Placeholder icon
+    ;; 2. Circular Controls & Sliders
+    (box :class "controls-container"
+         :orientation "v"
+         :space-evenly false
+         :spacing 5
+
+      ;; The Row of Buttons
+      (box :class "circles-section" :orientation "h" :spacing 20 :halign "center"
+        ;; Volume: Added :classname "vol-btn"
+        (circle_btn :icon "󰕾"
+                    :active vol_reveal
+                    :classname "vol-btn"
+                    :action "eww update vol_reveal=${!vol_reveal} bri_reveal=false")
+
+        ;; Brightness: Added :classname "bri-btn"
+        (circle_btn :icon "󰃠"
+                    :active bri_reveal
+                    :classname "bri-btn"
+                    :action "eww update bri_reveal=${!bri_reveal} vol_reveal=false")
+
+        ;; Screenshot & Empty
+        (circle_btn :icon "󰄄" :action "notify-send 'Screenshot' 'Taking shot...'")
+        (circle_btn :icon "󰚨" :action "notify-send 'Empty' 'Nothing here'"))
+
+      ;; Volume Slider (Reveals when vol_reveal is true)
+      (revealer :transition "slidedown"
+                :reveal vol_reveal
+                :duration "350ms"
+        (box :class "slider-box" :orientation "h" :space-evenly false
+             ;; Removed the "Vol" label
+             (scale :class "vol-scale"
+                    :hexpand true   ;; <--- Forces it to fill width
+                    :min 0
+                    :max 101
+                    :value current_vol
+                    ;; printf rounds the float to int (e.g. 50.4 -> 50)
+                    :onchange "pamixer --set-volume $(printf '%.0f' {})")))
+
+      ;; Brightness Slider (Reveals when bri_reveal is true)
+      (revealer :transition "slidedown"
+                :reveal bri_reveal
+                :duration "350ms"
+        (box :class "slider-box" :orientation "h" :space-evenly false
+             ;; Removed the "Bri" label
+             (scale :class "bri-scale"
+                    :hexpand true   ;; <--- Forces it to fill width
+                    :min 0
+                    :max 101
+                    :value current_bri
+                    :onchange "brightnessctl s {}%"))))
 
     ;; 3. Media Player
     (box :class "media-section" :orientation "v" :space-evenly false
       (label :class "media-title" :text "Now Playing")
-      (label :class "media-song" :text "Never Gonna Give You Up")
-      (label :class "media-artist" :text "Rick Astley")
+
+      ;; Song Title
+      (label :class "media-song"
+             :text music_title
+             :limit-width 25)
+
+      ;; Artist Name
+      (label :class "media-artist"
+             :text music_artist
+             :limit-width 25)
+
+      ;; Controls
       (box :class "media-controls" :orientation "h" :halign "center" :spacing 20
-         (button "󰒮") (button "󰐊") (button "󰒭")))
+         (button :onclick "playerctl previous" "󰒮")
+
+         ;; Dynamic Play/Pause Button
+         (button :onclick "playerctl play-pause"
+                 "${music_status == 'Playing' ? '󰏤' : '󰐊'}")
+
+         (button :onclick "playerctl next" "󰒭")))
 
     ;; 4. Calendar
     (box :class "calendar-section"
@@ -108,40 +162,16 @@
           (label :text "Spotify: Liked Song" :halign "start"))))
   ))
 
-;; --- Helper Widgets ---
-
-;; Button for the 2x2 Grid
-(defwidget grid_btn [label value icon target]
-  (button :class "grid-btn"
-          ;; IMPORTANT: Update variable, THEN open window
-          :onclick "eww update active_view='${target}' && eww open center_popup"
-    (box :orientation "v" :space-evenly false
-      (label :class "grid-icon" :text icon)
-      (label :class "grid-label" :text label)
-      (label :class "grid-value" :text value :limit-width 10))))
-
-;; Circular Button
-(defwidget circle_btn [icon name]
-  (button :class "circle-btn ${name}"
-          :onclick "notify-send 'Clicked ${name}'"
-    (label :text icon)))
-
-;; --- Popup Layout (The Stack) ---
 (defwidget popup_layout []
   (box :class "popup-container"
        :orientation "v"
        :space-evenly false
 
     ;; Header with Close Button
-    (box :orientation "h"
-         :halign "end"
-         :space-evenly false
-         (button :class "close-btn"
-                 :onclick "eww update active_view=0 && eww close center_popup"
-                 ""))
+    (box :orientation "h" :halign "end" :space-evenly false
+         (button :class "close-btn" :onclick "eww update active_view=0 && eww close center_popup" ""))
 
-    (stack :selected active_view
-           :transition "slideleft"
+    (stack :selected active_view :transition "slideleft"
 
       ;; 0. Placeholder
       (label :text "Select an item..." :class "placeholder-text")
@@ -149,59 +179,43 @@
       ;; 1. Network View
       (box :orientation "v" :spacing 15 :space-evenly false
            (label :class "popup-header" :text "Wi-Fi Networks")
-
-           ;; Control Buttons (Toggle & Refresh) -> Changed class to 'action-btn'
            (box :orientation "h" :spacing 15
+             ;; Toggle Button (Green if On)
              (button :class "action-btn ${net_status == 'enabled' ? 'active' : ''}"
                      :onclick "~/.config/hypr/scripts/toggle-network.sh"
                      "${net_status == 'enabled' ? 'On 󰖩' : 'Off 󰖪'}")
-             (button :class "action-btn"
-                     :onclick "~/.config/eww/scripts/net.py scan"
-                     "Refresh "))
+             (button :class "action-btn" :onclick "~/.config/eww/scripts/net.py scan" "Refresh "))
 
-           ;; Scrollable List
            (scroll :hscroll false :vscroll true :height 200
              (box :orientation "v" :spacing 5
                (for net in wifi_list
-                 (button :class "list-item"
-                         :halign "fill"
-                         :onclick "nmcli device wifi connect '${net.ssid}' &"
+                 (button :class "list-item" :halign "fill" :onclick "nmcli device wifi connect '${net.ssid}' &"
                    (box :orientation "h" :space-evenly true
                      (label :halign "start" :text "${net.ssid}" :limit-width 15)
                      (box :orientation "h" :halign "end" :spacing 10
                        (label :text "${net.sec}")
-                       (label :text "${net.signal}%")
-                     )))))))
+                       (label :text "${net.signal}%"))))))))
 
       ;; 2. Bluetooth View
       (box :orientation "v" :spacing 15 :space-evenly false
            (label :class "popup-header" :text "Bluetooth Devices")
-
-           ;; Top Controls
            (box :orientation "h" :spacing 15
+             ;; Toggle Button (Green if On)
              (button :class "action-btn ${bt_status == 'on' ? 'active' : ''}"
                      :onclick "~/.config/hypr/scripts/toggle-bluetooth.sh"
                      "${bt_status == 'on' ? 'On 󰂯' : 'Off 󰂲'}")
-             (button :class "action-btn"
-                     :onclick "~/.config/hypr/scripts/toggle-sidebar.sh && overskride &"
-                     "Manager "))
+             (button :class "action-btn" :onclick "overskride &" "Manager "))
 
-           ;; Device List
            (scroll :hscroll false :vscroll true :height 200
              (box :orientation "v" :spacing 5
                (for device in bt_list
-                 (button :class "list-item"
-                         :halign "fill"
-                         ;; Toggle connection on click
+                 (button :class "list-item" :halign "fill"
                          :onclick "~/.config/eww/scripts/bt.py connect ${device.mac} ${device.action} &"
                    (box :orientation "h" :space-evenly true
                      (box :orientation "h" :space-evenly false :spacing 10
                        (label :text "${device.icon}" :style "color: ${device.color}; font-size: 16px;")
                        (label :text "${device.name}" :limit-width 15))
-
-                     (label :halign "end"
-                            :text "${device.status_text}"
-                            :style "font-size: 10px; color: ${device.color};")))))))
+                     (label :halign "end" :text "${device.status_text}" :style "font-size: 10px; color: ${device.color};")))))))
 
       ;; 3. DND View
       (box :orientation "v" :spacing 10 :space-evenly false
@@ -215,3 +229,18 @@
            (button :class "list-item" "Performance")
            (button :class "list-item" "Power Saver"))
     )))
+
+;; --- Helper Widgets ---
+
+(defwidget grid_btn [label value icon target]
+  (button :class "grid-btn ${active_view == target ? 'active' : ''}"
+          :onclick "eww update active_view='${target}' && eww open center_popup"
+    (box :orientation "v" :space-evenly false :valign "center"
+      (label :class "grid-icon" :text icon)
+      (label :class "grid-label" :text label :visible {label != ""})
+      (label :class "grid-value" :text value :limit-width 12))))
+
+(defwidget circle_btn [icon action ?active ?classname]
+  (button :class "circle-btn ${active == true ? 'active' : ''} ${classname}"
+          :onclick action
+    (label :text icon)))
