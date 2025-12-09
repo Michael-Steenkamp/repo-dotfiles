@@ -6,34 +6,42 @@
 
 /* --- Sidebar Window --- */
 .main-container {
-  background-color: #1e1e2e; /* Dark background */
+  background-color: #1e1e2e;
   padding: 15px;
   border-radius: 15px;
   border: 2px solid #313244;
   box-shadow: -4px 0 15px rgba(0, 0, 0, 0.5);
 }
 
-/* --- 2x2 Grid Section --- */
+/* --- Grid Section (Net/BT Buttons) --- */
 .grid-btn {
   background-color: #313244;
   border-radius: 12px;
   padding: 10px;
-  transition: all 0.3s;
-  border: 2px solid transparent; /* Reserve space for border */
+  transition: all 0.2s;
+  border: 2px solid transparent;
 }
 
-/* Hover State */
 .grid-btn:hover {
   background-color: #45475a;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* ACTIVE STATE (When popup is open) */
+.grid-btn:active {
+  background-color: #1e1e2e;
+}
+
+.grid-btn:active .grid-icon {
+  font-size: 22px;
+  text-shadow: none;
+}
+
 .grid-btn.active {
   background-color: #1e1e2e;
-  border: 2px solid #89b4fa; /* Accent Blue Border */
+  border: 2px solid #89b4fa;
   box-shadow: inset 0 0 10px rgba(137, 180, 250, 0.1);
 }
+
 .grid-btn.active .grid-icon {
   color: #89b4fa;
   text-shadow: 0 0 5px rgba(137, 180, 250, 0.5);
@@ -43,103 +51,155 @@
   font-size: 26px;
   color: #cdd6f4;
   margin-bottom: 4px;
+  transition: font-size 0.1s;
 }
+
 .grid-label {
   font-size: 11px;
   font-weight: 800;
   color: #6c7086;
   margin-bottom: 2px;
 }
+
 .grid-value {
   font-size: 11px;
   font-weight: bold;
   color: #a6adc8;
 }
 
-/* --- Sliders Area --- */
-.controls-container {
-  /* Just holding the buttons and sliders */
+/* --- Battery Widget (Final Fix) --- */
+.battery-box {
+  background-color: #313244;
+  border-radius: 12px;
+  padding: 10px 0px;
+  margin-top: 1px;
+}
+
+.battery-item {
+  margin: 0;
+  padding: 0;
+}
+
+.battery-bg {
+  color: #45475a;
+  background-color: transparent;
+  margin: 1px;
+}
+
+.battery-fg {
+  color: #a6e3a1;
+  background-color: transparent;
+  /* CRITICAL: Must match the bg margin to stay aligned */
+  margin: 1px;
+}
+
+.battery-fg.charging {
+  color: #a6e3a1;
+}
+
+.battery-icon {
+  color: #cdd6f4;
+  font-size: 20px;
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: bold;
+  margin-right: 2px;
+  margin-bottom: 2px;
+}
+
+.charging-icon {
+  color: #1e1e2e;
+  background-color: #a6e3a1;
+  font-size: 12px;
+  border-radius: 50%;
+  min-width: 16px;
+  min-height: 16px;
+  padding: 0;
+}
+
+.battery-text {
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #bac2de;
+}
+
+tooltip {
+  background-color: #1e1e2e;
+  color: #cdd6f4;
+  border: 1px solid #313244;
 }
 
 /* --- Circular Buttons (Bottom Row) --- */
 .circle-btn {
-  background-color: #45475a;
-  min-width: 34px;
-  min-height: 34px;
+  background-color: #313244;
+  min-width: 50px;
+  min-height: 50px;
   border-radius: 50%;
   color: #cdd6f4;
-
-  /* Standard GTK transition (Colors only) */
-  transition: all 0.2s;
-
   padding: 0;
-  margin: 7px;
-  font-size: 18px;
+  margin: 5px;
+  font-size: 24px;
+  transition: all 0.2s;
 }
 
 .circle-btn:hover {
-  background-color: #313244;
+  background-color: #45475a;
   color: #89b4fa;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .circle-btn:active {
   color: #89b4fa;
-  background-color: #1e1e2e; /* Darker on click instead of shrinking */
+  background-color: #1e1e2e;
+  font-size: 20px;
 }
 
-/* Volume Button (Blue) */
 .vol-btn.active {
   background-color: #89b4fa;
   color: #1e1e2e;
-  box-shadow: 0 0 10px rgba(137, 180, 250, 0.4); /* Optional glow */
+  box-shadow: 0 0 15px rgba(137, 180, 250, 0.5);
 }
 
-/* Brightness Button (Peach/Orange) */
 .bri-btn.active {
   background-color: #fab387;
   color: #1e1e2e;
-  box-shadow: 0 0 10px rgba(250, 179, 135, 0.4); /* Optional glow */
+  box-shadow: 0 0 15px rgba(250, 179, 135, 0.5);
 }
 
+/* --- Sliders --- */
 .slider-box {
   margin-top: 10px;
   background-color: #313244;
   border-radius: 12px;
-  padding: 10px 15px; /* Added horizontal padding */
+  padding: 10px 15px;
 }
 
-/* --- The Slider Bar (Scale) --- */
 scale {
-  /* Removed min-width so it adapts to the container */
   min-height: 10px;
 }
 
-/* The Background Rail */
 scale trough {
   background-color: #181825;
   border-radius: 10px;
-  min-height: 8px; /* Slightly thicker */
+  min-height: 8px;
 }
 
-/* The Filled Part (Volume = Blue) */
 .vol-scale highlight {
   background-color: #89b4fa;
   border-radius: 10px;
 }
 
-/* The Filled Part (Brightness = Yellow/Peach) */
 .bri-scale highlight {
   background-color: #fab387;
   border-radius: 10px;
 }
 
-/* The Handle (The little knob you drag) */
 scale handle {
   background-color: #cdd6f4;
   border-radius: 50px;
   min-width: 14px;
   min-height: 14px;
-  margin: -3px; /* Centers the handle nicely on the rail */
+  margin: -3px;
 }
 
 /* --- Media Section --- */
@@ -149,53 +209,42 @@ scale handle {
   padding: 20px;
   border: 1px solid #313244;
 }
+
 .media-title {
   font-size: 12px;
   color: #a6adc8;
 }
+
 .media-song {
   font-size: 16px;
   font-weight: bold;
   color: #cdd6f4;
 }
+
 .media-artist {
   font-size: 14px;
   color: #bac2de;
   margin-bottom: 10px;
 }
 
-/* --- Media Buttons Animation --- */
 .media-controls button {
   transition: all 0.1s ease-in-out;
   color: #cdd6f4;
-  border-radius: 50%; /* Makes the hover background circular */
-
-  /* 1. Set a fixed size so the layout doesn't jump */
+  border-radius: 50%;
   min-width: 40px;
   min-height: 40px;
-
-  /* 2. Set the Base Icon Size */
   font-size: 20px;
 }
 
 .media-controls button:hover {
   color: #89b4fa;
   background-color: transparent;
-
-  /* 3. The "Scale" Trick: Increase font size on hover */
   font-size: 24px;
 }
 
 .media-controls button:active {
   color: #74c7ec;
-  font-size: 20px; /* Shrink slightly on click */
-}
-/* --- Calendar Section --- */
-.calendar-section {
-  background-color: #313244;
-  padding: 10px;
-  border-radius: 12px;
-  color: #cdd6f4;
+  font-size: 20px;
 }
 
 /* --- Notifications Section --- */
@@ -204,6 +253,7 @@ scale handle {
   border-radius: 12px;
   padding: 15px;
 }
+
 .section-header {
   font-weight: bold;
   margin-bottom: 10px;
@@ -227,6 +277,7 @@ scale handle {
   min-height: 30px;
   margin-bottom: 10px;
 }
+
 .close-btn:hover {
   background-color: #f38ba8;
   color: #1e1e2e;
@@ -239,7 +290,6 @@ scale handle {
   margin-bottom: 10px;
 }
 
-/* Top Action Buttons (Toggle / Refresh) */
 .action-btn {
   background-color: #313244;
   color: #cdd6f4;
@@ -247,21 +297,21 @@ scale handle {
   border-radius: 8px;
   font-weight: bold;
 }
+
 .action-btn:hover {
   background-color: #45475a;
 }
 
-/* Active Toggle (Green) */
 .action-btn.active {
-  background-color: #a6e3a1; /* Green */
+  background-color: #a6e3a1;
   color: #1e1e2e;
   border: 1px solid #a6e3a1;
 }
+
 .action-btn.active:hover {
   background-color: #94e2d5;
 }
 
-/* The List Items */
 .list-item {
   padding: 8px 12px;
   background-color: #313244;
@@ -269,6 +319,7 @@ scale handle {
   color: #cdd6f4;
   transition: all 0.2s;
 }
+
 .list-item:hover {
   background-color: #45475a;
 }
