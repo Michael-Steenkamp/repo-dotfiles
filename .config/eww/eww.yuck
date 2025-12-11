@@ -3,7 +3,7 @@
 (defvar popup_visible false)
 
 ;; --- Polls ---
-(defpoll music :interval "0.5s" :initial '{"title": "No Music", "artist": "", "status": "Stopped", "icon": "󰐊"}' "~/.config/eww/scripts/music.py")
+(defpoll music :interval "1s" :initial '{"title": "No Music", "artist": "", "status": "Stopped", "cover": ""}' "~/.config/eww/scripts/music.py")
 
 (defpoll net_ssid  :interval "2s" :run-while sidebar_visible "~/.config/eww/scripts/net.py ssid")
 (defpoll net_icon  :interval "2s" :run-while sidebar_visible "~/.config/eww/scripts/net.py icon")
@@ -64,10 +64,10 @@
     ;; 2. Circular Controls & Sliders
     (box :class "controls-container" :orientation "v" :space-evenly false :spacing 5
       (box :class "circles-section" :orientation "h" :spacing 10 :halign "center"
-        (circle_btn :icon "󰕾 " :active vol_reveal :classname "vol-btn" :action "eww update vol_reveal=${!vol_reveal} bri_reveal=false")
-        (circle_btn :icon "󰃠 " :active bri_reveal :classname "bri-btn" :action "eww update bri_reveal=${!bri_reveal} vol_reveal=false")
-        (circle_btn :icon "󰄄 " :action "notify-send 'Screenshot' 'Taking shot...'")
-        (circle_btn :icon "󰚨 " :action "notify-send 'Empty' 'Nothing here'"))
+        (circle_btn :icon "󰕾" :active vol_reveal :classname "vol-btn" :action "eww update vol_reveal=${!vol_reveal} bri_reveal=false")
+        (circle_btn :icon "󰃠" :active bri_reveal :classname "bri-btn" :action "eww update bri_reveal=${!bri_reveal} vol_reveal=false")
+        (circle_btn :icon "󰄄" :action "notify-send 'Screenshot' 'Taking shot...'")
+        (circle_btn :icon "󰚨" :action "notify-send 'Empty' 'Nothing here'"))
 
       (revealer :transition "slidedown" :reveal vol_reveal :duration "350ms"
         (box :class "slider-box" :orientation "h" :space-evenly false
@@ -78,15 +78,17 @@
              (scale :class "bri-scale" :hexpand true :min 0 :max 101 :value current_bri :onchange "brightnessctl s {}%")))
     )
 
-    ;; 3. Media Player
-    (box :class "media-section" :orientation "v" :space-evenly false
-      (label :class "media-title" :text "Now Playing")
-      (label :class "media-song" :text {music.title} :limit-width 25)
-      (label :class "media-artist" :text {music.artist} :limit-width 25)
-      (box :class "media-controls" :orientation "h" :halign "center" :spacing 20
-         (button :onclick "playerctl -p spotify_player previous" "󰒮")
-         (button :onclick "~/.config/eww/scripts/music-toggle.sh &" {music_opt_icon != "" ? music_opt_icon : music.icon})
-         (button :onclick "playerctl -p spotify_player next" "󰒭")))
+    ;; 3. Media Player (Album Art Background)
+    (box :class "media-section"
+         :orientation "v"
+         :space-evenly false
+         :style "background-image: url('${music.cover}');"
+
+      (box :class "media-overlay" :orientation "v" :space-evenly false :valign "center" :halign "center" :vexpand true :hexpand true
+        (label :class "media-song" :text {music.title} :limit-width 20 :wrap true :halign "center")
+        (label :class "media-artist" :text {music.artist} :limit-width 20 :wrap true :halign "center")
+      )
+    )
 
     ;; 4. Notifications
     (box :class "notif-section" :orientation "v" :space-evenly false :vexpand true
@@ -104,7 +106,7 @@
             (box :class "notif-item ${notify.urgency == 2 ? 'critical' : ''}" :orientation "v" :space-evenly false :spacing 5
               (box :orientation "h" :space-evenly true
                  (label :class "notif-app" :text {notify.app} :halign "start")
-                 (label :class "notif-time" :text "Now" :halign "end")) ;; 'Now' is a placeholder, dunst timestamp is complex
+                 (label :class "notif-time" :text "Now" :halign "end"))
               (label :class "notif-summary" :text {notify.summary} :halign "start" :limit-width 30 :wrap true)
               (label :class "notif-body" :text {notify.body} :halign "start" :wrap true)
             )
@@ -120,7 +122,7 @@
     (box :orientation "h" :halign "end" :space-evenly false
         (button :class "close-btn" :onclick "eww update active_view=0 popup_visible=false && eww close center_popup" "")
     (stack :selected active_view :transition "slideleft"
-      (label :text "Select an item..." :class "placeholder-text")
+      (label :text "Select an item..." :class "placeholder-text"))
 
       ;; Network
       (box :orientation "v" :spacing 15 :space-evenly false

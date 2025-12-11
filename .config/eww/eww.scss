@@ -210,47 +210,33 @@ scale handle {
 
 /* --- Media Section --- */
 .media-section {
-  background-color: #181825;
+  background-color: #181825; /* Fallback color if no art */
   border-radius: 12px;
-  padding: 20px;
+  background-size: cover;
+  background-position: center;
+  padding: 0;
   border: 1px solid #313244;
+  min-height: 120px;
 }
 
-.media-title {
-  font-size: 12px;
-  color: #a6adc8;
+.media-overlay {
+  /* This creates the dark tint over the image */
+  background-color: rgba(24, 24, 37, 0.7);
+  padding: 20px;
 }
 
 .media-song {
   font-size: 16px;
   font-weight: bold;
-  color: #cdd6f4;
+  color: #ffffff; /* Pure white pops better over art */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Shadow for readability */
+  margin-bottom: 5px;
 }
 
 .media-artist {
   font-size: 14px;
   color: #bac2de;
-  margin-bottom: 10px;
-}
-
-.media-controls button {
-  transition: all 0.1s ease-in-out;
-  color: #cdd6f4;
-  border-radius: 50%;
-  min-width: 40px;
-  min-height: 40px;
-  font-size: 20px;
-}
-
-.media-controls button:hover {
-  color: #89b4fa;
-  background-color: transparent;
-  font-size: 24px;
-}
-
-.media-controls button:active {
-  color: #74c7ec;
-  font-size: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 /* --- Notifications Section --- */

@@ -1,32 +1,65 @@
 #!/usr/bin/env python3
 import json
+import os
 import subprocess
-import sys
+import urllib.request
+
+# Path where we save the album art
+COVER_PATH = "/tmp/eww_cover.png"
+# Placeholder image if no art is found (empty transparent or a default icon)
+DEFAULT_COVER = ""
 
 
 def get_music_status():
-    # Check spotify_player first, then spotify, then any other player
-    # -s: silent (don't print errors if no player found)
+    # Fetch Title, Artist, Status, and Art URL
     cmd = [
         "playerctl",
         "-p",
         "spotify_player,spotify,%any",
         "metadata",
         "--format",
-        "{{title}}::{{artist}}::{{status}}",
+        "{{title}}::{{artist}}::{{status}}::{{mpris:artUrl}}",
         "-s",
     ]
 
     try:
         result = subprocess.run(cmd, capture_output=True, text=True)
 
-        # If command failed or returned empty (no player found)
         if result.returncode != 0 or not result.stdout.strip():
             return None
 
         parts = result.stdout.strip().split("::")
         if len(parts) >= 3:
-            return {"title": parts[0], "artist": parts[1], "status": parts[2]}
+            title = parts[0]
+            artist = parts[1]
+            status = parts[2]
+            art_url = parts[3] if len(parts) > 3 else ""
+
+            # --- Image Handling ---
+            final_cover = DEFAULT_COVER
+
+            if art_url:
+                # If it's a local file (mpd/local files), strip 'file://'
+                if art_url.startswith("file://"):
+                    final_cover = art_url[7:]
+                # If it's a web URL (Spotify), download it
+                elif art_url.startswith("http"):
+                    # Optimization: Only download if the URL changed?
+                    # For simplicity in this script, we just download.
+                    # (In a perfect world, we'd cache this based on song ID)
+                    try:
+                        urllib.request.urlretrieve(art_url, COVER_PATH)
+                        final_cover = COVER_PATH
+                    except:
+                        pass
+
+            return {
+                "title": title,
+                "artist": artist,
+                "status": status,
+                "cover": final_cover,
+            }
+
     except Exception:
         pass
 
@@ -40,15 +73,15 @@ def main():
         title = data["title"] if data["title"] else "No Music"
         artist = data["artist"] if data["artist"] else ""
         status = data["status"]
-        icon = "󰏤" if status == "Playing" else "󰐊"
+        cover = data["cover"]
     else:
         title = "No Music"
         artist = ""
         status = "Stopped"
-        icon = "󰐊"
+        cover = ""
 
-    # Create the final JSON object expected by Eww
-    output = {"title": title, "artist": artist, "status": status, "icon": icon}
+    # Generate JSON
+    output = {"title": title, "artist": artist, "status": status, "cover": cover}
 
     print(json.dumps(output))
 
