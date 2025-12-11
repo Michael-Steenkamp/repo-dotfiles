@@ -328,3 +328,58 @@ scale handle {
   color: #a6adc8;
   font-size: 14px;
 }
+
+/* --- Notifications Section --- */
+.notif-header-box {
+  margin-bottom: 10px;
+}
+
+.clear-btn {
+  color: #f38ba8; /* Red/Pink for delete action */
+  background-color: transparent;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.clear-btn:hover {
+  background-color: #f38ba8;
+  color: #1e1e2e;
+}
+
+.notif-item {
+  background-color: #313244;
+  border-radius: 8px;
+  padding: 10px;
+  margin-right: 5px; /* Spacing for scrollbar */
+}
+
+/* Critical Urgency Border */
+.notif-item.critical {
+  border: 1px solid #f38ba8;
+}
+
+.notif-app {
+  font-size: 10px;
+  font-weight: bold;
+  color: #89b4fa; /* Blue */
+}
+
+.notif-time {
+  font-size: 10px;
+  color: #6c7086;
+}
+
+.notif-summary {
+  font-weight: bold;
+  font-size: 13px;
+  color: #cdd6f4;
+  margin-top: 2px;
+}
+
+.notif-body {
+  font-size: 12px;
+  color: #a6adc8;
+  margin-top: 2px;
+}

@@ -3,6 +3,8 @@
 (defvar popup_visible false)
 
 ;; --- Polls ---
+(deflisten music :initial '{"title": "No Music", "artist": "", "status": "Stopped", "icon": "󰐊"}' "~/.config/eww/scripts/music.py")
+
 (defpoll net_ssid  :interval "2s" :run-while sidebar_visible "~/.config/eww/scripts/net.py ssid")
 (defpoll net_icon  :interval "2s" :run-while sidebar_visible "~/.config/eww/scripts/net.py icon")
 (defpoll bt_device :interval "5s" :run-while sidebar_visible "~/.config/eww/scripts/bt.py status")
@@ -10,13 +12,14 @@
 (defpoll current_vol :interval "1s" :initial "0" :run-while sidebar_visible "pamixer --get-volume")
 (defpoll current_bri :interval "1s" :initial "0" :run-while sidebar_visible "brightnessctl -m | awk -F, '{print substr($4, 0, length($4)-1)}'")
 
-(deflisten music :initial '{"title": "No Music", "artist": "", "status": "Stopped", "icon": "󰐊"}' "~/.config/eww/scripts/music.py")
-
-(defpoll wifi_list :interval "10s" :initial "[]" :run-while popup_visible "~/.config/eww/scripts/net.py list")
-(defpoll bt_list   :interval "5s"  :initial "[]" :run-while popup_visible "~/.config/eww/scripts/bt.py list")
+(defpoll wifi_list :interval "1s" :initial "[]" :run-while popup_visible "~/.config/eww/scripts/net.py list")
+(defpoll bt_list   :interval "1s"  :initial "[]" :run-while popup_visible "~/.config/eww/scripts/bt.py list")
 (defpoll net_status :interval "2s" :run-while popup_visible "nmcli networking")
 (defpoll bt_status  :interval "2s" :run-while popup_visible "rfkill list bluetooth | grep -q 'Soft blocked: yes' && echo 'off' || echo 'on'")
+
 (defpoll battery_list :interval "5s" :initial "[]" :run-while sidebar_visible "~/.config/eww/scripts/battery.sh")
+
+(defpoll notifications :interval "1s" :initial "[]" :run-while sidebar_visible "~/.config/eww/scripts/notifications.py")
 
 ;; --- Other Variables ---
 (defvar vol_reveal false)
@@ -84,19 +87,27 @@
          (button :onclick "~/.config/eww/scripts/music-toggle.sh &" {music_opt_icon != "" ? music_opt_icon : music.icon})
          (button :onclick "playerctl -p spotify_player next" "󰒭")))
 
-    ;; 4. Notifications (Expanded)
-    ;; Added :vexpand true to the box and the scroll to fill remaining space
+    ;; 4. Notifications
     (box :class "notif-section" :orientation "v" :space-evenly false :vexpand true
-      (label :class "section-header" :text "Notifications" :halign "start")
+      (box :orientation "h" :space-evenly true :class "notif-header-box"
+        (label :class "section-header" :text "Notifications" :halign "start")
+        (button :class "clear-btn" :onclick "dunstctl history-clear" :halign "end" "Clear "))
 
       (scroll :hscroll false :vscroll true :vexpand true
-        (box :orientation "v" :spacing 10
-          (label :text "Discord: New Message" :halign "start")
-          (label :text "System: Update Available" :halign "start")
-          (label :text "Spotify: Liked Song" :halign "start")
-          ;; Add more dummy text to test scrolling if needed
-          (label :text "GitHub: CI Passed" :halign "start")
-          (label :text "Mail: 3 New" :halign "start")
+        (box :orientation "v" :spacing 10 :space-evenly false
+          (label :visible {arraylength(notifications) == 0}
+                 :text "No new notifications"
+                 :class "placeholder-text")
+
+          (for notify in notifications
+            (box :class "notif-item ${notify.urgency == 2 ? 'critical' : ''}" :orientation "v" :space-evenly false :spacing 5
+              (box :orientation "h" :space-evenly true
+                 (label :class "notif-app" :text {notify.app} :halign "start")
+                 (label :class "notif-time" :text "Now" :halign "end")) ;; 'Now' is a placeholder, dunst timestamp is complex
+              (label :class "notif-summary" :text {notify.summary} :halign "start" :limit-width 30 :wrap true)
+              (label :class "notif-body" :text {notify.body} :halign "start" :wrap true)
+            )
+          )
         )
       )
     )
