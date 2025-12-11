@@ -1,55 +1,57 @@
 #!/usr/bin/env python3
 import json
-import os
 import subprocess
 import sys
 
 
-def print_status(title, artist, status):
-    icon = "󰏤" if status == "Playing" else "󰐊"
-    if not title:
+def get_music_status():
+    # Check spotify_player first, then spotify, then any other player
+    # -s: silent (don't print errors if no player found)
+    cmd = [
+        "playerctl",
+        "-p",
+        "spotify_player,spotify,%any",
+        "metadata",
+        "--format",
+        "{{title}}::{{artist}}::{{status}}",
+        "-s",
+    ]
+
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True)
+
+        # If command failed or returned empty (no player found)
+        if result.returncode != 0 or not result.stdout.strip():
+            return None
+
+        parts = result.stdout.strip().split("::")
+        if len(parts) >= 3:
+            return {"title": parts[0], "artist": parts[1], "status": parts[2]}
+    except Exception:
+        pass
+
+    return None
+
+
+def main():
+    data = get_music_status()
+
+    if data:
+        title = data["title"] if data["title"] else "No Music"
+        artist = data["artist"] if data["artist"] else ""
+        status = data["status"]
+        icon = "󰏤" if status == "Playing" else "󰐊"
+    else:
         title = "No Music"
-    if not artist:
         artist = ""
+        status = "Stopped"
+        icon = "󰐊"
 
-    # Print and FLUSH immediately
-    print(
-        json.dumps({"title": title, "artist": artist, "status": status, "icon": icon}),
-        flush=True,
-    )
+    # Create the final JSON object expected by Eww
+    output = {"title": title, "artist": artist, "status": status, "icon": icon}
 
-
-def listen():
-    # 1. Use stdbuf -oL to force playerctl to flush output line-by-line
-    # 2. Monitor spotify_player first, fall back to others
-    cmd = "stdbuf -oL playerctl -p spotify_player,spotify,%any metadata --format '{{title}}::{{artist}}::{{status}}' -F"
-
-    # 3. Open subprocess (shell=True needed for stdbuf)
-    process = subprocess.Popen(
-        cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-    )
-
-    while True:
-        # 4. Read raw bytes line by line (bypassing Python's text buffer)
-        line = process.stdout.readline()
-        if not line:
-            break
-
-        try:
-            decoded = line.decode("utf-8").strip()
-            parts = decoded.split("::")
-
-            if len(parts) >= 3:
-                print_status(parts[0], parts[1], parts[2])
-            else:
-                # Fallback for weird output
-                print_status("No Music", "", "Stopped")
-        except Exception:
-            continue
+    print(json.dumps(output))
 
 
 if __name__ == "__main__":
-    try:
-        listen()
-    except KeyboardInterrupt:
-        sys.exit(0)
+    main()

@@ -3,7 +3,7 @@
 (defvar popup_visible false)
 
 ;; --- Polls ---
-(deflisten music :initial '{"title": "No Music", "artist": "", "status": "Stopped", "icon": "󰐊"}' "~/.config/eww/scripts/music.py")
+(defpoll music :interval "0.5s" :initial '{"title": "No Music", "artist": "", "status": "Stopped", "icon": "󰐊"}' "~/.config/eww/scripts/music.py")
 
 (defpoll net_ssid  :interval "2s" :run-while sidebar_visible "~/.config/eww/scripts/net.py ssid")
 (defpoll net_icon  :interval "2s" :run-while sidebar_visible "~/.config/eww/scripts/net.py icon")
