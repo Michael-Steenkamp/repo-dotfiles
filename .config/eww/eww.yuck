@@ -54,6 +54,7 @@
 
       ;; Battery Widget
       (box :class "battery-box" :orientation "h" :space-evenly true :spacing 10
+           :visible {arraylength(battery_list) > 0}
           (battery_circle :device {battery_list[0]})
           (battery_circle :device {battery_list[1]})
           (battery_circle :device {battery_list[2]})
@@ -161,6 +162,7 @@
        :valign "center"
        :halign "center"
        :class "battery-item"
+       :visible {device != "null" && device != ""}
        ;; Check if device is valid before accessing properties
        :tooltip {device != "null" && device != "" ? "${device.name}: ${device.percent}%" : "Empty Slot"}
 
