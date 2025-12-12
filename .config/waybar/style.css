@@ -8,7 +8,7 @@
 @define-color text-muted     alpha(@color16, 0.7);
 
 @define-color bg             alpha(@color2, 1.0);
-@define-color border         alpha(@color6, 0);
+@define-color border         alpha(@color5, 1.0);
 
 @define-color hover-bg       alpha(@background, 0.5);
 

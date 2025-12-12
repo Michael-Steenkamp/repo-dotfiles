@@ -68,3 +68,4 @@ pkill -SIGUSR1 kitty
 pkill -SIGUSR1 fish
 pkill -SIGUSR1 nvim
 pkill dunst && dunst &
+eww reload

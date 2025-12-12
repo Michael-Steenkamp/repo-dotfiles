@@ -118,6 +118,11 @@ sudo pacman -S hyprland hyprpaper rofi waybar dunst
 
 # Widget System
 yay -S eww-git
+# Dependencies
+sudo pacman -S power-profiles-daemon
+systemctl enable --now power-profiles-daemon.service
+sudo pacman -S python-psutil
+ln -sf ~/.cache/wal/colors-eww.scss ~/.config/eww/colors.scss
 
 # Utilities (Screenshot, Clipboard, Brightness)
 sudo pacman -S grim slurp swappy wl-clipboard brightnessctl

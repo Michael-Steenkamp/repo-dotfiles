@@ -36,4 +36,4 @@ yazi      = { template = "yazi.toml",  target = "~/.config/yazi/theme.toml" }
 nvim      = { template = "wal", target = "~/.cache/wal/colors-wal.vim" }
 colors_json = { template = "json", target = "~/.cache/wal/colors.json" }
 spotify-player = { template = "spotify-player.toml", target = "~/.config/spotify-player/theme.toml" }
-
+eww = { template = "eww.scss", target = "~/.cache/wal/colors-eww.scss" }
