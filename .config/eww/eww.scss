@@ -1,33 +1,152 @@
-/* ============================================================
-   EWW STYLESHEET
-   1. Global Reset & Main Container
-   2. Grid Section (Net/BT)
-   3. Circular Controls (Vol/Bri/Profile/Sys)
-   4. Sliders (Volume/Brightness)
-   5. Media Player
-   6. Clipboard History
-   7. Notifications
-   8. Popup Window (Net/BT/Audio)
-   ============================================================ */
+/* =============================================================================
+ * VARIABLES & THEME CONFIGURATION
+ * ========================================================================== */
+@import "colors.scss";
 
-/* --- 1. Global Reset & Main Container --- */
+/* --- Semantic Colors --- */
+$theme-bg: $color2;
+$theme-text: $color7;
+$theme-icon: $color8;
+$theme-subtext: $color8;
+
+$theme-surface: $color1;
+$theme-hover: $color5;
+$theme-active: $color4;
+$theme-accent: $color5;
+$theme-alert: $color6;
+
+$theme-border: $color5;
+
+/* --- Layout Constants --- */
+$border-radius: 15px;
+$inner-radius: 8px;
+$padding: 15px;
+$border-width: 2px;
+
+/* =============================================================================
+ * GLOBAL RESET
+ * ========================================================================== */
 * {
   all: unset;
   font-family: "JetBrains Mono", "Roboto", sans-serif;
 }
 
-.main-container {
-  background-color: #1e1e2e;
-  padding: 15px;
-  border-radius: 15px;
-  border: 2px solid #313244;
-  /* box-shadow removed to prevent square artifacts on rounded corners (handled by Hyprland) */
-  box-shadow: none;
+/* =============================================================================
+ * MAIN CONTAINERS (Sidebar & Popups)
+ * ========================================================================== */
+
+.main-container,
+.popup-window {
+  background-color: $theme-bg;
+  color: $theme-text;
+  border: $border-width solid $theme-border;
+  border-radius: $border-radius;
+  padding: $padding;
 }
 
-/* --- 2. Grid Section (Net/BT) --- */
+/* =============================================================================
+ * COMMON COMPONENTS
+ * ========================================================================== */
+
+/* --- Headers & Dividers --- */
+.section-header,
+.popup-header {
+  font-size: 16px;
+  font-weight: bold;
+  color: $theme-accent;
+  margin-bottom: 10px;
+}
+
+.popup-divider {
+  background-color: $theme-surface;
+  margin: 10px 0;
+  min-height: 2px;
+}
+
+.placeholder-text {
+  color: $theme-subtext;
+  font-size: 14px;
+}
+
+/* --- Buttons (Action / Close / Icon) --- */
+.action-btn,
+.close-btn,
+.icon-btn,
+.clear-btn {
+  background-color: $theme-surface;
+  color: $theme-icon;
+  border-radius: $inner-radius;
+  transition: all 0.5s;
+}
+
+.action-btn {
+  padding: 8px 12px;
+  font-weight: bold;
+}
+.icon-btn {
+  padding: 5px 10px;
+  font-size: 14px;
+}
+.close-btn {
+  border-radius: 100%;
+  min-width: 30px;
+  min-height: 30px;
+  color: $theme-alert;
+}
+.clear-btn {
+  padding: 0px 9px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: $theme-alert;
+}
+
+/* Hover States */
+.action-btn:hover,
+.icon-btn:hover {
+  background-color: $theme-hover;
+}
+.close-btn:hover,
+.clear-btn:hover {
+  background-color: $theme-hover;
+  color: $theme-bg;
+}
+
+/* Active States */
+.action-btn.active,
+.icon-btn.active {
+  background-color: $theme-active;
+  color: $theme-bg;
+  border: 1px solid $theme-active;
+}
+
+/* --- List Items (Wifi, BT, Audio, Clipboard) --- */
+.list-item,
+.clip-item,
+.notif-item {
+  background-color: $theme-surface;
+  color: $theme-text;
+  border-radius: $inner-radius;
+  padding: 8px;
+  transition: all 0.5s;
+}
+
+.list-item:hover,
+.clip-item:hover {
+  background-color: $theme-hover;
+}
+
+/* =============================================================================
+ * MODULE SPECIFIC STYLES
+ * ========================================================================== */
+
+/* --- 1. Connectivity Grid --- */
+.grid-section {
+  /* Pushes the Buttons below it away */
+  margin-bottom: $padding;
+}
+
 .grid-btn {
-  background-color: #313244;
+  background-color: $theme-surface;
   border-radius: 12px;
   padding: 10px;
   transition: all 0.2s;
@@ -35,474 +154,290 @@
 }
 
 .grid-btn:hover {
-  background-color: #45475a;
+  background-color: $theme-hover;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-
 .grid-btn:active {
-  background-color: #1e1e2e;
+  background-color: $theme-bg;
 }
 
 .grid-btn.active {
-  background-color: #1e1e2e;
-  border: 2px solid #89b4fa;
-  box-shadow: inset 0 0 10px rgba(137, 180, 250, 0.1);
+  background-color: $theme-bg;
+  border: 2px solid $theme-accent;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .grid-icon {
   font-size: 26px;
-  color: #cdd6f4;
+  color: $theme-icon;
   margin-bottom: 4px;
 }
 .grid-btn.active .grid-icon {
-  color: #89b4fa;
+  color: $theme-active;
 }
-
 .grid-label {
   font-size: 11px;
   font-weight: 800;
-  color: #6c7086;
-  margin-bottom: 2px;
+  color: $theme-subtext;
 }
-
 .grid-value {
   font-size: 11px;
   font-weight: bold;
-  color: #a6adc8;
+  color: $color12;
 }
 
-/* --- 3. Circular Controls & System Stats --- */
+/* --- 2. Circular Buttons Row --- */
 .circles-section {
-  margin-bottom: 5px;
+  /* No margin here. If menus are closed, media player sits flush against this. */
+  margin-bottom: 0px;
 }
 
 .circle-btn {
-  background-color: #313244;
+  background-color: $theme-surface;
   min-width: 50px;
   min-height: 50px;
-  border-radius: 10%;
-  color: #cdd6f4;
-  padding: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  color: $theme-icon;
   font-size: 20px;
   transition: all 0.2s;
-  margin: 5px;
+  margin: 2px;
 }
 
 .circle-btn:hover {
-  background-color: #45475a;
-  color: #89b4fa;
+  background-color: $theme-hover;
+  color: $theme-icon;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Active States */
-.vol-btn.active {
-  background-color: #89b4fa;
-  color: #1e1e2e;
-}
-.bri-btn.active {
-  background-color: #fab387;
-  color: #1e1e2e;
-}
-.profile-btn.active {
-  background-color: #cba6f7;
-  color: #1e1e2e;
-}
-.sys-btn.active {
-  background-color: #89dceb;
-  color: #1e1e2e;
+.circle-btn > label {
+  margin-right: 5px;
 }
 
-/* System Menu Boxes */
+.vol-btn.active,
+.bri-btn.active,
+.profile-btn.active,
+.sys-btn.active {
+  background-color: $theme-bg;
+  border: 2px solid $theme-accent;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 3. EXPANDABLE MODULES (Sliders, System, Power) --- */
+/* Consolidated to ensure identical spacing/padding */
+.slider-box,
 .sys-menu-box,
 .power-profile-box {
-  margin-top: 10px;
-  background-color: #313244;
-  border-radius: 12px;
-  padding: 10px;
+  background-color: $theme-surface;
+  border-radius: $border-radius;
+  padding: $padding;
+
+  /* CRITICAL: The gap is added here.
+     Since this is inside the revealer, when the revealer height is 0,
+     this margin disappears effectively. */
+  margin-top: $padding;
+
+  /* Remove manual bottom margins so layout stays tight */
+  margin-bottom: 0px;
 }
 
-/* Mini Circular Progress & Icons */
+/* System Stats Internals */
 .sys-bg {
-  color: #45475a;
+  color: $theme-surface;
   background-color: transparent;
 }
 .sys-fg {
   background-color: transparent;
 }
-.sys-fg.gpu {
-  color: #f38ba8;
-}
-.sys-fg.ram {
-  color: #f9e2af;
-}
-.sys-fg.disk {
-  color: #a6e3a1;
-}
+.sys-fg.gpu,
+.sys-fg.ram,
+.sys-fg.disk,
 .sys-fg.temp {
-  color: #89b4fa;
+  color: $theme-accent;
 }
 
 .sys-icon {
   font-size: 16px;
-  color: #cdd6f4;
+  color: $theme-text;
   font-weight: bold;
 }
-.sys-icon.temp {
-  color: #89b4fa;
-}
-.sys-icon.gpu {
-}
-
 .sys-text {
-  margin-top: 4px;
+  margin-top: 5px;
   font-size: 10px;
   font-weight: bold;
-  color: #bac2de;
+  color: $theme-subtext;
 }
 
-/* Power Profile Items */
+/* Power Profile Internals */
 .profile-item {
-  background-color: #45475a;
-  color: #cdd6f4;
-  border-radius: 8px;
-  padding: 5px 10px;
+  background-color: $theme-surface;
+  color: $theme-text;
+  border-radius: $inner-radius;
   font-size: 18px;
-  transition: all 0.2s;
+  transition: all 1s;
 }
 .profile-item:hover {
-  background-color: #585b70;
+  background-color: $theme-hover;
 }
-.profile-item.saver.active {
-  background-color: #a6e3a1;
-  color: #1e1e2e;
-}
-.profile-item.balanced.active {
-  background-color: #89b4fa;
-  color: #1e1e2e;
-}
+.profile-item.saver.active,
+.profile-item.balanced.active,
 .profile-item.perf.active {
-  background-color: #f38ba8;
-  color: #1e1e2e;
+  background-color: $theme-surface;
+  color: $theme-active;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* --- 4. Sliders --- */
-.slider-box {
-  margin-top: 10px;
-  background-color: #313244;
-  border-radius: 12px;
-  padding: 10px 15px;
-}
+/* Slider Internals */
 scale {
-  min-height: 10px;
+  min-height: 0px;
 }
 scale trough {
-  background-color: #181825;
-  border-radius: 10px;
-  min-height: 8px;
+  background-color: $theme-bg;
+  border-radius: $border-radius;
+  min-height: 10px;
 }
-scale handle {
-  background-color: #cdd6f4;
-  border-radius: 50px;
-  min-width: 14px;
-  min-height: 14px;
-  margin: -3px;
-}
-.vol-scale highlight {
-  background-color: #89b4fa;
-  border-radius: 10px;
-}
+.vol-scale highlight,
 .bri-scale highlight {
-  background-color: #fab387;
-  border-radius: 10px;
+  background-color: $theme-accent;
+  border-radius: $border-radius;
 }
 
-/* Fix circular progress background artifacts */
-circular-progress {
-  background-color: transparent;
-}
-
-/* --- 5. Media Player --- */
+/* --- 4. Media Player --- */
 .media-section {
-  background-color: #181825;
-  border-radius: 12px;
+  background-color: $theme-surface;
+  border-radius: $border-radius;
   background-size: cover;
   background-position: center;
-  padding: 0;
-  border: 1px solid #313244;
+  border: 1px solid $theme-accent;
   min-height: 120px;
+
+  /* Pushes itself away from whatever is above it (Buttons or Open Menu) */
+  margin-top: $padding;
+
+  /* Pushes Clipboard below it away */
+  margin-bottom: $padding;
 }
 .media-overlay {
-  background-color: rgba(0, 0, 0, 0.9);
-  padding: 15px;
-  border-radius: 12px;
+  background-color: $theme-bg;
+  opacity: 1;
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.8);
+  padding: $padding;
+  border-radius: $border-radius;
 }
 .media-song {
   font-size: 16px;
   font-weight: bold;
-  color: #ffffff;
+  color: $theme-text;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   margin-bottom: 5px;
 }
 .media-artist {
   font-size: 14px;
-  color: #bac2de;
+  color: $theme-subtext;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* --- 6. Clipboard History --- */
+/* --- 5. Clipboard --- */
 .clipboard-section {
-  background-color: #181825;
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 0px;
-}
-.section-header {
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #89b4fa;
+  background-color: $theme-surface;
+  border-radius: $border-radius;
+  padding: $padding;
+  margin-bottom: $padding;
 }
 .clip-item {
-  background-color: #313244;
-  border-radius: 8px;
-  padding: 20px;
-  color: #cdd6f4;
-  transition: all 0.2s;
-  font-size: 14px;
+  background-color: $theme-bg;
+  padding: $padding;
   font-family: "JetBrains Mono", monospace;
-  min-height: 60px;
-}
-.clip-item:hover {
-  background-color: #45475a;
-  color: #89b4fa;
+  font-size: 13px;
+  min-height: 50px;
 }
 .clip-item:active {
-  background-color: #89b4fa;
-  color: #1e1e2e;
-}
-
-/* --- 7. Notifications --- */
-.notif-section {
-  background-color: #181825;
-  border-radius: 12px;
-  padding: 15px;
-}
-.clear-btn {
-  color: #f38ba8;
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 8px;
-  transition: all 0.2s;
-}
-.clear-btn:hover {
-  background-color: #f38ba8;
-  color: #1e1e2e;
-}
-
-.notif-item {
-  background-color: #313244;
-  border-radius: 8px;
-  padding: 5px;
-  margin-right: 5px;
-}
-.notif-item.critical {
-  border: 1px solid #f38ba8;
-}
-.notif-app {
-  font-size: 10px;
-  font-weight: bold;
-  color: #89b4fa;
-}
-.notif-time {
-  font-size: 10px;
-  color: #6c7086;
-}
-.notif-summary {
-  font-weight: bold;
-  font-size: 15px;
-  color: #cdd6f4;
-  margin-top: 2px;
-}
-.notif-body {
-  font-size: 12px;
-  color: #a6adc8;
-  margin-top: 2px;
-}
-.placeholder-text {
-  color: #a6adc8;
-  font-size: 14px;
-}
-
-/* ============================================================
-   8. SHARED POPUPS (Center & Notifications)
-   ============================================================ */
-
-/* The main window container for ALL popups */
-.popup-window {
-  background-color: #1e1e2e;
-  border: 2px solid #89b4fa;
-  border-radius: 15px;
-  padding: 20px;
-  /* Optional: Add a subtle shadow to lift it off the blurred background */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-/* --- Common Elements --- */
-
-.popup-header {
-  font-size: 18px;
-  font-weight: bold;
-  color: #89b4fa;
-  margin-bottom: 10px;
-}
-
-.popup-divider {
-  background-color: #313244;
-  margin: 10px 0;
-  min-height: 2px;
-}
-
-.close-btn {
-  font-size: 16px;
-  color: #f38ba8;
-  background-color: #313244;
-  border-radius: 100%;
-  min-width: 30px;
-  min-height: 30px;
-  transition: all 0.2s;
-}
-.close-btn:hover {
-  background-color: #f38ba8;
-  color: #1e1e2e;
-}
-
-/* --- Action Buttons (Wifi/BT Toggles) --- */
-.action-btn {
-  background-color: #313244;
-  color: #cdd6f4;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: all 0.2s;
-}
-.action-btn:hover {
-  background-color: #45475a;
-}
-.action-btn.active {
-  background-color: #a6e3a1;
-  color: #1e1e2e;
-  border: 1px solid #a6e3a1;
-}
-
-/* --- Lists (Wifi/BT/Audio Items) --- */
-.list-item {
-  padding: 8px 12px;
-  background-color: #313244;
-  border-radius: 8px;
-  color: #cdd6f4;
-  transition: all 0.2s;
-}
-.list-item:hover {
-  background-color: #45475a;
-}
-
-/* --- Audio Tabs --- */
-.tab-box {
-  background-color: #313244;
-  border-radius: 8px;
-  padding: 4px;
-  margin-bottom: 5px;
-}
-.tab-btn {
-  background-color: transparent;
-  color: #6c7086;
-  border-radius: 6px;
-  padding: 8px;
-  font-weight: bold;
-  transition: all 0.2s;
-}
-.tab-btn:hover {
-  color: #cdd6f4;
-  background-color: #45475a;
-}
-.tab-btn.active {
-  background-color: #89b4fa;
-  color: #1e1e2e;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* --- Notification Text Styling --- */
-.notif-text-summary {
-  font-size: 16px;
-  font-weight: bold;
-  color: #cdd6f4;
-  margin-bottom: 5px;
-}
-.notif-text-body {
-  font-size: 14px;
-  color: #a6adc8;
+  background-color: $theme-accent;
+  color: $theme-bg;
 }
 .clip-full-text {
   font-family: "JetBrains Mono", monospace;
   font-size: 13px;
-  color: #a6adc8;
-  padding: 5px;
+  color: $theme-subtext;
+  padding: $padding;
 }
 
-/* Audio Specifics */
-.icon-btn {
-  color: #cdd6f4;
-  background-color: #45475a;
-  border-radius: 8px;
-  padding: 5px 10px;
+/* --- 6. Notifications --- */
+.notif-section {
+  background-color: $theme-surface;
+  border-radius: $border-radius;
+  padding: $padding;
+}
+.notif-item {
+  background-color: $theme-bg;
+  padding: $padding;
+}
+.notif-item.critical {
+  border: 1px solid $theme-alert;
+}
+.notif-app,
+.notif-time {
+  font-size: 10px;
+  color: $theme-subtext;
+}
+.notif-app {
+  font-weight: bold;
+}
+.notif-summary {
+  font-weight: bold;
+  font-size: 15px;
+  color: $theme-text;
+}
+.notif-body {
+  font-size: 12px;
+  color: $theme-subtext;
+}
+
+.notif-text-summary {
+  font-size: 16px;
+  font-weight: bold;
+  color: $theme-text;
+}
+.notif-text-body {
   font-size: 14px;
-}
-.icon-btn:hover {
-  background-color: #89b4fa;
-  color: #1e1e2e;
-}
-.icon-btn.active {
-  background-color: #89b4fa;
-  color: #1e1e2e;
+  color: $theme-subtext;
 }
 
-/* Audio Tabs */
+/* --- 7. Audio Tabs --- */
 .tab-box {
-  background-color: #313244;
-  border-radius: 8px;
-  padding: 4px;
-  margin-bottom: 5px;
+  background-color: $theme-surface;
+  border-radius: $inner-radius;
+  color: $theme-text;
+  padding: $padding;
+  transition: all 0.2s;
+  margin-bottom: 9px;
 }
 .tab-btn {
   background-color: transparent;
-  color: #6c7086;
-  border-radius: 6px;
+  color: $theme-text;
+  border-radius: $border-radius;
   padding: 8px;
   font-weight: bold;
-  transition: all 0.2s;
+  transition: all 1s;
 }
 .tab-btn:hover {
-  color: #cdd6f4;
-  background-color: #45475a;
+  color: $theme-text;
+  background-color: $theme-hover;
 }
 .tab-btn.active {
-  background-color: #89b4fa;
-  color: #1e1e2e;
+  background-color: $theme-surface;
+  color: $theme-active;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* --- Tooltips --- */
 tooltip {
-  background-color: #1e1e2e; /* Dark background color */
-  color: #cdd6f4; /* Text color */
-  border: 2px solid #89b4fa; /* Blue border to make it visible */
-  border-radius: 10px; /* Rounded corners */
-  padding: 8px; /* Spacing inside the box */
-
-  /* Optional: Drop shadow to lift it off the background */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  background-color: $theme-bg;
+  color: $theme-text;
+  border: 2px solid $theme-accent;
+  border-radius: $border-radius;
+  padding: 8px;
 }
-
-/* Optional: Fix padding specifically for the text label inside */
 tooltip label {
   margin: 4px;
 }

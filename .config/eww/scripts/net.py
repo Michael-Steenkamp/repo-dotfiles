@@ -41,9 +41,8 @@ def scan():
 
 
 def get_list():
-    """Returns a JSON list of available WiFi networks."""
-    # Format: SSID,SIGNAL,SECURITY
-    raw = run_cmd("nmcli -t -f SSID,SIGNAL,SECURITY dev wifi list")
+    """Returns a JSON list of available WiFi networks, sorted by Active > Signal."""
+    raw = run_cmd("nmcli -t -f IN-USE,SSID,SIGNAL,SECURITY dev wifi list")
 
     networks = []
     seen = set()
@@ -52,26 +51,37 @@ def get_list():
         if not line:
             continue
 
-        # nmcli escapes colons in SSIDs with backslashes, but standard split is tricky.
-        # We assume standard output: SSID:SIGNAL:SECURITY
-        # A simple split usually works unless SSID contains ':'
+        # Format: IN-USE:SSID:SIGNAL:SECURITY
         parts = line.split(":")
 
-        # Basic validation
-        if len(parts) < 2:
+        if len(parts) < 3:
             continue
 
-        # If SSID has colons, the length will be > 3.
-        # The last two items are always Signal and Security.
+        # Extract fields
+        in_use = parts[0]  # "*" if connected, else empty
         security = parts[-1]
         signal = parts[-2]
-        ssid = ":".join(parts[:-2])
+        ssid = ":".join(parts[1:-2])  # Handle SSIDs with colons
 
         if ssid and ssid not in seen:
             seen.add(ssid)
+            is_active = in_use == "*"
+
             networks.append(
-                {"ssid": ssid, "signal": signal, "sec": "" if security else ""}
+                {
+                    "ssid": ssid,
+                    "signal": signal,
+                    "sec": "" if security else "",
+                    "active": is_active,
+                }
             )
+
+    networks.sort(
+        key=lambda x: (
+            not x["active"],
+            -int(x["signal"]) if x["signal"].isdigit() else 0,
+        )
+    )
 
     print(json.dumps(networks))
 

@@ -109,6 +109,15 @@ def connect_device(mac, action):
         pass
 
 
+def scan():
+    """Triggers a Bluetooth scan."""
+    try:
+        # Scan for 10 seconds in the background
+        subprocess.Popen(["timeout", "10s", "bluetoothctl", "scan", "on"])
+    except Exception:
+        pass
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         sys.exit(1)
@@ -119,5 +128,7 @@ if __name__ == "__main__":
         get_devices()
     elif cmd == "status":
         get_status()
+    elif cmd == "scan":  # <--- ADD THIS CHECK
+        scan()
     elif cmd == "connect" and len(sys.argv) >= 4:
         connect_device(sys.argv[2], sys.argv[3])

@@ -21,19 +21,14 @@ def run_cmd(args):
 
 def get_devices(kind):
     """Returns a JSON list of sinks or sources."""
-    # kind: "sinks" or "sources"
     try:
-        # Get raw JSON from pactl
         raw = run_cmd(["pactl", "-f", "json", "list", kind])
         devices = json.loads(raw)
-
-        # Identify default device
         default_dev = run_cmd(["pactl", f"get-default-{kind[:-1]}"])
 
         output = []
         for d in devices:
             name = d.get("name", "")
-            # Filter out monitor sources (desktop audio recording)
             if kind == "sources" and "monitor" in name:
                 continue
 
@@ -44,6 +39,8 @@ def get_devices(kind):
                     "active": name == default_dev,
                 }
             )
+
+        output.sort(key=lambda x: x["active"], reverse=True)
 
         print(json.dumps(output))
     except Exception:

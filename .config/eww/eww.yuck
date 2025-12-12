@@ -78,7 +78,7 @@
 ;; --- Layout Definitions ---
 
 (defwidget sidebar_layout []
-  (box :class "main-container" :orientation "v" :space-evenly false :spacing 15
+  (box :class "main-container" :orientation "v" :space-evenly false :spacing 0
 
     ;; 1. Connectivity Grid
     (box :class "grid-section" :orientation "v" :spacing 10
@@ -89,18 +89,18 @@
     )
 
     ;; 2. Circular Controls & Sliders
-    (box :class "controls-container" :orientation "v" :space-evenly false :spacing 5
+    (box :class "controls-container" :orientation "v" :space-evenly false :spacing 0
 
       ;; The Main Control Row (Vol, Bri, Power, Sys)
       (box :class "circles-section" :orientation "h" :spacing 10 :halign "center"
         ;; Action: Toggle local reveal, close others, force close ALL popups via script
-        (circle_btn :icon "󰕾 " :active vol_reveal :classname "vol-btn"
+        (circle_btn :icon "󰕾" :active vol_reveal :classname "vol-btn"
                     :action "eww update vol_reveal=${!vol_reveal} bri_reveal=false pwr_reveal=false sys_reveal=false && ~/.config/eww/scripts/popups.sh close")
-        (circle_btn :icon "󰃠 " :active bri_reveal :classname "bri-btn"
+        (circle_btn :icon "󰃠" :active bri_reveal :classname "bri-btn"
                     :action "eww update bri_reveal=${!bri_reveal} vol_reveal=false pwr_reveal=false sys_reveal=false && ~/.config/eww/scripts/popups.sh close")
-        (circle_btn :icon "󰈐 " :active pwr_reveal :classname "profile-btn"
+        (circle_btn :icon "󰈐" :active pwr_reveal :classname "profile-btn"
                     :action "eww update pwr_reveal=${!pwr_reveal} vol_reveal=false bri_reveal=false sys_reveal=false && ~/.config/eww/scripts/popups.sh close")
-        (circle_btn :icon " " :active sys_reveal :classname "sys-btn"
+        (circle_btn :icon "" :active sys_reveal :classname "sys-btn"
                     :action "eww update sys_reveal=${!sys_reveal} vol_reveal=false bri_reveal=false pwr_reveal=false && ~/.config/eww/scripts/popups.sh close")
       )
 
@@ -126,7 +126,7 @@
 
       ;; Power Profiles
       (revealer :transition "slidedown" :reveal pwr_reveal :duration "350ms"
-        (box :class "power-profile-box" :orientation "h" :space-evenly true :spacing 15
+        (box :class "power-profile-box" :orientation "h" :space-evenly true :spacing 10
              (button :class "profile-item saver ${pwr_profile == 'power-saver' ? 'active' : ''}"
                      :onclick "powerprofilesctl set power-saver && eww update pwr_reveal=false" "")
              (button :class "profile-item balanced ${pwr_profile == 'balanced' ? 'active' : ''}"
@@ -156,10 +156,15 @@
                 )
                 (label :text "${sys.hog_name}" :class "sys-text")
              )
-             ;; GPU
-             (sys_circle :label "GPU" :value {sys.gpu} :icon "󰢮" :color "cpu" :tip "GPU Usage: ${sys.gpu}%")
-             ;; Temp
-             (sys_circle :label "Temp" :value {sys.temp} :icon "" :color "temp" :tip "${sys.temp_dev}: ${sys.temp}°C")
+            ;; GPU (Pass unit "%")
+             (sys_circle :label "GPU" :value {sys.gpu} :icon "󰢮" :color "gpu"
+                         :tip "GPU Usage: ${sys.gpu}%"
+                         :unit "%")
+
+             ;; Temp (Pass unit "°C")
+             (sys_circle :label "Temp" :value {sys.temp} :icon "" :color "temp"
+                         :tip "${sys.temp_dev}: ${sys.temp}°C"
+                         :unit "°C")
         )
       )
     )
@@ -189,7 +194,7 @@
                ;; LEFT CLICK: Copy as before
                :onclick "~/.config/eww/scripts/clipboard.py copy ${clip.id}"
                  (button :class "clip-item" :onclick "~/.config/eww/scripts/clipboard.py copy ${clip.id}"
-                   (label :text "  ${clip.summary}" :halign "start" :wrap true :width 200))
+                   (label :text "  ${clip.summary}" :halign "start" :wrap true :width 200 :limit-width 25))
             )
           )
         )
@@ -214,7 +219,7 @@
                :onclick "eww update viewed_notif='${notify}' && ~/.config/eww/scripts/popups.sh toggle notif"
 
                :class "notif-eventbox"
-               (box :class "notif-item ${notify.urgency == 2 ? 'critical' : ''}" :orientation "v" :space-evenly false :spacing 5
+               (box :class "notif-item ${notify.urgency == 2 ? 'critical' : ''}" :orientation "v" :space-evenly false :spacing 10
                   (box :orientation "h" :space-evenly true
                      (label :class "notif-app"  :text {notify.app} :halign "start")
                      (label :class "notif-time" :text "Now" :halign "end"))
@@ -243,29 +248,61 @@
       (label :text "Select an item..." :class "placeholder-text")
 
       ;; View 1: Network
-      (box :orientation "v" :spacing 15 :space-evenly false
-           (label :class "popup-header" :text "Wi-Fi Networks")
-           (box :orientation "h" :spacing 15
-             (button :class "action-btn ${net_status == 'enabled' ? 'active' : ''}" :onclick "~/.config/hypr/scripts/toggle-network.sh" "${net_status == 'enabled' ? 'On 󰖩' : 'Off 󰖪'}")
-             (button :class "action-btn" :onclick "~/.config/eww/scripts/net.py scan" "Refresh "))
+      (box :orientation "v" :spacing 10 :space-evenly false
+
+           ;; Header: Manager (Left) | Title (Center) | Spacer (Right)
+           (box :orientation "h" :space-evenly false
+               ;; SUGGESTION: use 'iwgtk' or 'nm-connection-editor'
+               (button :class "action-btn" :onclick "kitty --class floating -e nmtui & ~/.config/eww/scripts/popups.sh close" "Manager  ")
+               (label :class "popup-header" :hexpand true :text "Wi-Fi Networks" :halign "center")
+               (box :width 70) ;; Spacer to balance header
+           )
+
+           ;; Controls (Styled exactly like Audio Tabs)
+           (box :class "tab-box" :orientation "h" :spacing 10 :space-evenly true
+               (button :class "tab-btn ${net_status == 'enabled' ? 'active' : ''}"
+                       :onclick "~/.config/hypr/scripts/toggle-network.sh"
+                       "${net_status == 'enabled' ? 'On 󰖩 ' : 'Off 󰖪 '}")
+
+               (button :class "tab-btn"
+                       :onclick "~/.config/eww/scripts/net.py scan"
+                       "Refresh  ")
+           )
+
            (scroll :hscroll false :vscroll true :height 200
-             (box :orientation "v" :spacing 5
+             (box :orientation "v" :spacing 10
                (for net in wifi_list
                  (button :class "list-item" :halign "fill" :onclick "nmcli device wifi connect '${net.ssid}' &"
                    (box :orientation "h" :space-evenly true
                      (label :halign "start" :text "${net.ssid}" :limit-width 15)
                      (box :orientation "h" :halign "end" :spacing 10
                         (label :text "${net.sec}")
-                        (label :text "${net.signal}%"))))))))
+                        (label :text "${net.signal}%")
+                        (label :text " " :visible {net.active} :style "color: #a6e3a1;"))))))))
 
       ;; View 2: Bluetooth
-      (box :orientation "v" :spacing 15 :space-evenly false
-           (label :class "popup-header" :text "Bluetooth Devices")
-           (box :orientation "h" :spacing 15
-             (button :class "action-btn ${bt_status == 'on' ? 'active' : ''}" :onclick "~/.config/hypr/scripts/toggle-bluetooth.sh" "${bt_status == 'on' ? 'On 󰂯' : 'Off 󰂲'}")
-             (button :class "action-btn" :onclick "overskride &" "Manager "))
+      (box :orientation "v" :spacing 10 :space-evenly false
+
+           ;; Header: Manager (Left) | Title (Center) | Spacer (Right)
+           (box :orientation "h" :space-evenly false
+               (button :class "action-btn" :onclick "overskride & ~/.config/eww/scripts/popups.sh close" "Manager ")
+               (label :class "popup-header" :hexpand true :text "Bluetooth Devices" :halign "center")
+               (box :width 70) ;; Spacer to balance header
+           )
+
+           ;; Controls (Styled exactly like Audio Tabs)
+           (box :class "tab-box" :orientation "h" :spacing 10 :space-evenly true
+               (button :class "tab-btn ${bt_status == 'on' ? 'active' : ''}"
+                       :onclick "~/.config/hypr/scripts/toggle-bluetooth.sh"
+                       "${bt_status == 'on' ? 'On 󰂯' : 'Off 󰂲'}")
+
+               (button :class "tab-btn"
+                       :onclick "~/.config/eww/scripts/bt.py scan"
+                       "Refresh  ")
+           )
+
            (scroll :hscroll false :vscroll true :height 200
-             (box :orientation "v" :spacing 5
+             (box :orientation "v" :spacing 10
                (for device in bt_list
                  (button :class "list-item" :halign "fill" :onclick "~/.config/eww/scripts/bt.py connect ${device.mac} ${device.action} &"
                    (box :orientation "h" :space-evenly false :spacing 10
@@ -275,36 +312,59 @@
 
       ;; View 3: Audio Devices
       (box :orientation "v" :spacing 10 :space-evenly false
-           (box :orientation "h" :space-evenly true
-               (label :class "popup-header" :text "Audio Devices" :halign "start")
-               (button :class "action-btn" :halign "end" :onclick "pavucontrol &" "Mixer "))
 
-           (box :class "tab-box" :orientation "h" :spacing 5 :space-evenly true
+           ;; Header Row: Mixer (Left) | Title (Center) | Spacer (Right)
+           (box :orientation "h" :space-evenly false
+               (button :class "action-btn" :onclick "pavucontrol & ~/.config/eww/scripts/popups.sh close" "Mixer  ")
+               (label :class "popup-header" :hexpand true :text "Audio Devices" :halign "center")
+               ;; Invisible spacer to balance the header so title stays centered
+               (box :width 70)
+           )
+
+           ;; Tabs (Style matches Wifi 'On/Refresh' buttons)
+           (box :class "tab-box" :orientation "h" :spacing 10 :space-evenly true
                 (button :class "tab-btn ${audio_tab == 0 ? 'active' : ''}" :onclick "eww update audio_tab=0" "Output ")
-                (button :class "tab-btn ${audio_tab == 1 ? 'active' : ''}" :onclick "eww update audio_tab=1" "Input "))
+                (button :class "tab-btn ${audio_tab == 1 ? 'active' : ''}" :onclick "eww update audio_tab=1" "Input ")
+           )
 
+           ;; Content Stack
            (stack :selected audio_tab :transition "slideleft"
+
+             ;; Output Tab
              (scroll :hscroll false :vscroll true :height 180
-               (box :orientation "v" :spacing 5
+               (box :orientation "v" :spacing 10
                    (for dev in audio_sinks
                        (button :class "list-item" :halign "fill" :onclick "~/.config/eww/scripts/audio.py set_sink '${dev.name}' &"
-                         (box :orientation "h" :space-evenly true
-                           (label :halign "start" :text "${dev.desc}" :limit-width 25)
-                           (label :halign "end" :text "" :visible {dev.active} :style "color: #a6e3a1;")
-                         )))))
+                         (box :orientation "h" :space-evenly false
+                           (label :halign "start" :hexpand true :text "${dev.desc}" :limit-width 25)
+                           ;; Checkmark stays at the end
+                           (label :halign "end" :text " " :visible {dev.active} :style "color: #a6e3a1;")
+                         )
+                       )
+                   )
+               )
+             )
+
+             ;; Input Tab
              (scroll :hscroll false :vscroll true :height 180
-               (box :orientation "v" :spacing 5
+               (box :orientation "v" :spacing 10
                    (for dev in audio_sources
                        (button :class "list-item" :halign "fill" :onclick "~/.config/eww/scripts/audio.py set_source '${dev.name}' &"
-                         (box :orientation "h" :space-evenly true
-                           (label :halign "start" :text "${dev.desc}" :limit-width 25)
-                           (label :halign "end" :text "" :visible {dev.active} :style "color: #a6e3a1;")
-                         )))))
+                         (box :orientation "h" :space-evenly false
+                           ;; UPDATED: Text is now centered
+                           (label :halign "start" :hexpand true :text "${dev.desc}" :limit-width 25)
+                           (label :halign "end" :text " " :visible {dev.active} :style "color: #a6e3a1;")
+                         )
+                       )
+                   )
+               )
+             )
            )
       )
     )
   )
 )
+
 
 (defwidget notif_popup_layout []
   ;; CHANGED: Class is now 'popup-window' (shared style)
@@ -321,7 +381,7 @@
 
     ;; Content
     (scroll :hscroll false :vscroll true :vexpand true :height 150
-        (box :orientation "v" :spacing 5 :space-evenly false
+        (box :orientation "v" :spacing 10 :space-evenly false
             ;; Using specific text classes defined in shared SCSS
             (label :class "notif-text-summary" :text {viewed_notif.summary} :wrap true :halign "start")
             (label :class "notif-text-body"    :text {viewed_notif.body}    :wrap true :halign "start")
@@ -345,14 +405,14 @@
   (button :class "circle-btn ${active == true ? 'active' : ''} ${classname}" :onclick action
     (label :text icon :halign "center" :valign "center")))
 
-(defwidget sys_circle [label value icon color tip]
+(defwidget sys_circle [label value icon color tip unit]
   (box :orientation "v" :space-evenly false :class "sys-item" :tooltip tip
     (overlay
       (circular-progress :value 100 :class "sys-bg" :thickness 4 :width 45 :height 45 :start-at 75)
       (circular-progress :value value :class "sys-fg ${color}" :thickness 4 :width 45 :height 45 :start-at 75)
       (label :text icon :class "sys-icon ${color}" :halign "center" :valign "center")
     )
-    (label :text "${value}%" :class "sys-text")
+    (label :text "${value}${unit}" :class "sys-text")
   )
 )
 
