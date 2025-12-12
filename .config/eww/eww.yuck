@@ -65,10 +65,10 @@
     ;; 2. Circular Controls & Sliders
     (box :class "controls-container" :orientation "v" :space-evenly false :spacing 5
       (box :class "circles-section" :orientation "h" :spacing 10 :halign "center"
-        (circle_btn :icon "󰕾" :active vol_reveal :classname "vol-btn" :action "eww update vol_reveal=${!vol_reveal} bri_reveal=false")
-        (circle_btn :icon "󰃠" :active bri_reveal :classname "bri-btn" :action "eww update bri_reveal=${!bri_reveal} vol_reveal=false")
-        (circle_btn :icon "󰄄" :action "notify-send 'Screenshot' 'Taking shot...'")
-        (circle_btn :icon "󰚨" :action "notify-send 'Empty' 'Nothing here'"))
+        (circle_btn :icon "󰕾 " :active vol_reveal :classname "vol-btn" :action "eww update vol_reveal=${!vol_reveal} bri_reveal=false")
+        (circle_btn :icon "󰃠 " :active bri_reveal :classname "bri-btn" :action "eww update bri_reveal=${!bri_reveal} vol_reveal=false")
+        (circle_btn :icon "󰄄 " :action "notify-send 'Screenshot' 'Taking shot...'")
+        (circle_btn :icon "󰚨 " :action "notify-send 'Empty' 'Nothing here'"))
 
       (revealer :transition "slidedown" :reveal vol_reveal :duration "350ms"
         (box :class "slider-box" :orientation "h" :space-evenly false
@@ -142,17 +142,25 @@
 
 (defwidget popup_layout []
   (box :class "popup-container" :orientation "v" :space-evenly false
-    (box :orientation "h" :halign "end" :space-evenly false
-        (button :class "close-btn" :onclick "eww update active_view=0 popup_visible=false && eww close center_popup" "")
-    (stack :selected active_view :transition "slideleft"
-      (label :text "Select an item..." :class "placeholder-text"))
 
-      ;; Network
+    ;; --- Header (Close Button) ---
+    (box :orientation "h" :halign "end" :space-evenly false
+        (button :class "close-btn" :onclick "eww update active_view=0 popup_visible=false && eww close center_popup" ""))
+
+    ;; --- Main Content Stack ---
+    ;; The stack must wrap ALL the views (Placeholder, Network, Bluetooth)
+    (stack :selected active_view :transition "slideleft"
+
+      ;; View 0: Placeholder
+      (label :text "Select an item..." :class "placeholder-text")
+
+      ;; View 1: Network
       (box :orientation "v" :spacing 15 :space-evenly false
            (label :class "popup-header" :text "Wi-Fi Networks")
            (box :orientation "h" :spacing 15
              (button :class "action-btn ${net_status == 'enabled' ? 'active' : ''}" :onclick "~/.config/hypr/scripts/toggle-network.sh" "${net_status == 'enabled' ? 'On 󰖩' : 'Off 󰖪'}")
              (button :class "action-btn" :onclick "~/.config/eww/scripts/net.py scan" "Refresh "))
+
            (scroll :hscroll false :vscroll true :height 200
              (box :orientation "v" :spacing 5
                (for net in wifi_list
@@ -163,12 +171,13 @@
                         (label :text "${net.sec}")
                         (label :text "${net.signal}%"))))))))
 
-      ;; Bluetooth
+      ;; View 2: Bluetooth
       (box :orientation "v" :spacing 15 :space-evenly false
            (label :class "popup-header" :text "Bluetooth Devices")
            (box :orientation "h" :spacing 15
              (button :class "action-btn ${bt_status == 'on' ? 'active' : ''}" :onclick "~/.config/hypr/scripts/toggle-bluetooth.sh" "${bt_status == 'on' ? 'On 󰂯' : 'Off 󰂲'}")
              (button :class "action-btn" :onclick "overskride &" "Manager "))
+
            (scroll :hscroll false :vscroll true :height 200
              (box :orientation "v" :spacing 5
                (for device in bt_list
@@ -178,7 +187,9 @@
                        (label :text "${device.icon}" :style "color: ${device.color}; font-size: 16px;")
                        (label :text "${device.name}" :limit-width 15))
                      (label :halign "end" :text "${device.status_text}" :style "font-size: 10px; color: ${device.color};")))))))
-    )))
+    ) ;; <--- This closing parenthesis closes the STACK
+  )
+)
 
 ;; --- Helper Widgets ---
 (defwidget battery_circle [device]
