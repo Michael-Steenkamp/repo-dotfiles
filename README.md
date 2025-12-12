@@ -62,7 +62,7 @@ _Reference links for core components used via ArchInstall._
 | :--------------- | :---------------------------- | :------------------------------------------------- |
 | **GPU Drivers**  | `nvidia-open-dkms`            | Open source Nvidia drivers (Required for Hyprland) |
 | **Portal**       | `xdg-desktop-portal-hyprland` | Required for Screen Sharing & File Dialogs         |
-| **Bluetooth UI** | `blueman`                     | GUI for managing Bluetooth devices                 |
+| **Bluetooth UI** | `blueman` `overskride`        | GUI for managing Bluetooth devices                 |
 
 ---
 
