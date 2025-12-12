@@ -61,10 +61,11 @@ else
 fi
 
 # 5. Reload Applications
+sleep 0.2
 pkill dunst && dunst >/dev/null 2>&1 &
 hyprctl reload >/dev/null 2>&1
 pkill -SIGUSR1 kitty
 pkill -SIGUSR1 fish
 pkill -SIGUSR1 nvim
-eww reload
 killall -USR2 waybar
+eww reload

@@ -170,10 +170,12 @@
     )
 
     ;; 3. Media Player
-    (box :class "media-section" :orientation "v" :space-evenly false :style "background-image: url('${music.cover}');"
-      (box :class "media-overlay" :orientation "v" :space-evenly false :valign "center" :halign "center" :vexpand true :hexpand true
-        (label :class "media-song"   :text {music.title}  :limit-width 20 :wrap true :halign "center")
-        (label :class "media-artist" :text {music.artist} :limit-width 20 :wrap true :halign "center")
+    (revealer :transition "slidedown" :reveal {music.status != "Stopped"} :duration "550ms"
+      (box :class "media-section" :orientation "v" :space-evenly false :style "background-image: url('${music.cover}');"
+        (box :class "media-overlay" :orientation "v" :space-evenly false :valign "center" :halign "center" :vexpand true :hexpand true
+          (label :class "media-song"   :text {music.title}  :limit-width 20 :wrap true :halign "center")
+          (label :class "media-artist" :text {music.artist} :limit-width 20 :wrap true :halign "center")
+        )
       )
     )
 

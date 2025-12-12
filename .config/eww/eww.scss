@@ -189,7 +189,7 @@ $border-width: 2px;
 /* --- 2. Circular Buttons Row --- */
 .circles-section {
   /* No margin here. If menus are closed, media player sits flush against this. */
-  margin-bottom: 0px;
+  margin-bottom: $padding;
 }
 
 .circle-btn {
@@ -232,13 +232,8 @@ $border-width: 2px;
   border-radius: $border-radius;
   padding: $padding;
 
-  /* CRITICAL: The gap is added here.
-     Since this is inside the revealer, when the revealer height is 0,
-     this margin disappears effectively. */
-  margin-top: $padding;
-
-  /* Remove manual bottom margins so layout stays tight */
-  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: $padding;
 }
 
 /* System Stats Internals */
@@ -311,10 +306,7 @@ scale trough {
   border: 1px solid $theme-accent;
   min-height: 120px;
 
-  /* Pushes itself away from whatever is above it (Buttons or Open Menu) */
-  margin-top: $padding;
-
-  /* Pushes Clipboard below it away */
+  margin-top: 0px;
   margin-bottom: $padding;
 }
 .media-overlay {
@@ -342,6 +334,7 @@ scale trough {
   background-color: $theme-surface;
   border-radius: $border-radius;
   padding: $padding;
+  margin-top: 0px;
   margin-bottom: $padding;
 }
 .clip-item {
