@@ -9,7 +9,6 @@
 
 @define-color bg             alpha(@color2, 1.0);
 @define-color border         alpha(@color5, 1.0);
-
 @define-color hover-bg       alpha(@background, 0.5);
 
 @define-color alert-bg       @text-main;
@@ -37,39 +36,36 @@ window#waybar {
 /* =============================================================================
  * MODULE & GROUP CONTAINERS
  * ========================================================================== */
-/* --- Standard Modules (Islands) --- */
-#workspaces,
-#window,
-#clock,
-#custom-updates,
+
+/* --- Standalone Modules (Islands) --- */
+/* Only items NOT in a group go here */
 #battery,
 #custom-power {
   background-color: @bg;
   color: @text-main;
   border: 2px solid @border;
   border-radius: 15px;
-
   padding: 5px 15px;
   margin: 5px;
-
   transition:
     background-color 0.5s ease,
     color 0.5s ease,
     border-color 0.5s ease;
 }
 
-/* --- Groups (Hardware, Input, Connections) --- */
-#hardware,
+/* --- Groups (The Pills) --- */
+/* These are the Group Names defined in config.jsonc */
+#workspace-module, /* Groups: workspaces + window */
+#weather-time,     /* Groups: clock + weather */
+#hardware,         /* Groups: updates + cpu + ram + disk */
 #connections,
 #input {
   background-color: @bg;
   color: @text-main;
   border: 2px solid @border;
   border-radius: 15px;
-
   padding: 5px 10px;
   margin: 5px;
-
   transition:
     background-color 0.5s ease,
     color 0.5s ease,
@@ -77,6 +73,12 @@ window#waybar {
 }
 
 /* --- Inner Group Items (Transparent) --- */
+/* All these items sit INSIDE the groups above */
+#workspaces,
+#window,
+#clock,
+#custom-weather,
+#custom-updates,
 #cpu,
 #memory,
 #disk,
@@ -95,8 +97,10 @@ window#waybar {
 
 /* Remove default margins for boxes inside groups */
 #connections box,
-#group-hardware box,
-#group-input box {
+#hardware box,
+#input box,
+#weather-time box,
+#workspace-module box {
   margin: 0;
   padding: 0;
 }
@@ -104,13 +108,6 @@ window#waybar {
 /* =============================================================================
  * INTERACTION & ANIMATION
  * ========================================================================== */
-/* Hover Effects */
-#clock:hover,
-#battery:hover,
-#custom-power:hover {
-  background-color: @hover-bg;
-  color: @text-main;
-}
 
 /* Expandable Modules Padding */
 #custom-audio,
@@ -131,13 +128,11 @@ window#waybar {
     padding 0.3s ease-in-out,
     opacity 0.3s ease-in-out;
 }
-
 #custom-capslock.locked {
   font-size: 14px;
   padding-right: 10px;
   opacity: 1;
 }
-
 #custom-capslock.unlocked {
   font-size: 0px;
   padding: 0;
@@ -147,23 +142,20 @@ window#waybar {
 /* =============================================================================
  * SPECIFIC MODULE OVERRIDES
  * ========================================================================== */
+
 /* Workspaces Buttons */
 #workspaces button {
   padding: 0;
   margin: 5px;
   color: @text-main;
-  background-color: @bg;
+  background-color: transparent;
   box-shadow: none;
   text-shadow: none;
   border-radius: 15px;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  transition: color 0.3s ease;
 }
 
-/* Only the button hovers now, not the whole container */
 #workspaces button:hover {
-  background-color: @background;
   background: transparent;
   color: @hover-bg;
   box-shadow: none;
@@ -189,6 +181,6 @@ window#waybar {
 @keyframes blink {
   to {
     background-color: @text-main;
-    color: @module-bg;
+    color: @bg;
   }
 }

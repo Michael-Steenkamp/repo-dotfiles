@@ -5,40 +5,70 @@
     "exclusive": false,
     "passthrough": false,
     "height": 54,
-
-    "modules-left": [ "hyprland/workspaces", "hyprland/window" ],
-    "modules-center": [ "clock" ],
+    "modules-left": [
+        "group/workspace-module"
+    ],
+    "modules-center": [
+        "group/weather-time"
+    ],
     "modules-right": [
-        "custom/updates",
         "group/hardware",
         "group/connections",
         "group/input",
         "battery"
     ],
-
     // --- GROUPS ---
+    "group/workspace-module": {
+        "orientation": "horizontal",
+        "modules": [
+            "hyprland/workspaces",
+            "custom/separator",
+            "hyprland/window"
+        ]
+    },
+    "group/weather-time": {
+        "orientation": "horizontal",
+        "modules": [
+            "clock",
+            "custom/weather"
+        ]
+    },
     "group/hardware": {
         "orientation": "horizontal",
-        "modules": [ "cpu", "memory", "disk" ]
+        "modules": [
+            "custom/updates",
+            "cpu",
+            "memory",
+            "disk"
+        ]
     },
     "group/connections": {
         "orientation": "horizontal",
-        "modules": [ "custom/network", "custom/bluetooth", "custom/audio" ]
+        "modules": [
+            "custom/network",
+            "custom/bluetooth",
+            "custom/audio"
+        ]
     },
     // Input Group: Caps Lock will slide in to the left of Fcitx
     "group/input": {
         "orientation": "horizontal",
-        "modules": [ "custom/capslock", "custom/fcitx5" ]
+        "modules": [
+            "custom/capslock",
+            "custom/fcitx5"
+        ]
     },
-
     // --- MODULES ---
+    "custom/separator": {
+        "format": " | ",
+        "tooltip": false
+    },
     "custom/capslock": {
         "exec": "~/.config/waybar/scripts/capslock_module.sh",
         "interval": 1,
         "return-type": "json",
         "format": "{}"
     },
-
     "custom/fcitx5": {
         "format": " {}",
         "interval": 1,
@@ -51,18 +81,30 @@
             "hangul": "KR"
         }
     },
-
-    // ... (Your existing workspaces, clock, battery, audio, etc. configs go here)
+    "custom/weather": {
+        "exec": "~/.config/waybar/scripts/weather.py",
+        "return-type": "json",
+        "interval": 900,
+        "format": "{}",
+        "on-click": "xdg-open https://wttr.in"
+    },
     "hyprland/workspaces": {
         "format": "{icon}",
         "on-click": "activate",
-        "format-icons": { "active": "", "default": "" },
-        "persistent-workspaces": { "*": 5 }
+        "format-icons": {
+            "active": "",
+            "default": ""
+        },
+        "persistent-workspaces": {
+            "*": 5
+        }
     },
     "hyprland/window": {
         "format": "{class}",
         "max-length": 20,
-        "rewrite": { "": "Hyprland" }
+        "rewrite": {
+            "": "Hyprland"
+        }
     },
     "clock": {
         "format": " {:%H:%M   %a, %b %d}",
@@ -85,18 +127,40 @@
         "interval": 1800,
         "exec": "checkupdates | wc -l",
         "exec-if": "exit 0",
-        "on-click": "kitty --hold fish -c 'sudo pacman -Syu; pkill -SIGRTMIN+8 waybar'",
         "signal": 8
     },
-    "cpu": { "format": " {usage}%", "tooltip": false },
-    "memory": { "format": " {}%" },
-    "disk": { "format": " {percentage_used}%", "path": "/" },
+    "cpu": {
+        "format": " {usage}%",
+        "tooltip": false
+    },
+    "memory": {
+        "format": " {}%"
+    },
+    "disk": {
+        "format": " {percentage_used}%",
+        "path": "/"
+    },
     "battery": {
-        "states": { "good": 95, "warning": 30, "critical": 15 },
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
         "format": "{icon} {capacity}%",
         "format-charging": "󰂄 {capacity}%",
         "format-plugged": " {capacity}%",
-        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+        "format-icons": [
+            "󰁺",
+            "󰁻",
+            "󰁼",
+            "󰁽",
+            "󰁾",
+            "󰁿",
+            "󰂀",
+            "󰂁",
+            "󰂂",
+            "󰁹"
+        ]
     },
     "custom/audio": {
         "exec": "~/.config/waybar/scripts/audio_module.py",
