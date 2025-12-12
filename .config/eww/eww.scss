@@ -10,7 +10,6 @@
   padding: 15px;
   border-radius: 15px;
   border: 2px solid #313244;
-  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.5);
 }
 
 /* --- Grid Section (Net/BT Buttons) --- */
@@ -404,6 +403,193 @@ scale handle {
 }
 
 .clip-item:active {
+  background-color: #89b4fa;
+  color: #1e1e2e;
+}
+
+/* --- Power Profile Button (Main Circle) --- */
+.profile-btn.active {
+  background-color: #cba6f7; /* Mauve/Purple */
+  color: #1e1e2e;
+  box-shadow: 0 0 10px rgba(203, 166, 247, 0.4);
+}
+
+/* --- Power Profile Menu Box --- */
+.power-profile-box {
+  margin-top: 10px;
+  background-color: #313244;
+  border-radius: 12px;
+  padding: 10px 15px;
+}
+
+.profile-item {
+  background-color: #45475a;
+  color: #cdd6f4;
+  border-radius: 8px;
+  padding: 5px 10px; /* Wider click area */
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.profile-item:hover {
+  background-color: #585b70;
+}
+
+/* Active States for the Profiles */
+.profile-item.saver.active {
+  background-color: #a6e3a1; /* Green */
+  color: #1e1e2e;
+}
+
+.profile-item.balanced.active {
+  background-color: #89b4fa; /* Blue */
+  color: #1e1e2e;
+}
+
+.profile-item.perf.active {
+  background-color: #f38ba8; /* Red */
+  color: #1e1e2e;
+}
+/* --- System Stats Button (Main Circle) --- */
+.sys-btn.active {
+  background-color: #89dceb; /* Sky Blue */
+  color: #1e1e2e;
+  box-shadow: 0 0 10px rgba(137, 220, 235, 0.4);
+}
+
+/* --- System Stats Menu Box --- */
+.sys-menu-box {
+  margin-top: 10px;
+  background-color: #313244;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+/* --- Mini Circular Progress Bars --- */
+.sys-item {
+  margin: 0;
+  padding: 0;
+}
+
+.sys-bg {
+  color: #45475a;
+  background-color: transparent;
+}
+
+.sys-fg {
+  background-color: transparent;
+}
+
+/* Dynamic Colors */
+.sys-fg.cpu {
+  color: #f38ba8;
+} /* Red */
+.sys-fg.ram {
+  color: #f9e2af;
+} /* Yellow */
+.sys-fg.disk {
+  color: #a6e3a1;
+} /* Green */
+.sys-fg.temp {
+  color: #89b4fa;
+} /* Blue */
+
+.sys-icon {
+  font-size: 16px;
+  color: #cdd6f4;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.sys-icon.temp {
+  margin: 0;
+}
+
+.sys-text {
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #bac2de;
+}
+/* --- Audio Device Menu --- */
+.icon-btn {
+  color: #cdd6f4;
+  background-color: #45475a;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.icon-btn:hover {
+  background-color: #89b4fa;
+  color: #1e1e2e;
+}
+
+.section-title {
+  color: #89b4fa;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.sub-header {
+  color: #6c7086;
+  font-size: 10px;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 2px;
+}
+
+.device-btn {
+  background-color: #45475a;
+  color: #cdd6f4;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  transition: all 0.2s;
+}
+
+.device-btn:hover {
+  background-color: #585b70;
+}
+
+/* Active Device Highlight */
+.device-btn.active {
+  background-color: #a6e3a1; /* Green for active device */
+  color: #1e1e2e;
+  font-weight: bold;
+  border: 1px solid #a6e3a1;
+}
+/* --- Audio Tabs --- */
+.tab-box {
+  background-color: #313244;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 5px;
+}
+
+.tab-btn {
+  background-color: transparent;
+  color: #6c7086;
+  border-radius: 6px;
+  padding: 8px;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  color: #cdd6f4;
+  background-color: #45475a;
+}
+
+/* Active Tab Style */
+.tab-btn.active {
+  background-color: #89b4fa; /* Blue */
+  color: #1e1e2e; /* Dark Text */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Add to eww.scss */
+.icon-btn.active {
   background-color: #89b4fa;
   color: #1e1e2e;
 }
