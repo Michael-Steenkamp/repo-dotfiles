@@ -1,18 +1,31 @@
-/* --- Global --- */
+/* ============================================================
+   EWW STYLESHEET
+   1. Global Reset & Main Container
+   2. Grid Section (Net/BT)
+   3. Circular Controls (Vol/Bri/Profile/Sys)
+   4. Sliders (Volume/Brightness)
+   5. Media Player
+   6. Clipboard History
+   7. Notifications
+   8. Popup Window (Net/BT/Audio)
+   ============================================================ */
+
+/* --- 1. Global Reset & Main Container --- */
 * {
   all: unset;
   font-family: "JetBrains Mono", "Roboto", sans-serif;
 }
 
-/* --- Sidebar Window --- */
 .main-container {
   background-color: #1e1e2e;
   padding: 15px;
   border-radius: 15px;
   border: 2px solid #313244;
+  /* box-shadow removed to prevent square artifacts on rounded corners (handled by Hyprland) */
+  box-shadow: none;
 }
 
-/* --- Grid Section (Net/BT Buttons) --- */
+/* --- 2. Grid Section (Net/BT) --- */
 .grid-btn {
   background-color: #313244;
   border-radius: 12px;
@@ -30,27 +43,19 @@
   background-color: #1e1e2e;
 }
 
-.grid-btn:active .grid-icon {
-  font-size: 22px;
-  text-shadow: none;
-}
-
 .grid-btn.active {
   background-color: #1e1e2e;
   border: 2px solid #89b4fa;
   box-shadow: inset 0 0 10px rgba(137, 180, 250, 0.1);
 }
 
-.grid-btn.active .grid-icon {
-  color: #89b4fa;
-  text-shadow: 0 0 5px rgba(137, 180, 250, 0.5);
-}
-
 .grid-icon {
   font-size: 26px;
   color: #cdd6f4;
   margin-bottom: 4px;
-  transition: font-size 0.1s;
+}
+.grid-btn.active .grid-icon {
+  color: #89b4fa;
 }
 
 .grid-label {
@@ -66,69 +71,11 @@
   color: #a6adc8;
 }
 
-/* --- Battery Widget (Final Fix) --- */
-.battery-box {
-  background-color: #313244;
-  border-radius: 12px;
-  padding: 10px 0px;
-  margin-top: 1px;
+/* --- 3. Circular Controls & System Stats --- */
+.circles-section {
+  margin-bottom: 5px;
 }
 
-.battery-item {
-  margin: 0;
-  padding: 0;
-}
-
-.battery-bg {
-  color: #45475a;
-  background-color: transparent;
-  margin: 1px;
-}
-
-.battery-fg {
-  color: #a6e3a1;
-  background-color: transparent;
-  /* CRITICAL: Must match the bg margin to stay aligned */
-  margin: 1px;
-}
-
-.battery-fg.charging {
-  color: #a6e3a1;
-}
-
-.battery-icon {
-  color: #cdd6f4;
-  font-size: 20px;
-  font-family: "JetBrainsMono Nerd Font";
-  font-weight: bold;
-  margin-right: 2px;
-  margin-bottom: 2px;
-}
-
-.charging-icon {
-  color: #1e1e2e;
-  background-color: #a6e3a1;
-  font-size: 12px;
-  border-radius: 50%;
-  min-width: 16px;
-  min-height: 16px;
-  padding: 0;
-}
-
-.battery-text {
-  margin-top: 5px;
-  font-size: 12px;
-  font-weight: 800;
-  color: #bac2de;
-}
-
-tooltip {
-  background-color: #1e1e2e;
-  color: #cdd6f4;
-  border: 1px solid #313244;
-}
-
-/* --- Circular Buttons (Bottom Row) --- */
 .circle-btn {
   background-color: #313244;
   min-width: 50px;
@@ -141,64 +88,118 @@ tooltip {
   margin: 5px;
 }
 
-.circle-btn > label {
-  margin-left: 6px;
-  min-width: 24px;
-  min-height: 24px;
-}
-
 .circle-btn:hover {
   background-color: #45475a;
   color: #89b4fa;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.circle-btn:active {
-  color: #89b4fa;
-  background-color: #1e1e2e;
-  font-size: 20px;
-}
-
+/* Active States */
 .vol-btn.active {
   background-color: #89b4fa;
   color: #1e1e2e;
-  box-shadow: 0 0 15px rgba(137, 180, 250, 0.5);
 }
-
 .bri-btn.active {
   background-color: #fab387;
   color: #1e1e2e;
-  box-shadow: 0 0 15px rgba(250, 179, 135, 0.5);
+}
+.profile-btn.active {
+  background-color: #cba6f7;
+  color: #1e1e2e;
+}
+.sys-btn.active {
+  background-color: #89dceb;
+  color: #1e1e2e;
 }
 
-/* --- Sliders --- */
+/* System Menu Boxes */
+.sys-menu-box,
+.power-profile-box {
+  margin-top: 10px;
+  background-color: #313244;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+/* Mini Circular Progress & Icons */
+.sys-bg {
+  color: #45475a;
+  background-color: transparent;
+}
+.sys-fg {
+  background-color: transparent;
+}
+.sys-fg.gpu {
+  color: #f38ba8;
+}
+.sys-fg.ram {
+  color: #f9e2af;
+}
+.sys-fg.disk {
+  color: #a6e3a1;
+}
+.sys-fg.temp {
+  color: #89b4fa;
+}
+
+.sys-icon {
+  font-size: 16px;
+  color: #cdd6f4;
+  font-weight: bold;
+}
+.sys-icon.temp {
+  color: #89b4fa;
+}
+.sys-icon.gpu {
+}
+
+.sys-text {
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #bac2de;
+}
+
+/* Power Profile Items */
+.profile-item {
+  background-color: #45475a;
+  color: #cdd6f4;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+.profile-item:hover {
+  background-color: #585b70;
+}
+.profile-item.saver.active {
+  background-color: #a6e3a1;
+  color: #1e1e2e;
+}
+.profile-item.balanced.active {
+  background-color: #89b4fa;
+  color: #1e1e2e;
+}
+.profile-item.perf.active {
+  background-color: #f38ba8;
+  color: #1e1e2e;
+}
+
+/* --- 4. Sliders --- */
 .slider-box {
   margin-top: 10px;
   background-color: #313244;
   border-radius: 12px;
   padding: 10px 15px;
 }
-
 scale {
   min-height: 10px;
 }
-
 scale trough {
   background-color: #181825;
   border-radius: 10px;
   min-height: 8px;
 }
-
-.vol-scale highlight {
-  background-color: #89b4fa;
-  border-radius: 10px;
-}
-
-.bri-scale highlight {
-  background-color: #fab387;
-  border-radius: 10px;
-}
-
 scale handle {
   background-color: #cdd6f4;
   border-radius: 50px;
@@ -206,10 +207,23 @@ scale handle {
   min-height: 14px;
   margin: -3px;
 }
+.vol-scale highlight {
+  background-color: #89b4fa;
+  border-radius: 10px;
+}
+.bri-scale highlight {
+  background-color: #fab387;
+  border-radius: 10px;
+}
 
-/* --- Media Section --- */
+/* Fix circular progress background artifacts */
+circular-progress {
+  background-color: transparent;
+}
+
+/* --- 5. Media Player --- */
 .media-section {
-  background-color: #181825; /* Fallback color if no art */
+  background-color: #181825;
   border-radius: 12px;
   background-size: cover;
   background-position: center;
@@ -217,123 +231,68 @@ scale handle {
   border: 1px solid #313244;
   min-height: 120px;
 }
-
 .media-overlay {
   background-color: rgba(0, 0, 0, 0.9);
   padding: 15px;
   border-radius: 12px;
 }
-
 .media-song {
   font-size: 16px;
   font-weight: bold;
-  color: #ffffff; /* Pure white pops better over art */
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Shadow for readability */
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   margin-bottom: 5px;
 }
-
 .media-artist {
   font-size: 14px;
   color: #bac2de;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* --- Notifications Section --- */
-.notif-section {
+/* --- 6. Clipboard History --- */
+.clipboard-section {
   background-color: #181825;
   border-radius: 12px;
   padding: 15px;
+  margin-bottom: 0px;
 }
-
 .section-header {
   font-weight: bold;
   margin-bottom: 10px;
   color: #89b4fa;
 }
-
-/* --- Popup Window --- */
-.popup-container {
-  background-color: #1e1e2e;
-  border: 2px solid #89b4fa;
-  border-radius: 15px;
+.clip-item {
+  background-color: #313244;
+  border-radius: 8px;
   padding: 20px;
-}
-
-.close-btn {
-  font-size: 16px;
-  color: #f38ba8;
-  background-color: #313244;
-  border-radius: 100%;
-  min-width: 30px;
-  min-height: 30px;
-  margin-bottom: 10px;
-}
-
-.close-btn:hover {
-  background-color: #f38ba8;
-  color: #1e1e2e;
-}
-
-.popup-header {
-  font-size: 18px;
-  font-weight: bold;
-  color: #89b4fa;
-  margin-bottom: 10px;
-}
-
-.action-btn {
-  background-color: #313244;
-  color: #cdd6f4;
-  padding: 8px;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-.action-btn:hover {
-  background-color: #45475a;
-}
-
-.action-btn.active {
-  background-color: #a6e3a1;
-  color: #1e1e2e;
-  border: 1px solid #a6e3a1;
-}
-
-.action-btn.active:hover {
-  background-color: #94e2d5;
-}
-
-.list-item {
-  padding: 8px 12px;
-  background-color: #313244;
-  border-radius: 8px;
   color: #cdd6f4;
   transition: all 0.2s;
-}
-
-.list-item:hover {
-  background-color: #45475a;
-}
-
-.placeholder-text {
-  color: #a6adc8;
   font-size: 14px;
+  font-family: "JetBrains Mono", monospace;
+  min-height: 60px;
+}
+.clip-item:hover {
+  background-color: #45475a;
+  color: #89b4fa;
+}
+.clip-item:active {
+  background-color: #89b4fa;
+  color: #1e1e2e;
 }
 
-/* --- Notifications Section --- */
-.notif-header-box {
-  margin-bottom: 10px;
+/* --- 7. Notifications --- */
+.notif-section {
+  background-color: #181825;
+  border-radius: 12px;
+  padding: 15px;
 }
-
 .clear-btn {
-  color: #f38ba8; /* Red/Pink for delete action */
-  background-color: transparent;
+  color: #f38ba8;
   font-size: 12px;
   padding: 2px 8px;
   border-radius: 8px;
   transition: all 0.2s;
 }
-
 .clear-btn:hover {
   background-color: #f38ba8;
   color: #1e1e2e;
@@ -343,222 +302,109 @@ scale handle {
   background-color: #313244;
   border-radius: 8px;
   padding: 5px;
-  margin-right: 5px; /* Spacing for scrollbar */
+  margin-right: 5px;
 }
-
-/* Critical Urgency Border */
 .notif-item.critical {
   border: 1px solid #f38ba8;
 }
-
 .notif-app {
   font-size: 10px;
   font-weight: bold;
-  color: #89b4fa; /* Blue */
+  color: #89b4fa;
 }
-
 .notif-time {
   font-size: 10px;
   color: #6c7086;
 }
-
 .notif-summary {
   font-weight: bold;
   font-size: 15px;
   color: #cdd6f4;
   margin-top: 2px;
 }
-
 .notif-body {
   font-size: 12px;
   color: #a6adc8;
   margin-top: 2px;
 }
-/* --- Clipboard Section --- */
-.clipboard-section {
-  background-color: #181825;
-  border-radius: 12px;
-  padding: 15px;
-  /* CHANGED: Removes gap between clipboard and notifications */
-  margin-bottom: 0px;
-}
-
-.clipboard-header-box {
-  margin-bottom: 8px;
-}
-
-.clip-item {
-  background-color: #313244;
-  border-radius: 8px;
-  padding: 20px;
-  color: #cdd6f4;
-  transition: all 0.2s;
-  font-size: 14px; /* Slightly smaller to fit more text */
-  font-family: "JetBrains Mono", monospace;
-  min-height: 60px; /* Reduced min-height so short items aren't huge */
-}
-.clip-item:hover {
-  background-color: #45475a;
-  color: #89b4fa;
-}
-
-.clip-item:active {
-  background-color: #89b4fa;
-  color: #1e1e2e;
-}
-
-/* --- Power Profile Button (Main Circle) --- */
-.profile-btn.active {
-  background-color: #cba6f7; /* Mauve/Purple */
-  color: #1e1e2e;
-  box-shadow: 0 0 10px rgba(203, 166, 247, 0.4);
-}
-
-/* --- Power Profile Menu Box --- */
-.power-profile-box {
-  margin-top: 10px;
-  background-color: #313244;
-  border-radius: 12px;
-  padding: 10px 15px;
-}
-
-.profile-item {
-  background-color: #45475a;
-  color: #cdd6f4;
-  border-radius: 8px;
-  padding: 5px 10px; /* Wider click area */
-  font-size: 18px;
-  transition: all 0.2s;
-}
-
-.profile-item:hover {
-  background-color: #585b70;
-}
-
-/* Active States for the Profiles */
-.profile-item.saver.active {
-  background-color: #a6e3a1; /* Green */
-  color: #1e1e2e;
-}
-
-.profile-item.balanced.active {
-  background-color: #89b4fa; /* Blue */
-  color: #1e1e2e;
-}
-
-.profile-item.perf.active {
-  background-color: #f38ba8; /* Red */
-  color: #1e1e2e;
-}
-/* --- System Stats Button (Main Circle) --- */
-.sys-btn.active {
-  background-color: #89dceb; /* Sky Blue */
-  color: #1e1e2e;
-  box-shadow: 0 0 10px rgba(137, 220, 235, 0.4);
-}
-
-/* --- System Stats Menu Box --- */
-.sys-menu-box {
-  margin-top: 10px;
-  background-color: #313244;
-  border-radius: 12px;
-  padding: 10px;
-}
-
-/* --- Mini Circular Progress Bars --- */
-.sys-item {
-  margin: 0;
-  padding: 0;
-}
-
-.sys-bg {
-  color: #45475a;
-  background-color: transparent;
-}
-
-.sys-fg {
-  background-color: transparent;
-}
-
-/* Dynamic Colors */
-.sys-fg.cpu {
-  color: #f38ba8;
-} /* Red */
-.sys-fg.ram {
-  color: #f9e2af;
-} /* Yellow */
-.sys-fg.disk {
-  color: #a6e3a1;
-} /* Green */
-.sys-fg.temp {
-  color: #89b4fa;
-} /* Blue */
-
-.sys-icon {
-  font-size: 16px;
-  color: #cdd6f4;
-  font-weight: bold;
-  margin-right: 5px;
-}
-
-.sys-icon.temp {
-  margin: 0;
-}
-
-.sys-text {
-  margin-top: 4px;
-  font-size: 10px;
-  font-weight: bold;
-  color: #bac2de;
-}
-/* --- Audio Device Menu --- */
-.icon-btn {
-  color: #cdd6f4;
-  background-color: #45475a;
-  border-radius: 8px;
-  padding: 5px 10px;
+.placeholder-text {
+  color: #a6adc8;
   font-size: 14px;
 }
 
-.icon-btn:hover {
-  background-color: #89b4fa;
-  color: #1e1e2e;
+/* ============================================================
+   8. SHARED POPUPS (Center & Notifications)
+   ============================================================ */
+
+/* The main window container for ALL popups */
+.popup-window {
+  background-color: #1e1e2e;
+  border: 2px solid #89b4fa;
+  border-radius: 15px;
+  padding: 20px;
+  /* Optional: Add a subtle shadow to lift it off the blurred background */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.section-title {
+/* --- Common Elements --- */
+
+.popup-header {
+  font-size: 18px;
+  font-weight: bold;
   color: #89b4fa;
-  font-weight: bold;
-  font-size: 12px;
+  margin-bottom: 10px;
 }
 
-.sub-header {
-  color: #6c7086;
-  font-size: 10px;
-  font-weight: bold;
-  margin-top: 5px;
-  margin-bottom: 2px;
+.popup-divider {
+  background-color: #313244;
+  margin: 10px 0;
+  min-height: 2px;
 }
 
-.device-btn {
-  background-color: #45475a;
-  color: #cdd6f4;
-  padding: 8px;
-  border-radius: 8px;
-  font-size: 11px;
+.close-btn {
+  font-size: 16px;
+  color: #f38ba8;
+  background-color: #313244;
+  border-radius: 100%;
+  min-width: 30px;
+  min-height: 30px;
   transition: all 0.2s;
 }
-
-.device-btn:hover {
-  background-color: #585b70;
+.close-btn:hover {
+  background-color: #f38ba8;
+  color: #1e1e2e;
 }
 
-/* Active Device Highlight */
-.device-btn.active {
-  background-color: #a6e3a1; /* Green for active device */
-  color: #1e1e2e;
+/* --- Action Buttons (Wifi/BT Toggles) --- */
+.action-btn {
+  background-color: #313244;
+  color: #cdd6f4;
+  padding: 8px 12px;
+  border-radius: 8px;
   font-weight: bold;
+  transition: all 0.2s;
+}
+.action-btn:hover {
+  background-color: #45475a;
+}
+.action-btn.active {
+  background-color: #a6e3a1;
+  color: #1e1e2e;
   border: 1px solid #a6e3a1;
 }
+
+/* --- Lists (Wifi/BT/Audio Items) --- */
+.list-item {
+  padding: 8px 12px;
+  background-color: #313244;
+  border-radius: 8px;
+  color: #cdd6f4;
+  transition: all 0.2s;
+}
+.list-item:hover {
+  background-color: #45475a;
+}
+
 /* --- Audio Tabs --- */
 .tab-box {
   background-color: #313244;
@@ -566,7 +412,6 @@ scale handle {
   padding: 4px;
   margin-bottom: 5px;
 }
-
 .tab-btn {
   background-color: transparent;
   color: #6c7086;
@@ -575,21 +420,89 @@ scale handle {
   font-weight: bold;
   transition: all 0.2s;
 }
-
 .tab-btn:hover {
   color: #cdd6f4;
   background-color: #45475a;
 }
-
-/* Active Tab Style */
 .tab-btn.active {
-  background-color: #89b4fa; /* Blue */
-  color: #1e1e2e; /* Dark Text */
+  background-color: #89b4fa;
+  color: #1e1e2e;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Add to eww.scss */
+/* --- Notification Text Styling --- */
+.notif-text-summary {
+  font-size: 16px;
+  font-weight: bold;
+  color: #cdd6f4;
+  margin-bottom: 5px;
+}
+.notif-text-body {
+  font-size: 14px;
+  color: #a6adc8;
+}
+.clip-full-text {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  color: #a6adc8;
+  padding: 5px;
+}
+
+/* Audio Specifics */
+.icon-btn {
+  color: #cdd6f4;
+  background-color: #45475a;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+.icon-btn:hover {
+  background-color: #89b4fa;
+  color: #1e1e2e;
+}
 .icon-btn.active {
   background-color: #89b4fa;
   color: #1e1e2e;
+}
+
+/* Audio Tabs */
+.tab-box {
+  background-color: #313244;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 5px;
+}
+.tab-btn {
+  background-color: transparent;
+  color: #6c7086;
+  border-radius: 6px;
+  padding: 8px;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+.tab-btn:hover {
+  color: #cdd6f4;
+  background-color: #45475a;
+}
+.tab-btn.active {
+  background-color: #89b4fa;
+  color: #1e1e2e;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Tooltips --- */
+tooltip {
+  background-color: #1e1e2e; /* Dark background color */
+  color: #cdd6f4; /* Text color */
+  border: 2px solid #89b4fa; /* Blue border to make it visible */
+  border-radius: 10px; /* Rounded corners */
+  padding: 8px; /* Spacing inside the box */
+
+  /* Optional: Drop shadow to lift it off the background */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Optional: Fix padding specifically for the text label inside */
+tooltip label {
+  margin: 4px;
 }

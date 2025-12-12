@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+"""
+notifications.py
+Fetches history from dunstctl and handles deletion.
+"""
 
 import json
 import re
@@ -6,24 +10,23 @@ import subprocess
 import sys
 
 
-# Clean text function
 def clean_text(text):
     if not text:
         return ""
-    return re.sub(r"<[^>]*>", "", text).strip()
+    # Remove HTML tags
+    text = re.sub(r"<[^>]*>", "", text).strip()
+    # CRITICAL: Replace single quotes with backticks or typographic quotes
+    # to prevent breaking Eww's 'onclick' command string.
+    return text.replace("'", "’").replace('"', "”")
 
 
 def get_history():
     try:
-        # Fetch history from dunst
         result = subprocess.run(["dunstctl", "history"], capture_output=True, text=True)
         data = json.loads(result.stdout)
-
-        # Dunst returns {'data': [[ ... ]]}
         history = data.get("data", [[]])[0]
 
         processed = []
-        # Limit to 20 items
         for notif in history[:20]:
             app = notif.get("appname", {}).get("data", "System")
             summary = clean_text(notif.get("summary", {}).get("data", ""))
@@ -40,12 +43,23 @@ def get_history():
                     "urgency": urgency,
                 }
             )
-
         print(json.dumps(processed))
-
     except Exception:
         print("[]")
 
 
+def delete_notif(notif_id):
+    try:
+        # Remove specific notification from history
+        subprocess.run(["dunstctl", "history-rm", str(notif_id)])
+    except Exception:
+        pass
+
+
 if __name__ == "__main__":
-    get_history()
+    cmd = sys.argv[1] if len(sys.argv) > 1 else "list"
+
+    if cmd == "list":
+        get_history()
+    elif cmd == "delete" and len(sys.argv) > 2:
+        delete_notif(sys.argv[2])

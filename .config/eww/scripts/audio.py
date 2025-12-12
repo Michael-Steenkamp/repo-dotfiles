@@ -1,34 +1,47 @@
 #!/usr/bin/env python3
+"""
+audio.py
+Manages Audio Devices (Sinks/Sources) and handles forcing stream migration
+when switching devices in PipeWire/PulseAudio.
+"""
+
 import json
 import subprocess
 import sys
 
 
-def get_devices(kind):
-    # kind is "sinks" (outputs) or "sources" (inputs)
+def run_cmd(args):
+    """Helper to run shell commands and return stdout."""
     try:
-        # Get JSON list of devices
-        cmd = ["pactl", "-f", "json", "list", kind]
-        res = subprocess.run(cmd, capture_output=True, text=True)
-        devices = json.loads(res.stdout)
+        res = subprocess.run(args, capture_output=True, text=True)
+        return res.stdout.strip()
+    except Exception:
+        return ""
 
-        # Get the name of the currently default device
-        default_cmd = ["pactl", f"get-default-{kind[:-1]}"]
-        default_dev = subprocess.run(
-            default_cmd, capture_output=True, text=True
-        ).stdout.strip()
+
+def get_devices(kind):
+    """Returns a JSON list of sinks or sources."""
+    # kind: "sinks" or "sources"
+    try:
+        # Get raw JSON from pactl
+        raw = run_cmd(["pactl", "-f", "json", "list", kind])
+        devices = json.loads(raw)
+
+        # Identify default device
+        default_dev = run_cmd(["pactl", f"get-default-{kind[:-1]}"])
 
         output = []
         for d in devices:
-            # Filter out "Monitor" sources (which are just recording desktop audio)
-            if kind == "sources" and "monitor" in d.get("name", ""):
+            name = d.get("name", "")
+            # Filter out monitor sources (desktop audio recording)
+            if kind == "sources" and "monitor" in name:
                 continue
 
             output.append(
                 {
-                    "name": d.get("name"),
+                    "name": name,
                     "desc": d.get("description", "Unknown Device"),
-                    "active": d.get("name") == default_dev,
+                    "active": name == default_dev,
                 }
             )
 
@@ -38,39 +51,25 @@ def get_devices(kind):
 
 
 def set_device(kind, name):
+    """Sets default device and moves all active streams to it."""
+    # kind: "sink" or "source"
     try:
-        # 1. Set the default device (for future apps)
+        # 1. Set System Default
         subprocess.run(["pactl", f"set-default-{kind}", name])
 
-        # 2. Move ALL currently playing streams to the new device
-        if kind == "sink":
-            # List all playing streams (sink-inputs)
-            # Output format: "ID  sink_idx  client_idx  proto  name"
-            res = subprocess.run(
-                ["pactl", "list", "short", "sink-inputs"],
-                capture_output=True,
-                text=True,
-            )
-            for line in res.stdout.splitlines():
-                if not line:
-                    continue
-                # The first column is the Stream ID
-                stream_id = line.split()[0]
-                # Force move this stream to the new sink
-                subprocess.run(["pactl", "move-sink-input", stream_id, name])
+        # 2. Move Active Streams
+        # We must identify which streams are playing and force them to the new device.
+        stream_type = "sink-inputs" if kind == "sink" else "source-outputs"
+        move_cmd = "move-sink-input" if kind == "sink" else "move-source-output"
 
-        elif kind == "source":
-            # List all recording streams (source-outputs)
-            res = subprocess.run(
-                ["pactl", "list", "short", "source-outputs"],
-                capture_output=True,
-                text=True,
-            )
-            for line in res.stdout.splitlines():
-                if not line:
-                    continue
-                stream_id = line.split()[0]
-                subprocess.run(["pactl", "move-source-output", stream_id, name])
+        # List streams: "ID  idx  client  proto  name"
+        streams = run_cmd(["pactl", "list", "short", stream_type])
+
+        for line in streams.splitlines():
+            if not line:
+                continue
+            stream_id = line.split()[0]
+            subprocess.run(["pactl", move_cmd, stream_id, name])
 
     except Exception:
         pass

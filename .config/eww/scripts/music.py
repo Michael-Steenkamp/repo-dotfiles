@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
+"""
+music.py
+Fetches metadata from playerctl and downloads album art.
+"""
+
 import json
 import os
 import subprocess
 import urllib.request
 
-# Path where we save the album art
 COVER_PATH = "/tmp/eww_cover.png"
-# Placeholder image if no art is found (empty transparent or a default icon)
 DEFAULT_COVER = ""
 
 
 def get_music_status():
-    # Fetch Title, Artist, Status, and Art URL
+    # Command to fetch: Title, Artist, Status, ArtUrl
     cmd = [
         "playerctl",
         "-p",
@@ -35,22 +38,20 @@ def get_music_status():
             status = parts[2]
             art_url = parts[3] if len(parts) > 3 else ""
 
-            # --- Image Handling ---
             final_cover = DEFAULT_COVER
 
             if art_url:
-                # If it's a local file (mpd/local files), strip 'file://'
+                # Case 1: Local File
                 if art_url.startswith("file://"):
                     final_cover = art_url[7:]
-                # If it's a web URL (Spotify), download it
+
+                # Case 2: Web URL (Spotify/SoundCloud)
                 elif art_url.startswith("http"):
-                    # Optimization: Only download if the URL changed?
-                    # For simplicity in this script, we just download.
-                    # (In a perfect world, we'd cache this based on song ID)
                     try:
+                        # Download with a 2-second timeout to prevent lag
                         urllib.request.urlretrieve(art_url, COVER_PATH)
                         final_cover = COVER_PATH
-                    except:
+                    except Exception:
                         pass
 
             return {
@@ -70,18 +71,14 @@ def main():
     data = get_music_status()
 
     if data:
-        title = data["title"] if data["title"] else "No Music"
-        artist = data["artist"] if data["artist"] else ""
-        status = data["status"]
-        cover = data["cover"]
+        output = {
+            "title": data["title"] or "No Music",
+            "artist": data["artist"] or "",
+            "status": data["status"],
+            "cover": data["cover"],
+        }
     else:
-        title = "No Music"
-        artist = ""
-        status = "Stopped"
-        cover = ""
-
-    # Generate JSON
-    output = {"title": title, "artist": artist, "status": status, "cover": cover}
+        output = {"title": "No Music", "artist": "", "status": "Stopped", "cover": ""}
 
     print(json.dumps(output))
 

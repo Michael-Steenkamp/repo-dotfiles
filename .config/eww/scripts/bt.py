@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
+"""
+bt.py
+Manages Bluetooth devices using bluetoothctl.
+"""
+
 import json
 import subprocess
 import sys
 
 
-def run_command(cmd):
-    # We pipe the command into bluetoothctl
+def run_bluetoothctl(cmd):
+    """Pipes a command into bluetoothctl and returns output."""
     try:
-        # 2>&1 redirects stderr to stdout so we capture everything
+        # 2>&1 redirects stderr to stdout
         return (
             subprocess.check_output(
                 f"echo '{cmd}' | bluetoothctl", shell=True, stderr=subprocess.STDOUT
@@ -20,13 +25,13 @@ def run_command(cmd):
 
 
 def parse_devices(raw_output):
+    """Parses bluetoothctl output into a list of dicts."""
     devices = []
-    # If no output or error, return empty
     if not raw_output:
         return []
 
     for line in raw_output.split("\n"):
-        # Valid line: "Device 00:00:00:00:00:00 DeviceName"
+        # Expected format: "Device 00:00:00:00:00:00 Name"
         if "Device" not in line:
             continue
 
@@ -34,13 +39,12 @@ def parse_devices(raw_output):
         if len(parts) < 3:
             continue
 
-        # [0]=Device, [1]=MAC, [2:]=Name
         mac = parts[1]
         name = " ".join(parts[2:])
 
-        # Determine icon based on name
-        icon = "󰂯"
+        # Icon logic
         lower = name.lower()
+        icon = "󰂯"  # Default
         if any(
             x in lower
             for x in ["headphone", "headset", "bud", "pods", "xm4", "airpods"]
@@ -52,25 +56,25 @@ def parse_devices(raw_output):
             icon = "󰍽"
         elif "key" in lower:
             icon = "󰌌"
-        elif "controller" in lower:
-            icon = "󰊴"
         elif "tv" in lower:
             icon = ""
+        elif "controller" in lower:
+            icon = "󰊴"
 
         devices.append({"mac": mac, "name": name, "icon": icon})
+
     return devices
 
 
 def get_devices():
-    # NEW COMMAND: 'devices Paired' instead of 'paired-devices'
-    raw = run_command("devices Paired")
+    """Lists paired devices with their connection status."""
+    raw = run_bluetoothctl("devices Paired")
     parsed = parse_devices(raw)
 
     final_list = []
     for d in parsed:
-        # Check connection status for each paired device
-        # We can't use 'devices Connected' solely because we want to see DISCONNECTED paired devices too
-        info = run_command(f"info {d['mac']}")
+        # Check specific device info
+        info = run_bluetoothctl(f"info {d['mac']}")
         connected = "Connected: yes" in info
 
         d["connected"] = connected
@@ -84,28 +88,30 @@ def get_devices():
 
 
 def get_status():
-    # Fast check for JUST connected devices
-    raw = run_command("devices Connected")
+    """Returns the name of the first connected device or 'Disconnected'."""
+    raw = run_bluetoothctl("devices Connected")
     parsed = parse_devices(raw)
 
     if parsed:
-        print(parsed[0]["name"])  # Return the first connected device name
+        print(parsed[0]["name"])
     else:
         print("Disconnected")
 
 
 def connect_device(mac, action):
-    # Send notification
-    subprocess.Popen(
-        f"notify-send 'Bluetooth' '{action.capitalize()}ing...'", shell=True
-    )
-    # Run connect/disconnect
-    run_command(f"{action} {mac}")
+    """Connects or Disconnects a device and sends a system notification."""
+    try:
+        subprocess.Popen(
+            f"notify-send 'Bluetooth' '{action.capitalize()}ing...'", shell=True
+        )
+        run_bluetoothctl(f"{action} {mac}")
+    except Exception:
+        pass
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        exit(1)
+        sys.exit(1)
 
     cmd = sys.argv[1]
 
@@ -113,5 +119,5 @@ if __name__ == "__main__":
         get_devices()
     elif cmd == "status":
         get_status()
-    elif cmd == "connect":
+    elif cmd == "connect" and len(sys.argv) >= 4:
         connect_device(sys.argv[2], sys.argv[3])
