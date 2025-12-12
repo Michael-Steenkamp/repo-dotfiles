@@ -3,6 +3,7 @@
 (defvar popup_visible false)
 
 ;; --- Polls ---
+(defpoll clipboard :interval "1s" :initial "[]" :run-while sidebar_visible "~/.config/eww/scripts/clipboard.py list")
 (defpoll music :interval "1s" :initial '{"title": "No Music", "artist": "", "status": "Stopped", "cover": ""}' "~/.config/eww/scripts/music.py")
 
 (defpoll net_ssid  :interval "2s" :run-while sidebar_visible "~/.config/eww/scripts/net.py ssid")
@@ -90,6 +91,28 @@
       )
     )
 
+;; 3.5. Clipboard History
+    (box :class "clipboard-section" :orientation "v" :space-evenly false
+      (box :orientation "h" :space-evenly true :class "clipboard-header-box"
+        (label :class "section-header" :text "Clipboard" :halign "start")
+        (button :class "clear-btn" :onclick "~/.config/eww/scripts/clipboard.py clear" :halign "end" "Clear "))
+
+      ;; CHANGED: Height 150px to show one big item (or 1.5 items) clearly
+      (scroll :hscroll false :vscroll true :height 150
+        (box :orientation "v" :spacing 10 :space-evenly false
+          (label :visible {arraylength(clipboard) == 0}
+                 :text "History empty"
+                 :class "placeholder-text")
+
+          (for clip in clipboard
+             (button :class "clip-item"
+                     :onclick "~/.config/eww/scripts/clipboard.py copy ${clip.id}"
+               ;; CHANGED: Increased limit-width to 40 and added wrap to use the new vertical space
+               (label :text "  ${clip.summary}" :halign "start" :wrap true))
+          )
+        )
+      )
+    )
     ;; 4. Notifications
     (box :class "notif-section" :orientation "v" :space-evenly false :vexpand true
       (box :orientation "h" :space-evenly true :class "notif-header-box"
