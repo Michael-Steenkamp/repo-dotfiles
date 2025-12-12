@@ -13,6 +13,7 @@
 #       rofi
 #       wallust
 #       spotify-player
+#       eww
 ##########################
 
 #################################
@@ -96,3 +97,7 @@
 # spotify-player
 !/.config/spotify-player/
 !/.config/spotify-player/*
+
+# eww
+!/.config/eww/
+!/.config/eww/**

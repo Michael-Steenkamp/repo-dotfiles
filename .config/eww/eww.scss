@@ -1,0 +1,443 @@
+/* =============================================================================
+ * VARIABLES & THEME CONFIGURATION
+ * ========================================================================== */
+@import "colors.scss";
+
+/* --- Semantic Colors --- */
+$theme-bg: $color2;
+$theme-text: $color7;
+$theme-icon: $color8;
+$theme-subtext: $color8;
+
+$theme-surface: $color1;
+$theme-hover: $color5;
+$theme-active: $color4;
+$theme-accent: $color5;
+$theme-alert: $color6;
+
+$theme-border: $color5;
+
+/* --- Layout Constants --- */
+$border-radius: 15px;
+$inner-radius: 8px;
+$padding: 15px;
+$border-width: 2px;
+
+/* =============================================================================
+ * GLOBAL RESET
+ * ========================================================================== */
+* {
+  all: unset;
+  font-family: "JetBrains Mono", "Roboto", sans-serif;
+}
+
+/* =============================================================================
+ * MAIN CONTAINERS (Sidebar & Popups)
+ * ========================================================================== */
+
+.main-container,
+.popup-window {
+  background-color: $theme-bg;
+  color: $theme-text;
+  border: $border-width solid $theme-border;
+  border-radius: $border-radius;
+  padding: $padding;
+}
+
+/* =============================================================================
+ * COMMON COMPONENTS
+ * ========================================================================== */
+
+/* --- Headers & Dividers --- */
+.section-header,
+.popup-header {
+  font-size: 16px;
+  font-weight: bold;
+  color: $theme-accent;
+  margin-bottom: 10px;
+}
+
+.popup-divider {
+  background-color: $theme-surface;
+  margin: 10px 0;
+  min-height: 2px;
+}
+
+.placeholder-text {
+  color: $theme-subtext;
+  font-size: 14px;
+}
+
+/* --- Buttons (Action / Close / Icon) --- */
+.action-btn,
+.close-btn,
+.icon-btn,
+.clear-btn {
+  background-color: $theme-surface;
+  color: $theme-icon;
+  border-radius: $inner-radius;
+  transition: all 0.5s;
+}
+
+.action-btn {
+  padding: 8px 12px;
+  font-weight: bold;
+}
+.icon-btn {
+  padding: 5px 10px;
+  font-size: 14px;
+}
+.close-btn {
+  border-radius: 100%;
+  min-width: 30px;
+  min-height: 30px;
+  color: $theme-alert;
+}
+.clear-btn {
+  padding: 0px 9px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: $theme-alert;
+}
+
+/* Hover States */
+.action-btn:hover,
+.icon-btn:hover {
+  background-color: $theme-hover;
+}
+.close-btn:hover,
+.clear-btn:hover {
+  background-color: $theme-hover;
+  color: $theme-bg;
+}
+
+/* Active States */
+.action-btn.active,
+.icon-btn.active {
+  background-color: $theme-active;
+  color: $theme-bg;
+  border: 1px solid $theme-active;
+}
+
+/* --- List Items (Wifi, BT, Audio, Clipboard) --- */
+.list-item,
+.clip-item,
+.notif-item {
+  background-color: $theme-surface;
+  color: $theme-text;
+  border-radius: $inner-radius;
+  padding: 8px;
+  transition: all 0.5s;
+}
+
+.list-item:hover,
+.clip-item:hover {
+  background-color: $theme-hover;
+}
+
+/* =============================================================================
+ * MODULE SPECIFIC STYLES
+ * ========================================================================== */
+
+/* --- 1. Connectivity Grid --- */
+.grid-section {
+  /* Pushes the Buttons below it away */
+  margin-bottom: $padding;
+}
+
+.grid-btn {
+  background-color: $theme-surface;
+  border-radius: 12px;
+  padding: 10px;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.grid-btn:hover {
+  background-color: $theme-hover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.grid-btn:active {
+  background-color: $theme-bg;
+}
+
+.grid-btn.active {
+  background-color: $theme-bg;
+  border: 2px solid $theme-accent;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.grid-icon {
+  font-size: 26px;
+  color: $theme-icon;
+  margin-bottom: 4px;
+}
+.grid-btn.active .grid-icon {
+  color: $theme-active;
+}
+.grid-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: $theme-subtext;
+}
+.grid-value {
+  font-size: 11px;
+  font-weight: bold;
+  color: $color12;
+}
+
+/* --- 2. Circular Buttons Row --- */
+.circles-section {
+  /* No margin here. If menus are closed, media player sits flush against this. */
+  margin-bottom: 0px;
+}
+
+.circle-btn {
+  background-color: $theme-surface;
+  min-width: 50px;
+  min-height: 50px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  color: $theme-icon;
+  font-size: 20px;
+  transition: all 0.2s;
+  margin: 2px;
+}
+
+.circle-btn:hover {
+  background-color: $theme-hover;
+  color: $theme-icon;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.circle-btn > label {
+  margin-right: 5px;
+}
+
+.vol-btn.active,
+.bri-btn.active,
+.profile-btn.active,
+.sys-btn.active {
+  background-color: $theme-bg;
+  border: 2px solid $theme-accent;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 3. EXPANDABLE MODULES (Sliders, System, Power) --- */
+/* Consolidated to ensure identical spacing/padding */
+.slider-box,
+.sys-menu-box,
+.power-profile-box {
+  background-color: $theme-surface;
+  border-radius: $border-radius;
+  padding: $padding;
+
+  /* CRITICAL: The gap is added here.
+     Since this is inside the revealer, when the revealer height is 0,
+     this margin disappears effectively. */
+  margin-top: $padding;
+
+  /* Remove manual bottom margins so layout stays tight */
+  margin-bottom: 0px;
+}
+
+/* System Stats Internals */
+.sys-bg {
+  color: $theme-surface;
+  background-color: transparent;
+}
+.sys-fg {
+  background-color: transparent;
+}
+.sys-fg.gpu,
+.sys-fg.ram,
+.sys-fg.disk,
+.sys-fg.temp {
+  color: $theme-accent;
+}
+
+.sys-icon {
+  font-size: 16px;
+  color: $theme-text;
+  font-weight: bold;
+}
+.sys-text {
+  margin-top: 5px;
+  font-size: 10px;
+  font-weight: bold;
+  color: $theme-subtext;
+}
+
+/* Power Profile Internals */
+.profile-item {
+  background-color: $theme-surface;
+  color: $theme-text;
+  border-radius: $inner-radius;
+  font-size: 18px;
+  transition: all 1s;
+}
+.profile-item:hover {
+  background-color: $theme-hover;
+}
+.profile-item.saver.active,
+.profile-item.balanced.active,
+.profile-item.perf.active {
+  background-color: $theme-surface;
+  color: $theme-active;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Slider Internals */
+scale {
+  min-height: 0px;
+}
+scale trough {
+  background-color: $theme-bg;
+  border-radius: $border-radius;
+  min-height: 10px;
+}
+.vol-scale highlight,
+.bri-scale highlight {
+  background-color: $theme-accent;
+  border-radius: $border-radius;
+}
+
+/* --- 4. Media Player --- */
+.media-section {
+  background-color: $theme-surface;
+  border-radius: $border-radius;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid $theme-accent;
+  min-height: 120px;
+
+  /* Pushes itself away from whatever is above it (Buttons or Open Menu) */
+  margin-top: $padding;
+
+  /* Pushes Clipboard below it away */
+  margin-bottom: $padding;
+}
+.media-overlay {
+  background-color: $theme-bg;
+  opacity: 1;
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.8);
+  padding: $padding;
+  border-radius: $border-radius;
+}
+.media-song {
+  font-size: 16px;
+  font-weight: bold;
+  color: $theme-text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  margin-bottom: 5px;
+}
+.media-artist {
+  font-size: 14px;
+  color: $theme-subtext;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* --- 5. Clipboard --- */
+.clipboard-section {
+  background-color: $theme-surface;
+  border-radius: $border-radius;
+  padding: $padding;
+  margin-bottom: $padding;
+}
+.clip-item {
+  background-color: $theme-bg;
+  padding: $padding;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  min-height: 50px;
+}
+.clip-item:active {
+  background-color: $theme-accent;
+  color: $theme-bg;
+}
+.clip-full-text {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  color: $theme-subtext;
+  padding: $padding;
+}
+
+/* --- 6. Notifications --- */
+.notif-section {
+  background-color: $theme-surface;
+  border-radius: $border-radius;
+  padding: $padding;
+}
+.notif-item {
+  background-color: $theme-bg;
+  padding: $padding;
+}
+.notif-item.critical {
+  border: 1px solid $theme-alert;
+}
+.notif-app,
+.notif-time {
+  font-size: 10px;
+  color: $theme-subtext;
+}
+.notif-app {
+  font-weight: bold;
+}
+.notif-summary {
+  font-weight: bold;
+  font-size: 15px;
+  color: $theme-text;
+}
+.notif-body {
+  font-size: 12px;
+  color: $theme-subtext;
+}
+
+.notif-text-summary {
+  font-size: 16px;
+  font-weight: bold;
+  color: $theme-text;
+}
+.notif-text-body {
+  font-size: 14px;
+  color: $theme-subtext;
+}
+
+/* --- 7. Audio Tabs --- */
+.tab-box {
+  background-color: $theme-surface;
+  border-radius: $inner-radius;
+  color: $theme-text;
+  padding: $padding;
+  transition: all 0.2s;
+  margin-bottom: 9px;
+}
+.tab-btn {
+  background-color: transparent;
+  color: $theme-text;
+  border-radius: $border-radius;
+  padding: 8px;
+  font-weight: bold;
+  transition: all 1s;
+}
+.tab-btn:hover {
+  color: $theme-text;
+  background-color: $theme-hover;
+}
+.tab-btn.active {
+  background-color: $theme-surface;
+  color: $theme-active;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Tooltips --- */
+tooltip {
+  background-color: $theme-bg;
+  color: $theme-text;
+  border: 2px solid $theme-accent;
+  border-radius: $border-radius;
+  padding: 8px;
+}
+tooltip label {
+  margin: 4px;
+}

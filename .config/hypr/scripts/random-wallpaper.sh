@@ -66,4 +66,5 @@ hyprctl reload >/dev/null 2>&1
 pkill -SIGUSR1 kitty
 pkill -SIGUSR1 fish
 pkill -SIGUSR1 nvim
+eww reload
 killall -USR2 waybar
