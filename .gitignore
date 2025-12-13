@@ -49,6 +49,7 @@
 # waybar
 !/.config/waybar/
 !/.config/waybar/**
+/.config/waybar/scripts/weather.py
 
 # nvim
 !/.config/nvim/

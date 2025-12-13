@@ -5,7 +5,7 @@ import sys
 import requests
 
 # CHANGE THIS to your city if auto-detection fails (e.g., "London")
-CITY = "Regina"
+CITY = ""
 
 
 def get_weather():
