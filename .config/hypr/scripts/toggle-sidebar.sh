@@ -1,26 +1,25 @@
 #!/bin/bash
 
-# Check if the sidebar is currently open
-# We use the variable 'sidebar_visible' which tracks the state more reliably than grep
 IS_OPEN=$(eww get sidebar_visible)
 
 if [ "$IS_OPEN" == "true" ]; then
   # --- CLOSING ---
-  # 1. Close the sidebar AND all potential popups
+
+  # 1. Close the sidebar AND all popups
   eww close sidebar center_popup notif_window clipboard_window 2>/dev/null
 
-  # 2. Update variables:
-  #    - sidebar_visible=false: Stops CPU/RAM polls
-  #    - active_popup="none": REMOVES THE HIGHLIGHT from buttons (Net/BT)
-  eww update sidebar_visible=false active_popup="none"
+  # 2. Update state variables to FALSE
+  eww update sidebar_visible=false active_popup="none" active_view=0
 
 else
   # --- OPENING ---
-  # 1. Reset state BEFORE opening
-  #    - active_popup="none": Ensures we start with no buttons highlighted
-  #    - active_view=0: Resets the popup stack to the placeholder
+
+  # 1. Ensure all other EWW popups are closed before opening the main sidebar (Added safeguard)
+  eww close center_popup notif_window clipboard_window 2>/dev/null
+
+  # 2. Update state variables to TRUE
   eww update sidebar_visible=true active_popup="none" active_view=0
 
-  # 2. Open the sidebar
+  # 3. Open the sidebar
   eww open sidebar
 fi

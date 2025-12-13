@@ -68,4 +68,31 @@ pkill -SIGUSR1 kitty
 pkill -SIGUSR1 fish
 pkill -SIGUSR1 nvim
 killall -USR2 waybar
+
+# --- EWW STATE PRESERVATION ---
+EWW_STATE_FILE="/tmp/eww_sidebar_state"
+CURRENT_STATE=$(eww get sidebar_visible 2>/dev/null || echo false)
+echo "$CURRENT_STATE" >"$EWW_STATE_FILE"
+
+# 2. Reload EWW
 eww reload
+
+# 3. CRITICAL: Wait briefly for the daemon to restart, then restore the state.
+(
+  # 1. Force a complete closure of all windows after the reload is done.
+  # This prevents ghost windows from triggering the animation flicker.
+  eww close sidebar center_popup notif_window clipboard_window 2>/dev/null
+
+  if [ -f "$EWW_STATE_FILE" ]; then
+    RESTORE_STATE=$(cat "$EWW_STATE_FILE")
+    rm "$EWW_STATE_FILE"
+
+    # 2. Restore the EWW variable state
+    eww update sidebar_visible="$RESTORE_STATE"
+
+    # 3. If it was open before, force the window to open again *after* cleanup.
+    if [ "$RESTORE_STATE" = "true" ]; then
+      eww open sidebar
+    fi
+  fi
+) &
