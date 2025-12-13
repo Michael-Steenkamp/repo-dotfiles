@@ -11,6 +11,40 @@ import urllib.request
 
 COVER_PATH = "/tmp/eww_cover.png"
 DEFAULT_COVER = ""
+# Ensure this is the correct path where spotify_player caches SavedTracks_cache
+# If not, you can set using the -C flag (spotify_player -C <PATH>)
+SPOTIFY_CACHE_PATH = "/home/user/.cache/spotify-player/SavedTracks_cache.json"
+
+
+def isTrackLiked(title):
+    """
+    Checks if the given 'title' is present under the 'name' key in the
+    spotify_player's liked tracks cache file.
+    """
+    # 1. Check if file exists
+    if not os.path.exists("/home/user/.cache/spotify-player/SavedTracks_cache.json"):
+        return "false"
+
+    # 2. Read and parse the JSON file
+    try:
+        with open(SPOTIFY_CACHE_PATH, "r") as f:
+            data = json.load(f)
+    except json.JSONDecodeError:
+        return "false"
+    except Exception:
+        return "false"
+
+    # 3. Iterate through the dictionary values (the track objects)
+    # The cache file is structured as: {"spotify:track:ID": {track_object}, ...}
+    if isinstance(data, dict):
+        for track_object in data.values():  # Iterate over values only
+            if isinstance(track_object, dict):
+                track_name = track_object.get("name")
+                if track_name == title:
+                    return "true"
+
+    # 4. If the loop completes without finding a match
+    return "false"
 
 
 def get_music_status():
@@ -54,11 +88,14 @@ def get_music_status():
                     except Exception:
                         pass
 
+            is_liked = isTrackLiked(title)
+
             return {
                 "title": title,
                 "artist": artist,
                 "status": status,
                 "cover": final_cover,
+                "liked": is_liked,
             }
 
     except Exception:
@@ -76,9 +113,16 @@ def main():
             "artist": data["artist"] or "",
             "status": data["status"],
             "cover": data["cover"],
+            "liked": data["liked"],
         }
     else:
-        output = {"title": "No Music", "artist": "", "status": "Stopped", "cover": ""}
+        output = {
+            "title": "No Music",
+            "artist": "",
+            "status": "Stopped",
+            "cover": "",
+            "liked": "",
+        }
 
     print(json.dumps(output))
 
