@@ -345,7 +345,7 @@ Consider giving the repo a star! 🌟
 [contributors-url]: https://github.com/Michael-Steenkamp/Dotfiles/graphs/contributors?branch=main
 [forks-shield]: https://custom-icon-badges.demolab.com/github/forks/Michael-Steenkamp/Dotfiles?style=plastic&logoColor=white&logo=repo-forked&color=D3BCC0
 [forks-url]: https://github.com/Michael-Steenkamp/Dotfiles/forks?branch=main
-[commit-shield]: https://custom-icon-badges.demolab.com/github/commit-activity/t/Michael-Steenkamp/Dotfiles?style=plastic&logoColor=white&logo=git-commit&color=A5668B
+[commit-shield]: https://custom-icon-badges.demolab.com/github/commit-activity/t/Michael-Steenkamp/Dotfiles/main?style=plastic&logoColor=white&logo=git-commit&color=A5668B
 [commit-url]: https://github.com/Michael-Steenkamp/Dotfiles/graphs/commit-activity?branch=main
 [stars-shield]: https://custom-icon-badges.demolab.com/github/stars/Michael-Steenkamp/Dotfiles?style=plastic&logoColor=white&logo=star&color=69306D
 [stars-url]: https://github.com/Michael-Steenkamp/Dotfiles/stargazers?branch=main
