@@ -41,8 +41,20 @@
 
 ---
 
-<img width="960" height="540" alt="image desktop" src="https://github.com/user-attachments/assets/b19ccd7e-e143-4af9-bc8c-adb5b65a278e" />
-<img width="960" height="540" alt="image terminal" src="https://github.com/user-attachments/assets/f5dc6a5e-7a33-4b17-85ce-9b508b5779a3" />
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/f2ab18cd-b7f8-419e-9efc-ea3fe2c26392" width="500" /></td>
+    <td><img src="https://github.com/user-attachments/assets/f2190f7f-a885-41ae-93ae-ab10bb28d218" width="500" /></td>
+    <td><img src="https://github.com/user-attachments/assets/33a99c0c-4cef-40f3-ae41-be7e4fe0c854" width="500" /></td>
+    <td><img src="https://github.com/user-attachments/assets/70214f7f-e03f-41ed-973b-90df79b2841d" width="500" /></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/3972a322-3232-47dc-9bc6-b2687bd0f74b" width="500" /></td>
+    <td><img src="https://github.com/user-attachments/assets/a1ba2c42-ac8a-405b-a928-56ddabf2dd0b" width="500" /></td>
+    <td><img src="https://github.com/user-attachments/assets/8b7a824e-4816-43ca-81cb-51d8f67f096b" width="500" /></td>
+    <td><img src="https://github.com/user-attachments/assets/69dcd4bf-1789-40cf-bdf0-92e1b7014157" width="500" /></td>
+  </tr>
+</table>
 
 ## 1. Base System Overview
 
