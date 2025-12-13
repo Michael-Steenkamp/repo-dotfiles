@@ -179,14 +179,12 @@
     (revealer :transition "slidedown" :reveal {music.status != "Stopped"} :duration "550ms"
       (box :class "media-section" :orientation "v" :space-evenly false :style "background-image: url('${music.cover}');"
         (box :class "media-overlay" :orientation "v" :space-evenly false :valign "center" :halign "center" :vexpand true :hexpand true
-        (box :orientation "h" :halign "center" :spacing 5
-            (label :class "media-song" :text {music.title} :limit-width 18 :wrap true)
-          )
+          (label :class "media-liked-icon" :text "♥" :visible {music.liked == "true"})
+          (label :class "media-song" :text {music.title} :limit-width 18 :wrap true)
           (label :class "media-artist" :text {music.artist} :limit-width 18 :wrap true :halign "center")
-          (label :class "media-liked-icon" :text "♥" :visible {music.liked == "true"};)
         )
       )
-    ))
+    )
 
     ;; 4. Clipboard History
     (box :class "clipboard-section" :orientation "v" :space-evenly false
