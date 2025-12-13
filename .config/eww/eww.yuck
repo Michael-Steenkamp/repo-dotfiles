@@ -18,13 +18,15 @@
 (defvar pwr_reveal false)
 (defvar sys_reveal false)
 (defvar viewed_notif '{"id": -1, "app": "System", "summary": "No Notification", "body": "", "time": ""}')
-(defvar viewed_clip '{"type": "text", "content": ""}')
+(defvar viewed_clip '{"id": "", "type": "text", "content": ""}')
 
 ;; System Polls (Run while sidebar is open)
-(defpoll clipboard     :interval "1s" :initial "[]" :run-while sidebar_visible "~/.config/eww/scripts/clipboard.py list")
 (defpoll music         :interval "1s" :initial '{"title": "No Music", "artist": "", "status": "Stopped", "cover": ""}' "~/.config/eww/scripts/music.py")
 (defpoll pwr_profile   :interval "3s" :run-while sidebar_visible "powerprofilesctl get")
-(defpoll notifications :interval "1s" :initial "[]" :run-while sidebar_visible "~/.config/eww/scripts/notifications.py")
+
+;; Smart Polls: Checks every 2s, but only updates UI on change (No Flicker)
+(deflisten clipboard     :initial "[]" "~/.config/eww/scripts/smart_poll.sh clip")
+(deflisten notifications :initial "[]" "~/.config/eww/scripts/smart_poll.sh notif")
 
 ;; Hardware Polls
 (defpoll current_vol   :interval "1s" :initial "0"  :run-while sidebar_visible "pamixer --get-volume")
@@ -55,24 +57,28 @@
   :stacking "overlay"
   :exclusive false
   :focusable false
+  :namespace "sidebar"
   (sidebar_layout))
 
 (defwindow center_popup
   :monitor 0
   :geometry (geometry :x "0%" :y "0%" :width "400px" :height "300px" :anchor "center center")
   :stacking "overlay"
+  :namespace "center_popup"
   (popup_layout))
 
 (defwindow notif_window
   :monitor 0
   :geometry (geometry :x "0%" :y "0%" :width "300px" :height "200px" :anchor "center center")
   :stacking "overlay"
+  :namespace "notif_window"
   (notif_popup_layout))
 
 (defwindow clipboard_window
   :monitor 0
   :geometry (geometry :x "0%" :y "0%" :width "500px" :height "400px" :anchor "center center")
   :stacking "overlay"
+  :namespace "clipboard_window"
   (clipboard_popup_layout))
 
 ;; --- Layout Definitions ---
@@ -183,19 +189,22 @@
     (box :class "clipboard-section" :orientation "v" :space-evenly false
       (box :orientation "h" :space-evenly true :class "clipboard-header-box"
         (label :class "section-header" :text "Clipboard" :halign "start")
-        (button :class "clear-btn" :onclick "~/.config/eww/scripts/clipboard.py clear" :halign "end" "Clear "))
+        (button :class "clear-btn"
+                :onclick "~/.config/eww/scripts/clipboard.py clear && eww update clipboard='[]'"
+                :halign "end" "Clear "))
 
       (scroll :hscroll false :vscroll true :height 150
         (box :orientation "v" :spacing 10 :space-evenly false
           (label :visible {arraylength(clipboard) == 0} :text "History empty" :class "placeholder-text")
-          (for clip in clipboard
+            (for clip in clipboard
             (eventbox
-               ;; RIGHT CLICK: Inspect (Get full content -> Toggle Popup)
-               :onrightclick "eww update viewed_clip=\"$(~/.config/eww/scripts/clipboard.py inspect ${clip.id})\" && ~/.config/eww/scripts/popups.sh toggle clip"
+               ;; RIGHT CLICK: Use smart_view.sh with mode "clip"
+               :onrightclick "~/.config/eww/scripts/smart_view.sh clip '${clip.id}' '${viewed_clip.id}' '${active_popup}' &"
 
-               ;; LEFT CLICK: Copy as before
-               :onclick "~/.config/eww/scripts/clipboard.py copy ${clip.id}"
-                 (button :class "clip-item" :onclick "~/.config/eww/scripts/clipboard.py copy ${clip.id}"
+               ;; LEFT CLICK: Copy & Close (unchanged)
+               :onclick "~/.config/eww/scripts/clipboard.py copy ${clip.id} && ~/.config/eww/scripts/popups.sh close"
+                 (button :class "clip-item"
+                         :onclick "~/.config/eww/scripts/clipboard.py copy ${clip.id} && ~/.config/eww/scripts/popups.sh close"
                    (label :text "  ${clip.summary}" :halign "start" :wrap true :width 200 :limit-width 25))
             )
           )
@@ -207,26 +216,31 @@
     (box :class "notif-section" :orientation "v" :space-evenly false :vexpand true
       (box :orientation "h" :space-evenly true :class "notif-header-box"
         (label :class "section-header" :text "Notifications" :halign "start")
-        (button :class "clear-btn" :onclick "dunstctl history-clear" :halign "end" "Clear "))
+        (button :class "clear-btn"
+                :onclick "dunstctl history-clear && eww update notifications='[]'"
+                :halign "end" "Clear "))
 
       (scroll :hscroll false :vscroll true :vexpand true
         (box :orientation "v" :spacing 10 :space-evenly false
           (label :visible {arraylength(notifications) == 0} :text "No new notifications" :class "placeholder-text")
-          (for notify in notifications
+            (for notify in notifications
             (eventbox
-               ;; RIGHT CLICK: Delete this specific notification
-               :onrightclick "~/.config/eww/scripts/notifications.py delete ${notify.id} &"
+               ;; RIGHT CLICK: Use smart_view.sh with mode "notif"
+               ;; Note: We pass the whole '${notify}' JSON as the 5th argument
+               :onrightclick "~/.config/eww/scripts/smart_view.sh notif '${notify.id}' '${viewed_notif.id}' '${active_popup}' '${notify}' &"
 
-               ;; LEFT CLICK: Update variable FIRST, then toggle window via script
-               :onclick "eww update viewed_notif='${notify}' && ~/.config/eww/scripts/popups.sh toggle notif"
+               ;; LEFT CLICK: Delete Notification (unchanged)
+               (button :class "notif-item ${notify.urgency == 2 ? 'critical' : ''}"
+                       :onclick "~/.config/eww/scripts/notifications.py delete ${notify.id} &"
 
-               :class "notif-eventbox"
-               (box :class "notif-item ${notify.urgency == 2 ? 'critical' : ''}" :orientation "v" :space-evenly false :spacing 10
-                  (box :orientation "h" :space-evenly true
-                     (label :class "notif-app"  :text {notify.app} :halign "start")
-                     (label :class "notif-time" :text "Now" :halign "end"))
-                  (label :class "notif-summary" :text {notify.summary} :halign "start" :limit-width 30 :wrap true)
-                  (label :class "notif-body"    :text {notify.body}    :halign "start" :wrap true :limit-width 40)
+                  (box :orientation "v" :space-evenly false :spacing 10
+                      (box :orientation "h" :space-evenly true
+                         (label :class "notif-app"  :text {notify.app} :halign "start")
+                         (label :class "notif-time" :text "Now" :halign "end"))
+
+                      (label :class "notif-summary" :text {notify.summary} :halign "start" :limit-width 30 :wrap true)
+                      (label :class "notif-body"    :text {notify.body}    :halign "start" :wrap true :limit-width 40)
+                  )
                )
             )
           )

@@ -131,7 +131,8 @@ $border-width: 2px;
 }
 
 .list-item:hover,
-.clip-item:hover {
+.clip-item:hover,
+.notif-item:hover {
   background-color: $theme-hover;
 }
 

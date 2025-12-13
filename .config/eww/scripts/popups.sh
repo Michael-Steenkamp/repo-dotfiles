@@ -4,8 +4,15 @@ CMD=$1
 TARGET=$2
 CURRENT=$(eww get active_popup)
 
-# 1. Close ALL possible windows (Added clipboard_window)
-eww close center_popup notif_window clipboard_window 2>/dev/null
+# 1. SMART CLOSE: Only close the window that is actually open
+if [ "$CURRENT" == "clip" ]; then
+  eww close clipboard_window
+elif [ "$CURRENT" == "notif" ]; then
+  eww close notif_window
+elif [ "$CURRENT" != "none" ]; then
+  # Catches net, bt, audio (which all use center_popup)
+  eww close center_popup
+fi
 
 if [ "$CMD" == "close" ]; then
   eww update active_popup="none"

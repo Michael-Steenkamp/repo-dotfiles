@@ -125,7 +125,7 @@ sudo pacman -S python-psutil
 ln -sf ~/.cache/wal/colors-eww.scss ~/.config/eww/colors.scss
 
 # Utilities (Screenshot, Clipboard, Brightness)
-sudo pacman -S grim slurp swappy wl-clipboard brightnessctl
+sudo pacman -S grim slurp wl-clipboard brightnessctl
 ```
 
 - Audio & Multimedia

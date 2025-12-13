@@ -21,7 +21,7 @@ CLIPSE_TMP_DIR = os.path.expanduser("~/.config/clipse/tmp_files")
 
 def get_history():
     if not os.path.exists(HISTORY_FILE):
-        print("[]")
+        print("[]", flush=True)
         return
 
     try:
@@ -43,9 +43,11 @@ def get_history():
 
             output.append({"id": idx, "summary": html.escape(summary)})
 
-        print(json.dumps(output))
+        # FIX: Print ONLY once, AFTER the loop finishes
+        print(json.dumps(output), flush=True)
+
     except Exception:
-        print("[]")
+        print("[]", flush=True)
 
 
 def resolve_image_path(text):
