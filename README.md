@@ -342,14 +342,14 @@ Consider giving the repo a star! 🌟
 <!-- Reference Style Links -->
 
 [contributors-shield]: https://custom-icon-badges.demolab.com/github/contributors/Michael-Steenkamp/Dotfiles?style=plastic&logoColor=white&logo=person&color=F2D7EE
-[contributors-url]: https://github.com/Michael-Steenkamp/Dotfiles/graphs/contributors
+[contributors-url]: https://github.com/Michael-Steenkamp/Dotfiles/graphs/contributors?branch=main
 [forks-shield]: https://custom-icon-badges.demolab.com/github/forks/Michael-Steenkamp/Dotfiles?style=plastic&logoColor=white&logo=repo-forked&color=D3BCC0
-[forks-url]: https://github.com/Michael-Steenkamp/Dotfiles/forks
+[forks-url]: https://github.com/Michael-Steenkamp/Dotfiles/forks?branch=main
 [commit-shield]: https://custom-icon-badges.demolab.com/github/commit-activity/t/Michael-Steenkamp/Dotfiles?style=plastic&logoColor=white&logo=git-commit&color=A5668B
-[commit-url]: https://github.com/Michael-Steenkamp/Dotfiles/graphs/commit-activity
+[commit-url]: https://github.com/Michael-Steenkamp/Dotfiles/graphs/commit-activity?branch=main
 [stars-shield]: https://custom-icon-badges.demolab.com/github/stars/Michael-Steenkamp/Dotfiles?style=plastic&logoColor=white&logo=star&color=69306D
-[stars-url]: https://github.com/Michael-Steenkamp/Dotfiles/stargazers
+[stars-url]: https://github.com/Michael-Steenkamp/Dotfiles/stargazers?branch=main
 [issues-shield]: https://custom-icon-badges.demolab.com/github/issues/Michael-Steenkamp/Dotfiles?style=plastic&logoColor=white&logo=issue-open&color=0E103D
-[issues-url]: https://github.com/Michael-Steenkamp/Dotfiles/issues
+[issues-url]: https://github.com/Michael-Steenkamp/Dotfiles/issues?branch=main
 [license-shield]: https://custom-icon-badges.demolab.com/github/license/Michael-Steenkamp/Dotfiles?style=plastic&logoColor=white&logo=law&color=24264F
 [license-url]: https://github.com/Michael-Steenkamp/Dotfiles/blob/main/LICENSE
