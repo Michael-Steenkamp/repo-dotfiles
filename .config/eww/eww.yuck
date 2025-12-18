@@ -75,7 +75,7 @@
       ;; Expandables
       (revealer :transition "slidedown" :reveal vol_reveal :duration "350ms"
         (box :class "slider-box" :orientation "h" :space-evenly false :spacing 10
-             (scale :class "vol-scale" :hexpand true :min 0 :max 101 :value current_vol :onchange "~/.config/hypr/scripts/volume_control.sh set {}")
+             (scale :class "vol-scale" :hexpand true :min 0 :max 101 :value current_vol :onchange "~/.config/eww/scripts/volume_control.sh set {}")
              (button :class "icon-btn ${active_popup == 'audio' ? 'active' : ''}" :onclick "~/.config/eww/scripts/popups.sh toggle audio '${active_popup}'" "")
         )
       )

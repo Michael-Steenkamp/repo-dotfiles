@@ -1,11 +1,14 @@
 #!/bin/bash
 
 # Usage:
-# volume_control.sh set <value>  (For Sliders)
-# volume_control.sh toggle       (For Buttons)
+# volume_control.sh set <value>
+# volume_control.sh toggle
 
 action=$1
 val=$2
+
+# Get the default sink (device) name to ensure we control the active one
+DEFAULT_SINK="@DEFAULT_SINK@"
 
 case $action in
 set)
@@ -13,17 +16,17 @@ set)
   target=$(printf "%.0f" "$val")
 
   if [ "$target" -eq 0 ]; then
-    # If sliding to 0, ensure we actually MUTE
-    pamixer --set-volume 0
-    pamixer --mute
+    # Mute if 0
+    pactl set-sink-mute "$DEFAULT_SINK" 1
   else
-    # If sliding up, ensure we UNMUTE first
-    pamixer --unmute
-    pamixer --set-volume "$target"
+    # Unmute and set volume
+    # We add '%' to ensure pactl treats it as percentage, not raw integer
+    pactl set-sink-mute "$DEFAULT_SINK" 0
+    pactl set-sink-volume "$DEFAULT_SINK" "${target}%"
   fi
   ;;
 
 toggle)
-  pamixer -t
+  pactl set-sink-mute "$DEFAULT_SINK" toggle
   ;;
 esac

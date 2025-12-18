@@ -36,10 +36,10 @@
     "group/hardware": {
         "orientation": "horizontal",
         "modules": [
-            "custom/updates",
             "cpu",
             "memory",
-            "disk"
+            "disk",
+            "custom/updates"
         ]
     },
     "group/connections": {
