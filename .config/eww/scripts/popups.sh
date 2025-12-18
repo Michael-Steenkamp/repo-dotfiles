@@ -4,57 +4,45 @@ CMD=$1
 TARGET=$2
 CURRENT=$3
 
-# Fallback if argument is missing (prevents script failure)
 if [ -z "$CURRENT" ]; then
   CURRENT="none"
 fi
 
-# 1. SMART CLOSE: Only close what is actually open
-if [ "$CURRENT" == "clip" ]; then
-  eww close clipboard_window
-elif [ "$CURRENT" == "notif" ]; then
-  eww close notif_window
-elif [ "$CURRENT" != "none" ] && [ "$CURRENT" != "$TARGET" ]; then
-  # If we are switching modes (e.g. net -> bt), close the old popup first
-  eww close center_popup
-fi
+# 1. DETERMINE VIEW INDEX
+# We now map everything to a stack index inside 'center_popup'
+VIEW=0
+case $TARGET in
+net) VIEW=1 ;;
+bt) VIEW=2 ;;
+audio) VIEW=3 ;;
+notif) VIEW=4 ;;
+clip) VIEW=5 ;;
+esac
 
+# 2. HANDLE CLOSE / TOGGLE
 if [ "$CMD" == "close" ]; then
   eww update active_popup="none"
-  # Close everything just to be safe
-  eww close center_popup notif_window clipboard_window 2>/dev/null
+  eww close center_popup 2>/dev/null
   exit 0
 fi
 
 if [ "$CMD" == "toggle" ]; then
-  # If we clicked the button that is already active, close it.
   if [ "$TARGET" == "$CURRENT" ]; then
     eww update active_popup="none"
-    eww close center_popup notif_window clipboard_window 2>/dev/null
+    eww close center_popup 2>/dev/null
     exit 0
   fi
 fi
 
-# 2. OPEN NEW TARGET
-eww update active_popup="$TARGET"
+# 3. OPEN / UPDATE
+# Since everything is now in the same window, we treat it all as a transition.
 
-case $TARGET in
-net)
-  eww update active_view=1
+# If the popup is NOT currently open (current == none), we must open the window.
+if [ "$CURRENT" == "none" ]; then
+  eww update active_popup="$TARGET" active_view=$VIEW
   eww open center_popup
-  ;;
-bt)
-  eww update active_view=2
-  eww open center_popup
-  ;;
-audio)
-  eww update active_view=3
-  eww open center_popup
-  ;;
-notif)
-  eww open notif_window
-  ;;
-clip)
-  eww open clipboard_window
-  ;;
-esac
+else
+  # If it IS open, we just update the variables to trigger the slide animation.
+  # We do NOT run 'eww open' again, which prevents the Hyprland animation glitch.
+  eww update active_popup="$TARGET" active_view=$VIEW
+fi
