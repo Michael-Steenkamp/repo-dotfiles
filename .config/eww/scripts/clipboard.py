@@ -2,8 +2,7 @@
 """
 clipboard.py
 Interacts with `clipse` history.
-Handles copying text OR binary image data to the clipboard.
-Aggressively searches for image files in your specific clipse temp folder.
+Optimized to process only the most recent 50 items to prevent UI lag.
 """
 
 import html
@@ -14,8 +13,6 @@ import subprocess
 import sys
 
 HISTORY_FILE = os.path.expanduser("~/.config/clipse/clipboard_history.json")
-
-# Define where your system saves the temporary images
 CLIPSE_TMP_DIR = os.path.expanduser("~/.config/clipse/tmp_files")
 
 
@@ -31,7 +28,9 @@ def get_history():
         raw_list = data.get("clipboardHistory", [])
         output = []
 
-        for idx, item in enumerate(raw_list):
+        # OPTIMIZATION: Slice the list first!
+        # Only process the first 50 items. No need to render 1000 items in Eww.
+        for idx, item in enumerate(raw_list[:50]):
             text = item.get("value", "")
             if not text:
                 continue
@@ -43,7 +42,6 @@ def get_history():
 
             output.append({"id": idx, "summary": html.escape(summary)})
 
-        # FIX: Print ONLY once, AFTER the loop finishes
         print(json.dumps(output), flush=True)
 
     except Exception:
@@ -53,17 +51,14 @@ def get_history():
 def resolve_image_path(text):
     """
     Tries to find the actual image file from the clipboard text.
-    Handles '📷 filename.png' format and checks your specific clipse folder.
     """
-    # 1. Clean up the string (remove emoji, extra spaces)
     clean_path = text.replace("📷", "").strip()
 
-    # 2. Define likely locations
     candidates = [
-        os.path.join(CLIPSE_TMP_DIR, clean_path),  # <--- YOUR SPECIFIC PATH
-        clean_path,  # Absolute path
-        os.path.join("/tmp", clean_path),  # Standard temp fallback
-        os.path.expanduser(f"~/.cache/clipse/{clean_path}"),  # Common cache fallback
+        os.path.join(CLIPSE_TMP_DIR, clean_path),
+        clean_path,
+        os.path.join("/tmp", clean_path),
+        os.path.expanduser(f"~/.cache/clipse/{clean_path}"),
     ]
 
     for path in candidates:
@@ -74,7 +69,7 @@ def resolve_image_path(text):
 
 
 def get_content(index):
-    """Returns full content and detects type (text vs image) for the inspector popup."""
+    """Returns full content for the inspector popup."""
     try:
         with open(HISTORY_FILE, "r") as f:
             data = json.load(f)
@@ -82,8 +77,6 @@ def get_content(index):
         raw_list = data.get("clipboardHistory", [])
         if 0 <= index < len(raw_list):
             content = raw_list[index].get("value", "")
-
-            # Try to resolve it as an image file
             img_path = resolve_image_path(content)
 
             if img_path:
@@ -101,7 +94,7 @@ def get_content(index):
 
 
 def copy_item(index):
-    """Copies item to clipboard. If it's an image file, copies the IMAGE DATA."""
+    """Copies item to clipboard."""
     try:
         with open(HISTORY_FILE, "r") as f:
             data = json.load(f)
@@ -109,12 +102,9 @@ def copy_item(index):
         raw_list = data.get("clipboardHistory", [])
         if 0 <= index < len(raw_list):
             content = raw_list[index].get("value", "")
-
-            # 1. Try to find the image file
             img_path = resolve_image_path(content)
 
             if img_path:
-                # IT IS AN IMAGE: Open file in binary mode and feed to wl-copy
                 mime = mimetypes.guess_type(img_path)[0] or "image/png"
                 try:
                     with open(img_path, "rb") as img_file:
@@ -125,7 +115,6 @@ def copy_item(index):
                 except Exception:
                     pass
 
-            # 2. FALLBACK: Treat as standard text
             subprocess.run(["wl-copy"], input=content.encode("utf-8"), check=True)
     except Exception:
         pass

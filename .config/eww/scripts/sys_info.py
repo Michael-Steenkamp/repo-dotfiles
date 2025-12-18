@@ -55,20 +55,16 @@ def get_net_speed():
     except Exception:
         return "0", "0"
 
-
 def get_gpu():
-    """Fetches GPU usage (Nvidia preferred, falls back to AMD)."""
+    """Fetches GPU usage with timeout to prevent lag."""
     try:
+        # ADDED timeout=1 to prevent hanging on sleeping GPUs
         output = subprocess.check_output(
-            [
-                "nvidia-smi",
-                "--query-gpu=utilization.gpu",
-                "--format=csv,noheader,nounits",
-            ],
-            encoding="utf-8",
+            ["nvidia-smi", "--query-gpu=utilization.gpu", "--format=csv,noheader,nounits"],
+            encoding="utf-8", timeout=1
         )
         return int(output.strip())
-    except (FileNotFoundError, subprocess.CalledProcessError):
+    except (FileNotFoundError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
         pass
 
     try:

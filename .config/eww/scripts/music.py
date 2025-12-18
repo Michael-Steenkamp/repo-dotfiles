@@ -1,131 +1,99 @@
 #!/usr/bin/env python3
-"""
-music.py
-Fetches metadata from playerctl and downloads album art.
-"""
-
 import json
 import os
+import shutil
 import subprocess
+import urllib.parse
 import urllib.request
 
+# Files
 COVER_PATH = "/tmp/eww_cover.png"
-DEFAULT_COVER = ""
-# Ensure this is the correct path where spotify_player caches SavedTracks_cache
-# If not, you can set using the -C flag (spotify_player -C <PATH>)
-SPOTIFY_CACHE_PATH = "/home/user/.cache/spotify-player/SavedTracks_cache.json"
-
+CACHE_ID_FILE = "/tmp/eww_cover_url.txt"
+SPOTIFY_CACHE_PATH = os.path.expanduser("~/.cache/spotify-player/SavedTracks_cache.json")
 
 def isTrackLiked(title):
-    """
-    Checks if the given 'title' is present under the 'name' key in the
-    spotify_player's liked tracks cache file.
-    """
-    # 1. Check if file exists
-    if not os.path.exists("/home/user/.cache/spotify-player/SavedTracks_cache.json"):
+    if not os.path.exists(SPOTIFY_CACHE_PATH):
         return "false"
-
-    # 2. Read and parse the JSON file
     try:
         with open(SPOTIFY_CACHE_PATH, "r") as f:
             data = json.load(f)
-    except json.JSONDecodeError:
-        return "false"
-    except Exception:
-        return "false"
-
-    # 3. Iterate through the dictionary values (the track objects)
-    # The cache file is structured as: {"spotify:track:ID": {track_object}, ...}
-    if isinstance(data, dict):
-        for track_object in data.values():  # Iterate over values only
-            if isinstance(track_object, dict):
-                track_name = track_object.get("name")
-                if track_name == title:
+        if isinstance(data, dict):
+            for track_object in data.values():
+                if isinstance(track_object, dict) and track_object.get("name") == title:
                     return "true"
-
-    # 4. If the loop completes without finding a match
+    except Exception:
+        pass
     return "false"
 
-
 def get_music_status():
-    # Command to fetch: Title, Artist, Status, ArtUrl
     cmd = [
-        "playerctl",
-        "-p",
-        "spotify_player,spotify,%any",
-        "metadata",
-        "--format",
-        "{{title}}::{{artist}}::{{status}}::{{mpris:artUrl}}",
-        "-s",
+        "playerctl", "-p", "spotify_player,spotify,%any", "metadata",
+        "--format", "{{title}}::{{artist}}::{{status}}::{{mpris:artUrl}}", "-s",
     ]
-
     try:
         result = subprocess.run(cmd, capture_output=True, text=True)
-
         if result.returncode != 0 or not result.stdout.strip():
             return None
 
         parts = result.stdout.strip().split("::")
         if len(parts) >= 3:
-            title = parts[0]
-            artist = parts[1]
-            status = parts[2]
+            title, artist, status = parts[0], parts[1], parts[2]
             art_url = parts[3] if len(parts) > 3 else ""
+            final_cover = ""
 
-            final_cover = DEFAULT_COVER
+            # --- SMART CACHING START ---
+            # Check if we already have this art downloaded
+            last_url = ""
+            if os.path.exists(CACHE_ID_FILE):
+                with open(CACHE_ID_FILE, "r") as f:
+                    last_url = f.read().strip()
 
             if art_url:
-                # Case 1: Local File
                 if art_url.startswith("file://"):
-                    final_cover = art_url[7:]
-
-                # Case 2: Web URL (Spotify/SoundCloud)
+                    # Local file: just decode path
+                    path = urllib.parse.unquote(art_url[7:])
+                    final_cover = path
                 elif art_url.startswith("http"):
-                    try:
-                        # Download with a 2-second timeout to prevent lag
-                        urllib.request.urlretrieve(art_url, COVER_PATH)
-                        final_cover = COVER_PATH
-                    except Exception:
-                        pass
+                    # Web URL: Only download if it CHANGED
+                    final_cover = COVER_PATH
+                    if art_url != last_url or not os.path.exists(COVER_PATH):
+                        try:
+                            # 1. Download to a temp file first (Atomic Write Safety)
+                            temp_dl = COVER_PATH + ".tmp"
+                            urllib.request.urlretrieve(art_url, temp_dl)
 
-            is_liked = isTrackLiked(title)
+                            # 2. Move it to the real path (Atomic Move)
+                            # This prevents Eww from reading a half-written file
+                            shutil.move(temp_dl, COVER_PATH)
+
+                            # 3. Update the cache ID
+                            with open(CACHE_ID_FILE, "w") as f:
+                                f.write(art_url)
+                        except Exception:
+                            pass
+            # --- SMART CACHING END ---
+
+            # Escape quotes for CSS
+            if final_cover:
+                final_cover = final_cover.replace("'", "\\'")
 
             return {
-                "title": title,
-                "artist": artist,
-                "status": status,
-                "cover": final_cover,
-                "liked": is_liked,
+                "title": title, "artist": artist, "status": status,
+                "cover": final_cover, "liked": isTrackLiked(title),
             }
-
     except Exception:
         pass
-
     return None
-
 
 def main():
     data = get_music_status()
-
     if data:
-        output = {
-            "title": data["title"] or "No Music",
-            "artist": data["artist"] or "",
-            "status": data["status"],
-            "cover": data["cover"],
-            "liked": data["liked"],
-        }
+        output = data
     else:
-        output = {
-            "title": "No Music",
-            "artist": "",
-            "status": "Stopped",
-            "cover": "",
-            "liked": "",
-        }
+        # Default state
+        output = {"title": "No Music", "artist": "", "status": "Stopped", "cover": "", "liked": ""}
 
     print(json.dumps(output))
-
 
 if __name__ == "__main__":
     main()
