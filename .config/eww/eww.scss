@@ -87,12 +87,35 @@ $border-width: 2px;
   padding: 5px 10px;
   font-size: 14px;
 }
-.close-btn {
-  border-radius: 100%;
+
+/* 1. The Invisible Interaction Layer */
+.close-trigger {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+/* 2. The Visible Circle Shape */
+.close-circle {
+  background-color: $theme-surface;
+  color: $theme-alert;
+  border-radius: 50%;
+
+  /* Force exact 30px square */
   min-width: 30px;
   min-height: 30px;
-  color: $theme-alert;
+
+  /* No padding means no oval! */
+  padding: 0;
+  margin: 0;
 }
+
+/* 3. The Hover Logic (Parent Hover -> Child Style) */
+.close-trigger:hover .close-circle {
+  background-color: $theme-hover;
+  color: $theme-bg;
+}
+
 .clear-btn {
   padding: 0px 9px;
   margin-bottom: 5px;
@@ -142,7 +165,6 @@ $border-width: 2px;
 
 /* --- 1. Connectivity Grid --- */
 .grid-section {
-  /* Pushes the Buttons below it away */
   margin-bottom: $padding;
 }
 
@@ -189,7 +211,6 @@ $border-width: 2px;
 
 /* --- 2. Circular Buttons Row --- */
 .circles-section {
-  /* No margin here. If menus are closed, media player sits flush against this. */
   margin-bottom: $padding;
 }
 
@@ -224,15 +245,13 @@ $border-width: 2px;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* --- 3. EXPANDABLE MODULES (Sliders, System, Power) --- */
-/* Consolidated to ensure identical spacing/padding */
+/* --- 3. EXPANDABLE MODULES --- */
 .slider-box,
 .sys-menu-box,
 .power-profile-box {
   background-color: $theme-surface;
   border-radius: $border-radius;
   padding: $padding;
-
   margin-top: 0px;
   margin-bottom: $padding;
 }
@@ -306,7 +325,6 @@ scale trough {
   background-position: center;
   border: 1px solid $theme-accent;
   min-height: 120px;
-
   margin-top: 0px;
   margin-bottom: $padding;
 }

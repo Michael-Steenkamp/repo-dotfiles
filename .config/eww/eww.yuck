@@ -31,8 +31,8 @@
 
 (defpoll audio_sinks   :interval "2s" :initial "[]" :run-while {active_popup != "none"} "~/.config/eww/scripts/audio.py sinks")
 (defpoll audio_sources :interval "2s" :initial "[]" :run-while {active_popup != "none"} "~/.config/eww/scripts/audio.py sources")
-(defpoll wifi_list     :interval "1s" :initial "[]" :run-while {active_popup != "none"} "~/.config/eww/scripts/net.py list")
-(defpoll bt_list       :interval "1s" :initial "[]" :run-while {active_popup != "none"} "~/.config/eww/scripts/bt.py list")
+(deflisten wifi_list   :initial "[]" "~/.config/eww/scripts/net.py listen")
+(deflisten bt_list     :initial "[]" "~/.config/eww/scripts/bt.py listen")
 (defpoll net_status    :interval "2s" :run-while {active_popup != "none"} "nmcli networking")
 (defpoll bt_status     :interval "2s" :run-while {active_popup != "none"} "rfkill list bluetooth | grep -q 'Soft blocked: yes' && echo 'off' || echo 'on'")
 
@@ -75,7 +75,7 @@
       ;; Expandables
       (revealer :transition "slidedown" :reveal vol_reveal :duration "350ms"
         (box :class "slider-box" :orientation "h" :space-evenly false :spacing 10
-             (scale :class "vol-scale" :hexpand true :min 0 :max 101 :value current_vol :onchange "pamixer --set-volume $(printf '%.0f' {})")
+             (scale :class "vol-scale" :hexpand true :min 0 :max 101 :value current_vol :onchange "~/.config/hypr/scripts/volume_control.sh set {}")
              (button :class "icon-btn ${active_popup == 'audio' ? 'active' : ''}" :onclick "~/.config/eww/scripts/popups.sh toggle audio '${active_popup}'" "")
         )
       )
@@ -162,8 +162,6 @@
 
 (defwidget popup_layout []
   (box :class "popup-window" :orientation "v" :space-evenly false
-    ;; FIXED: Removed global header that caused double headers for Net/BT/Audio
-
     (stack :selected active_view :transition "slideleft"
       ;; View 0: Placeholder
       (label :text "Select an item..." :class "placeholder-text")
@@ -173,7 +171,17 @@
            (box :orientation "h" :space-evenly false
                (button :class "action-btn" :onclick "kitty --class floating -e nmtui & ~/.config/eww/scripts/popups.sh close" "Manager  ")
                (label :class "popup-header" :hexpand true :text "Wi-Fi Networks" :halign "center")
-               (button :class "close-btn" :onclick "~/.config/eww/scripts/popups.sh close" "") ;; Added Close Button
+
+                (eventbox :class "close-trigger"
+                          :onclick "~/.config/eww/scripts/popups.sh close"
+                          :halign "end"
+                          :cursor "pointer"
+                  (box :class "close-circle"
+                       :width 30
+                       :height 30
+                       :halign "center"
+                       :valign "center"
+                       (label :text "" :halign "center" :valign "center")))
            )
            (box :class "tab-box" :orientation "h" :spacing 10 :space-evenly true
                (button :class "tab-btn ${net_status == 'enabled' ? 'active' : ''}" :onclick "~/.config/hypr/scripts/toggle-network.sh" "${net_status == 'enabled' ? 'On 󰖩 ' : 'Off 󰖪 '}")
@@ -195,7 +203,17 @@
            (box :orientation "h" :space-evenly false
                (button :class "action-btn" :onclick "overskride & ~/.config/eww/scripts/popups.sh close" "Manager ")
                (label :class "popup-header" :hexpand true :text "Bluetooth Devices" :halign "center")
-               (button :class "close-btn" :onclick "~/.config/eww/scripts/popups.sh close" "") ;; Added Close Button
+
+                (eventbox :class "close-trigger"
+                          :onclick "~/.config/eww/scripts/popups.sh close"
+                          :halign "end"
+                          :cursor "pointer"
+                  (box :class "close-circle"
+                       :width 30
+                       :height 30
+                       :halign "center"
+                       :valign "center"
+                       (label :text "" :halign "center" :valign "center")))
            )
            (box :class "tab-box" :orientation "h" :spacing 10 :space-evenly true
                (button :class "tab-btn ${bt_status == 'on' ? 'active' : ''}" :onclick "~/.config/hypr/scripts/toggle-bluetooth.sh" "${bt_status == 'on' ? 'On 󰂯' : 'Off 󰂲'}")
@@ -215,7 +233,17 @@
            (box :orientation "h" :space-evenly false
                (button :class "action-btn" :onclick "pavucontrol & ~/.config/eww/scripts/popups.sh close" "Mixer  ")
                (label :class "popup-header" :hexpand true :text "Audio Devices" :halign "center")
-               (button :class "close-btn" :onclick "~/.config/eww/scripts/popups.sh close" "") ;; Added Close Button
+
+                (eventbox :class "close-trigger"
+                          :onclick "~/.config/eww/scripts/popups.sh close"
+                          :halign "end"
+                          :cursor "pointer"
+                  (box :class "close-circle"
+                       :width 30
+                       :height 30
+                       :halign "center"
+                       :valign "center"
+                       (label :text "" :halign "center" :valign "center")))
            )
            (box :class "tab-box" :orientation "h" :spacing 10 :space-evenly true
                (button :class "tab-btn ${audio_tab == 0 ? 'active' : ''}" :onclick "eww update audio_tab=0" "Output ")
@@ -249,11 +277,19 @@
 )
 
 (defwidget notif_popup_layout []
-  ;; FIXED: Removed 'popup-window' class to prevent Double Borders
   (box :orientation "v" :space-evenly false :spacing 10
     (box :orientation "h" :space-evenly true
         (label :class "popup-header" :text {viewed_notif.app} :halign "start")
-        (button :class "close-btn" :onclick "~/.config/eww/scripts/popups.sh close" :halign "end" "")
+        (eventbox :class "close-trigger"
+                  :onclick "~/.config/eww/scripts/popups.sh close"
+                  :halign "end"
+                  :cursor "pointer"
+          (box :class "close-circle"
+               :width 30
+               :height 30
+               :halign "center"
+               :valign "center"
+               (label :text "" :halign "center" :valign "center")))
     )
     (box :class "popup-divider" :height 2)
     (scroll :hscroll false :vscroll true :vexpand true :height 150
@@ -266,11 +302,19 @@
 )
 
 (defwidget clipboard_popup_layout []
-  ;; FIXED: Removed 'popup-window' class to prevent Double Borders
   (box :orientation "v" :space-evenly false :spacing 10
     (box :orientation "h" :space-evenly true
         (label :class "popup-header" :text "Clipboard Inspection" :halign "start")
-        (button :class "close-btn" :onclick "~/.config/eww/scripts/popups.sh close" :halign "end" "")
+        (eventbox :class "close-trigger"
+                  :onclick "~/.config/eww/scripts/popups.sh close"
+                  :halign "end"
+                  :cursor "pointer"
+          (box :class "close-circle"
+               :width 30
+               :height 30
+               :halign "center"
+               :valign "center"
+               (label :text "" :halign "center" :valign "center")))
     )
     (box :class "popup-divider" :height 2)
     (box :orientation "v" :vexpand true :hexpand true :space-evenly false
