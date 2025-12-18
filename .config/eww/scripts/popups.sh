@@ -2,30 +2,40 @@
 
 CMD=$1
 TARGET=$2
-CURRENT=$(eww get active_popup)
+CURRENT=$3
 
-# 1. SMART CLOSE: Only close the window that is actually open
+# Fallback if argument is missing (prevents script failure)
+if [ -z "$CURRENT" ]; then
+  CURRENT="none"
+fi
+
+# 1. SMART CLOSE: Only close what is actually open
 if [ "$CURRENT" == "clip" ]; then
   eww close clipboard_window
 elif [ "$CURRENT" == "notif" ]; then
   eww close notif_window
-elif [ "$CURRENT" != "none" ]; then
-  # Catches net, bt, audio (which all use center_popup)
+elif [ "$CURRENT" != "none" ] && [ "$CURRENT" != "$TARGET" ]; then
+  # If we are switching modes (e.g. net -> bt), close the old popup first
   eww close center_popup
 fi
 
 if [ "$CMD" == "close" ]; then
   eww update active_popup="none"
+  # Close everything just to be safe
+  eww close center_popup notif_window clipboard_window 2>/dev/null
   exit 0
 fi
 
 if [ "$CMD" == "toggle" ]; then
+  # If we clicked the button that is already active, close it.
   if [ "$TARGET" == "$CURRENT" ]; then
     eww update active_popup="none"
+    eww close center_popup notif_window clipboard_window 2>/dev/null
     exit 0
   fi
 fi
 
+# 2. OPEN NEW TARGET
 eww update active_popup="$TARGET"
 
 case $TARGET in

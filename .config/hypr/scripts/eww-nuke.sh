@@ -1,22 +1,18 @@
 #!/bin/bash
-# FORCE RESET: Unconditionally kills everything related to Eww.
+# NUCLEAR RESET ☢️
 
-# 1. Kill the toggle script if it's stuck waiting
+# 1. Kill processes
 pkill -9 -f toggle-sidebar.sh
-
-# 2. Kill the Eww binary immediately (Signal 9 = No mercy)
 pkill -9 -f eww
 
-# 3. Clean up the lock files so the next toggle works
-rm -f /tmp/eww-sidebar-exec.lock
-rm -f /tmp/eww-sidebar-state
-rm -f /tmp/eww-sidebar-cooldown
-
-# 4. Tell Systemd that we manually killed it (prevents it from getting confused)
+# 2. Remove locks AND the socket
+rm -f /tmp/eww_sidebar_toggle.lock
+rm -f /tmp/eww-server_* # 3. Reset Systemd
+systemctl --user stop eww
 systemctl --user reset-failed eww
 
-# 5. Start it fresh
+# 4. Start fresh daemon (Wait a moment for socket to clear)
+sleep 0.5
 systemctl --user start eww
 
-# 6. Notify you it's done
-notify-send "Eww System" "NUCLEAR RESET COMPLETE ☢️" -u critical
+notify-send "Eww System" "Daemon restarted manually." -u normal

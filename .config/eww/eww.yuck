@@ -21,7 +21,7 @@
 (defvar viewed_clip '{"id": "", "type": "text", "content": ""}')
 
 ;; System Polls (Run while sidebar is open)
-(defpoll music         :interval "1s" :initial '{"title": "No Music", "artist": "", "status": "Stopped", "cover": ""}' "~/.config/eww/scripts/music.py")
+(deflisten music :initial '{"title": "No Music", "artist": "", "status": "Stopped", "cover": "", "liked": "false"}' "~/.config/eww/scripts/music_listener.py")
 (defpoll pwr_profile   :interval "3s" :run-while sidebar_visible "powerprofilesctl get")
 
 ;; Smart Polls: Checks every 2s, but only updates UI on change (No Flicker)
@@ -177,7 +177,7 @@
 
     ;; 3. Media Player
     (revealer :transition "slidedown" :reveal {music.status != "Stopped"} :duration "550ms"
-      (box :class "media-section" :orientation "v" :space-evenly false :style "background-image: url('${music.cover}');"
+      (box :class "media-section" :orientation "v" :space-evenly false :style {music.cover == "" ? "" : "background-image: url('${music.cover}');"}
         (box :class "media-overlay" :orientation "v" :space-evenly false :valign "center" :halign "center" :vexpand true :hexpand true
           (label :class "media-liked-icon" :text "♥" :visible {music.liked == "true"})
           (label :class "media-song" :text {music.title} :limit-width 18 :wrap true)
@@ -411,8 +411,7 @@
 
 (defwidget grid_btn [label value icon target]
   (button :class "grid-btn ${active_popup == target ? 'active' : ''}"
-          ;; Uses script to toggle specific targets ('net', 'bt', etc.)
-          :onclick "~/.config/eww/scripts/popups.sh toggle ${target}"
+          :onclick "~/.config/eww/scripts/popups.sh toggle ${target} '${active_popup}'"
     (box :orientation "v" :space-evenly false :valign "center"
       (label :class "grid-icon" :text icon)
       (label :class "grid-label" :text label :visible {label != ""})
