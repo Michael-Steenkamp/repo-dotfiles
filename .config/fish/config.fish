@@ -37,7 +37,7 @@ if status is-interactive
     alias music="spotify_player"
     alias clock="timr-tui --style light --mode localtime"
     alias icat='kitten icat'
-    alias update='sudo pacman -Syu --noconfirm'
+    alias update='sudo pacman -Syu --noconfirm; pkill -SIGRTMIN+8 waybar'
     alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
     alias ff='fastfetch --logo-position top --config ~/.config/fastfetch/config.jsonc --file ~/.config/fastfetch/ascii/cross2.txt'
 
