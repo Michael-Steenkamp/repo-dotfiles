@@ -33,29 +33,25 @@ return {
 		-- 3. Define the Theme
 		local custom_wal = {
 			normal = {
-				a = { fg = c.c8, bg = c.c1, gui = "bold" },
-				b = { fg = c.c9, bg = c.c2 },
-				c = { fg = c.c7, bg = c.c4 },
+				a = { fg = c.c4, bg = c.c9, gui = "bold" },
+				b = { fg = c.c8, bg = c.c0 },
+				c = { fg = c.c7, bg = c.c2 },
 			},
 			insert = {
-				a = { fg = c.c7, bg = c.c4, gui = "bold" },
-				b = { fg = c.c9, bg = c.c2 },
-				c = { fg = c.c8, bg = c.c1 },
+				a = { fg = c.c7, bg = c.c2, gui = "bold" },
+				c = { fg = c.c7, bg = c.c9 },
 			},
 			visual = {
 				a = { fg = c.c1, bg = c.c6, gui = "bold" },
-				b = { fg = c.c9, bg = c.c2 },
-				c = { fg = c.c7, bg = c.c9 },
+				c = { fg = c.c7, bg = c.c0 },
 			},
 			replace = {
 				a = { fg = c.c5, bg = c.c9, gui = "bold" },
-				b = { fg = c.c9, bg = c.c2 },
 				c = { fg = c.c1, bg = c.c5 },
 			},
 			command = {
 				a = { fg = c.c0, bg = c.c15, gui = "bold" },
-				b = { fg = c.c9, bg = c.c2 },
-				c = { fg = c.c7, bg = c.c1 },
+				c = { fg = c.c7, bg = c.c2 },
 			},
 			inactive = {
 				a = { fg = c.c9, bg = c.c1 },
