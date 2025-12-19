@@ -4,6 +4,7 @@ return {
 	dependencies = {
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		"hrsh7th/nvim-cmp",
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-buffer",
@@ -16,7 +17,6 @@ return {
 		local luasnip = require("luasnip")
 		local cmp_lsp = require("cmp_nvim_lsp")
 
-		-- 1. Setup capabilities
 		local capabilities = vim.tbl_deep_extend(
 			"force",
 			{},
@@ -24,17 +24,49 @@ return {
 			cmp_lsp.default_capabilities()
 		)
 
-		-- 2. Setup Mason (LSP Installer)
 		require("mason").setup()
+
+		require("mason-tool-installer").setup({
+			ensure_installed = {
+				-- === LSPs (IntelliSense) ===
+				"lua_ls",
+				"pyright",
+				"clangd",
+				"bashls",
+				"cssls",
+				"html",
+				"jsonls", -- Critical for Waybar config.jsonc
+				"yamlls", -- NEW: For YAML configs
+				"taplo", -- NEW: For TOML (Starship, Wallust, Rust)
+				"marksman",
+
+				-- === Formatters (Pretty Code) ===
+				"stylua",
+				"isort",
+				"black",
+				"clang-format",
+				"prettier",
+				"shfmt",
+
+				-- === Linters (Find Bugs) ===
+				"shellcheck", -- Critical for Hyprland scripts
+				"eslint_d",
+				"pylint",
+
+				-- === DAPs (Debuggers) ===
+				"debugpy",
+				"codelldb",
+			},
+			run_on_start = true,
+		})
+
 		require("mason-lspconfig").setup({
-			ensure_installed = { "lua_ls", "pyright", "clangd", "bashls", "cssls", "html" },
 			handlers = {
 				function(server_name)
 					require("lspconfig")[server_name].setup({
 						capabilities = capabilities,
 					})
 				end,
-				-- Specific override for Lua
 				["lua_ls"] = function()
 					require("lspconfig").lua_ls.setup({
 						capabilities = capabilities,
@@ -44,7 +76,6 @@ return {
 			},
 		})
 
-		-- 3. Setup Autocompletion (Tab/Enter logic is here)
 		cmp.setup({
 			snippet = {
 				expand = function(args)
@@ -52,20 +83,11 @@ return {
 				end,
 			},
 			mapping = cmp.mapping.preset.insert({
-				-- SCROLL UP/DOWN DOCS
 				["<C-b>"] = cmp.mapping.scroll_docs(-4),
 				["<C-f>"] = cmp.mapping.scroll_docs(4),
-
-				-- TRIGGER COMPLETION MANUALLY
 				["<C-Space>"] = cmp.mapping.complete(),
-
-				-- CLOSE MENU
 				["<C-e>"] = cmp.mapping.abort(),
-
-				-- ENTER: ACCEPT SUGGESTION
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
-
-				-- TAB: NEXT ITEM OR JUMP SNIPPET
 				["<Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_next_item()
@@ -75,8 +97,6 @@ return {
 						fallback()
 					end
 				end, { "i", "s" }),
-
-				-- SHIFT+TAB: PREV ITEM OR JUMP BACK
 				["<S-Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_prev_item()

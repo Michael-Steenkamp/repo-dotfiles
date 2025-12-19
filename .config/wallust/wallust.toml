@@ -25,15 +25,15 @@ threshold = 10
 [templates]
 sequences = { template = "sequences", target = "~/.cache/wal/sequences" }
 colors_sh = { template = "colors.sh", target = "~/.cache/wal/colors.sh" }
-kitty     = { template = "kitty",     target = "~/.cache/wal/colors-kitty.conf" }
-fish      = { template = "fish",      target = "~/.cache/wal/colors.fish" }
-hyprland  = { template = "hyprland",  target = "~/.cache/wal/colors-hyprland.conf" }
-waybar    = { template = "waybar",    target = "~/.cache/wal/colors-waybar.css" }
-rofi      = { template = "rofi",      target = "~/.cache/wal/colors-rofi-dark.rasi" }
-dunst     = { template = "dunstrc",   target = "~/.cache/wal/dunstrc" }
-starship  = { template = "starship",  target = "~/.cache/wal/starship.toml" }
-yazi      = { template = "yazi.toml",  target = "~/.config/yazi/theme.toml" }
-nvim      = { template = "wal", target = "~/.cache/wal/colors-wal.vim" }
+kitty = { template = "kitty", target = "~/.cache/wal/colors-kitty.conf" }
+fish = { template = "fish", target = "~/.cache/wal/colors.fish" }
+hyprland = { template = "hyprland", target = "~/.cache/wal/colors-hyprland.conf" }
+waybar = { template = "waybar", target = "~/.cache/wal/colors-waybar.css" }
+rofi = { template = "rofi", target = "~/.cache/wal/colors-rofi-dark.rasi" }
+dunst = { template = "dunstrc", target = "~/.cache/wal/dunstrc" }
+starship = { template = "starship", target = "~/.cache/wal/starship.toml" }
+yazi = { template = "yazi.toml", target = "~/.config/yazi/theme.toml" }
+nvim = { template = "wal", target = "~/.cache/wal/colors-wal.vim" }
 colors_json = { template = "json", target = "~/.cache/wal/colors.json" }
 spotify-player = { template = "spotify-player.toml", target = "~/.config/spotify-player/theme.toml" }
 eww = { template = "eww.scss", target = "~/.cache/wal/colors-eww.scss" }

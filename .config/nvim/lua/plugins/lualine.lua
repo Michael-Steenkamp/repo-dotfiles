@@ -1,99 +1,84 @@
 return {
 	"nvim-lualine/lualine.nvim",
-	dependencies = { "nvim-tree/nvim-web-devicons" }, -- Uses mini.icons if mocked
+	dependencies = { "nvim-tree/nvim-web-devicons" },
 	event = "VeryLazy",
 	config = function()
-		-- Custom function to show which LSP is running (e.g., "lua_ls", "pyright")
-		local function get_lsp_name()
-			local msg = "No Active LSP"
-			local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
-			local clients = vim.lsp.get_active_clients()
-			if next(clients) == nil then
-				return msg
-			end
-			for _, client in ipairs(clients) do
-				local filetypes = client.config.filetypes
-				if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-					return client.name
-				end
-			end
-			return msg
+		-- 1. FORCE LOAD the Wallust colors immediately
+		--    This ensures 'g:color0' etc. are defined before we try to use them.
+		local wal_colors = vim.fn.expand("~/.cache/wal/colors-wal.vim")
+		if vim.fn.filereadable(wal_colors) == 1 then
+			vim.cmd("source " .. wal_colors)
 		end
+
+		-- 2. Load variables (c0 - c15)
+		local c = {
+			c0 = vim.g.color0 or "#000000",
+			c1 = vim.g.color1 or "#cc5555",
+			c2 = vim.g.color2 or "#55cc55",
+			c3 = vim.g.color3 or "#d7ba7d",
+			c4 = vim.g.color4 or "#5555cc",
+			c5 = vim.g.color5 or "#cc55cc",
+			c6 = vim.g.color6 or "#55cccc",
+			c7 = vim.g.color7 or "#dddddd",
+			c8 = vim.g.color8 or "#777777",
+			c9 = vim.g.color9 or "#ff9999",
+			c10 = vim.g.color10 or "#99ff99",
+			c11 = vim.g.color11 or "#ffff99",
+			c12 = vim.g.color12 or "#9999ff",
+			c13 = vim.g.color13 or "#ff99ff",
+			c14 = vim.g.color14 or "#99ffff",
+			c15 = vim.g.color15 or "#ffffff",
+		}
+
+		-- 3. Define the Theme
+		local custom_wal = {
+			normal = {
+				a = { fg = c.c8, bg = c.c1, gui = "bold" },
+				b = { fg = c.c9, bg = c.c2 },
+				c = { fg = c.c7, bg = c.c4 },
+			},
+			insert = {
+				a = { fg = c.c7, bg = c.c4, gui = "bold" },
+				b = { fg = c.c9, bg = c.c2 },
+				c = { fg = c.c8, bg = c.c1 },
+			},
+			visual = {
+				a = { fg = c.c1, bg = c.c6, gui = "bold" },
+				b = { fg = c.c9, bg = c.c2 },
+				c = { fg = c.c7, bg = c.c9 },
+			},
+			replace = {
+				a = { fg = c.c5, bg = c.c9, gui = "bold" },
+				b = { fg = c.c9, bg = c.c2 },
+				c = { fg = c.c1, bg = c.c5 },
+			},
+			command = {
+				a = { fg = c.c0, bg = c.c15, gui = "bold" },
+				b = { fg = c.c9, bg = c.c2 },
+				c = { fg = c.c7, bg = c.c1 },
+			},
+			inactive = {
+				a = { fg = c.c9, bg = c.c1 },
+				b = { fg = c.c9, bg = c.c1 },
+				c = { fg = c.c9, bg = c.c1 },
+			},
+		}
 
 		require("lualine").setup({
 			options = {
-				icons_enabled = true,
-				theme = "auto", -- Automatically matches your Catppuccin theme
-				component_separators = { left = "│", right = "│" },
+				theme = custom_wal,
+				component_separators = { left = "|", right = "|" },
 				section_separators = { left = "", right = "" },
-				disabled_filetypes = {
-					statusline = { "alpha", "dashboard", "neo-tree" },
-					winbar = {},
-				},
-				ignore_focus = {},
-				always_divide_middle = true,
-				globalstatus = true, -- ONE statusline for all splits (Modern look)
-				refresh = {
-					statusline = 1000,
-					tabline = 1000,
-					winbar = 1000,
-				},
+				globalstatus = true,
 			},
 			sections = {
-				-- LEFT SIDE
 				lualine_a = { "mode" },
-				lualine_b = {
-					"branch",
-					{
-						"diff",
-						symbols = { added = "✚ ", modified = " ", removed = "✖ " },
-					},
-					{
-						"diagnostics",
-						sources = { "nvim_diagnostic" },
-						symbols = { error = " ", warn = " ", info = " ", hint = " " },
-					},
-				},
-				lualine_c = {
-					{
-						"filename",
-						file_status = true, -- displays file status (readonly status, modified status)
-						newfile_status = false, -- displays new file status (new file means no write after created)
-						path = 1, -- 0: Just filename, 1: Relative path, 2: Absolute path
-
-						symbols = {
-							modified = "[+]", -- Text to show when the file is modified.
-							readonly = "[-]", -- Text to show when the file is non-modifiable or readonly.
-							unnamed = "[No Name]", -- Text to show for unnamed buffers.
-							newfile = "[New]", -- Text to show for newly created file before first write
-						},
-					},
-				},
-
-				-- RIGHT SIDE
-				lualine_x = {
-					{
-						get_lsp_name, -- Shows the active language server
-						icon = " ",
-						color = { fg = "#fab387", gui = "bold" }, -- Custom color (optional)
-					},
-					"encoding",
-					"fileformat",
-				},
-				lualine_y = { "filetype" }, -- Shows the language icon (Python, Lua, etc.)
-				lualine_z = { "progress", "location" },
-			},
-			inactive_sections = {
-				lualine_a = {},
-				lualine_b = {},
+				lualine_b = { "branch", "diff", "diagnostics" },
 				lualine_c = { "filename" },
-				lualine_x = { "location" },
-				lualine_y = {},
-				lualine_z = {},
+				lualine_x = { "filetype", "encoding" },
+				lualine_y = { "progress" },
+				lualine_z = { "location" },
 			},
-			tabline = {},
-			winbar = {},
-			extensions = {},
 		})
 	end,
 }
