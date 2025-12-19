@@ -1,185 +1,151 @@
 {
-    "layer": "top",
-    "position": "top",
-    "spacing": 5,
-    "exclusive": false,
-    "passthrough": false,
-    "height": 54,
-    "modules-left": [
-        "group/workspace-module"
-    ],
-    "modules-center": [
-        "group/weather-time"
-    ],
-    "modules-right": [
-        "group/hardware",
-        "group/connections",
-        "group/input",
-        "battery"
-    ],
-    // --- GROUPS ---
-    "group/workspace-module": {
-        "orientation": "horizontal",
-        "modules": [
-            "hyprland/workspaces",
-            "custom/separator",
-            "hyprland/window"
-        ]
+  "layer": "top",
+  "position": "top",
+  "spacing": 5,
+  "exclusive": false,
+  "passthrough": false,
+  "height": 54,
+  "modules-left": ["group/workspace-module"],
+  "modules-center": ["group/weather-time"],
+  "modules-right": [
+    "group/hardware",
+    "group/connections",
+    "group/input",
+    "battery",
+  ],
+  // --- GROUPS ---
+  "group/workspace-module": {
+    "orientation": "horizontal",
+    "modules": ["hyprland/workspaces", "custom/separator", "hyprland/window"],
+  },
+  "group/weather-time": {
+    "orientation": "horizontal",
+    "modules": ["clock", "custom/weather"],
+  },
+  "group/hardware": {
+    "orientation": "horizontal",
+    "modules": ["cpu", "memory", "disk", "custom/updates"],
+  },
+  "group/connections": {
+    "orientation": "horizontal",
+    "modules": ["custom/network", "custom/bluetooth", "custom/audio"],
+  },
+  // Input Group: Caps Lock will slide in to the left of Fcitx
+  "group/input": {
+    "orientation": "horizontal",
+    "modules": ["custom/capslock", "custom/fcitx5"],
+  },
+  // --- MODULES ---
+  "custom/separator": {
+    "format": " | ",
+    "tooltip": false,
+  },
+  "custom/capslock": {
+    "exec": "~/.config/waybar/scripts/capslock_module.sh",
+    "interval": 1,
+    "return-type": "json",
+    "format": "{}",
+  },
+  "custom/fcitx5": {
+    "format": " {}",
+    "interval": 1,
+    "exec": "fcitx5-remote -n",
+    "on-click": "fcitx5-remote -t",
+    "rewrite": {
+      "keyboard-us": "US",
+      "pinyin": "CN",
+      "mozc": "JP",
+      "hangul": "KR",
     },
-    "group/weather-time": {
-        "orientation": "horizontal",
-        "modules": [
-            "clock",
-            "custom/weather"
-        ]
+  },
+  "custom/weather": {
+    "exec": "~/.config/waybar/scripts/weather.py",
+    "return-type": "json",
+    "interval": 900,
+    "format": "{}",
+    "on-click": "xdg-open https://wttr.in",
+  },
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "format-icons": {
+      "active": "",
+      "default": "",
     },
-    "group/hardware": {
-        "orientation": "horizontal",
-        "modules": [
-            "cpu",
-            "memory",
-            "disk",
-            "custom/updates"
-        ]
+    "persistent-workspaces": {
+      "*": 5,
     },
-    "group/connections": {
-        "orientation": "horizontal",
-        "modules": [
-            "custom/network",
-            "custom/bluetooth",
-            "custom/audio"
-        ]
+  },
+  "hyprland/window": {
+    "format": "{class}",
+    "max-length": 20,
+    "rewrite": {
+      "": "Hyprland",
     },
-    // Input Group: Caps Lock will slide in to the left of Fcitx
-    "group/input": {
-        "orientation": "horizontal",
-        "modules": [
-            "custom/capslock",
-            "custom/fcitx5"
-        ]
+  },
+  "clock": {
+    "format": " {:%H:%M   %a, %b %d}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>",
+      },
     },
-    // --- MODULES ---
-    "custom/separator": {
-        "format": " | ",
-        "tooltip": false
+  },
+  "custom/updates": {
+    "format": "󰮯 {}",
+    "interval": 1800,
+    "exec": "checkupdates | wc -l",
+    "exec-if": "exit 0",
+    "signal": 8,
+  },
+  "cpu": {
+    "format": " {usage}%",
+    "tooltip": false,
+  },
+  "memory": {
+    "format": " {}%",
+  },
+  "disk": {
+    "format": " {percentage_used}%",
+    "path": "/",
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15,
     },
-    "custom/capslock": {
-        "exec": "~/.config/waybar/scripts/capslock_module.sh",
-        "interval": 1,
-        "return-type": "json",
-        "format": "{}"
-    },
-    "custom/fcitx5": {
-        "format": " {}",
-        "interval": 1,
-        "exec": "fcitx5-remote -n",
-        "on-click": "fcitx5-remote -t",
-        "rewrite": {
-            "keyboard-us": "US",
-            "pinyin": "CN",
-            "mozc": "JP",
-            "hangul": "KR"
-        }
-    },
-    "custom/weather": {
-        "exec": "~/.config/waybar/scripts/weather.py",
-        "return-type": "json",
-        "interval": 900,
-        "format": "{}",
-        "on-click": "xdg-open https://wttr.in"
-    },
-    "hyprland/workspaces": {
-        "format": "{icon}",
-        "on-click": "activate",
-        "format-icons": {
-            "active": "",
-            "default": ""
-        },
-        "persistent-workspaces": {
-            "*": 5
-        }
-    },
-    "hyprland/window": {
-        "format": "{class}",
-        "max-length": 20,
-        "rewrite": {
-            "": "Hyprland"
-        }
-    },
-    "clock": {
-        "format": " {:%H:%M   %a, %b %d}",
-        "tooltip-format": "<tt><small>{calendar}</small></tt>",
-        "calendar": {
-            "mode": "year",
-            "mode-mon-col": 3,
-            "weeks-pos": "right",
-            "on-scroll": 1,
-            "format": {
-                "months": "<span color='#ffead3'><b>{}</b></span>",
-                "days": "<span color='#ecc6d9'><b>{}</b></span>",
-                "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
-                "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
-            }
-        }
-    },
-    "custom/updates": {
-        "format": "󰮯 {}",
-        "interval": 1800,
-        "exec": "checkupdates | wc -l",
-        "exec-if": "exit 0",
-        "signal": 8
-    },
-    "cpu": {
-        "format": " {usage}%",
-        "tooltip": false
-    },
-    "memory": {
-        "format": " {}%"
-    },
-    "disk": {
-        "format": " {percentage_used}%",
-        "path": "/"
-    },
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{icon} {capacity}%",
-        "format-charging": "󰂄 {capacity}%",
-        "format-plugged": " {capacity}%",
-        "format-icons": [
-            "󰁺",
-            "󰁻",
-            "󰁼",
-            "󰁽",
-            "󰁾",
-            "󰁿",
-            "󰂀",
-            "󰂁",
-            "󰂂",
-            "󰁹"
-        ]
-    },
-    "custom/audio": {
-        "exec": "~/.config/waybar/scripts/audio_module.py",
-        "return-type": "json",
-        "format": "{}",
-        "on-click": "pamixer -t",
-        "on-scroll-up": "pamixer -i 5",
-        "on-scroll-down": "pamixer -d 5"
-    },
-    "custom/network": {
-        "exec": "~/.config/waybar/scripts/network_module.py",
-        "return-type": "json",
-        "format": "{}",
-        "on-click": "nm-connection-editor"
-    },
-    "custom/bluetooth": {
-        "exec": "~/.config/waybar/scripts/bluetooth_module.py",
-        "return-type": "json",
-        "format": "{}",
-        "on-click": "overskride"
-    }
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+  },
+  "custom/audio": {
+    "exec": "~/.config/waybar/scripts/audio_module.py",
+    "return-type": "json",
+    "format": "{}",
+    "on-click": "pamixer -t",
+    "on-scroll-up": "pamixer -i 5",
+    "on-scroll-down": "pamixer -d 5",
+  },
+  "custom/network": {
+    "exec": "~/.config/waybar/scripts/network_module.py",
+    "return-type": "json",
+    "format": "{}",
+    "on-click": "nm-connection-editor",
+  },
+  "custom/bluetooth": {
+    "exec": "~/.config/waybar/scripts/bluetooth_module.py",
+    "return-type": "json",
+    "format": "{}",
+    "on-click": "overskride",
+  },
 }
