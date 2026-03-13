@@ -1,6 +1,8 @@
 <div align="center">
 
-<h1> :black_circle::file_folder: </h1>
+<a href="https://git.io/typing-svg">
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=500&size=30&pause=1000&color=9CAFB7&center=true&vCenter=true&width=750&lines=Arch+Linux;./repo-dotfiles" alt="Typing SVG" />
+</a>
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
