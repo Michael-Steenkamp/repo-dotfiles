@@ -336,6 +336,8 @@ Consider giving the repo a star! 🌟
 <br>
 
 [**:arrow_up: Back to Top**](#-black_circlefile_folder-)
+<br>
+[**:leftwards_arrow_with_hook: Return to Portfolio**](https://github.com/Michael-Steenkamp/Portfolio)
 
 </div>
 
