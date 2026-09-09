@@ -14,7 +14,7 @@
 </div>
 
 > [!WARNING]
-> **Status:** Work in Progress
+> **Status:** Broken State
 >
 > A management guide for my Arch Linux configuration, featuring **Hyprland**, **Neovim**, and **Fish Shell**.
 
